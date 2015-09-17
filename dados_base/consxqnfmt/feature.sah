@@ -1,0 +1,15 @@
+// Feature of the function consxqnfmt - NF Monit
+// that scripts call the script scenario 
+
+if (!$dadosBase) // -- If not exist the object, then create
+	var $dadosBase = {};
+
+$dadosBase.consxqnfmt = {};
+
+
+_include("../../login.sah")
+_include("scenarios.sah");
+
+$dadosBase.consxqnfmt.scenario01();
+
+

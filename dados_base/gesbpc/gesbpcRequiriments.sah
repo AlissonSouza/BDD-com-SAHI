@@ -1,0 +1,79 @@
+// Este script contempla os requisitos necessários para a execução de alguns cenários.
+_log("--------------------- Starf of GESBPC Requiriments --------------------------");
+if (!$dadosBase) // -- if not exist the object, then create
+	var $dadosBase = {};
+
+$dadosBase.gesbpc = {};
+var $_ = $dadosBase.gesbpc; // -- create an alias
+
+$_.setBankCarteiraBpcBr107 = function () {
+_click(_link("/site-navigation/"));
+_click(_div("Dados de base"));
+_click(_link("Clientes"));
+_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_textbox(0, _near(_label("Categoria"))));
+_setValue(_textbox(0, _near(_label("Categoria"))), "BR");
+_keyPress(_textbox(0, _near(_label("Categoria"))), 9);
+
+_click(_textbox(0, _near(_label("Cliente"))));
+_setValue(_textbox(0, _near(_label("Cliente"))), "BR107");
+_keyPress(_textbox(0, _near(_label("Cliente"))), 9);
+
+_click(_div("Financeiras"));
+
+_click(_textbox(0, _near(_label("Banco pag."))));
+_setValue(_textbox(0, _near(_label("Banco pag."))), "BkAut");
+_keyPress(_textbox(0, _near(_label("Banco pag."))), 9);
+
+_click(_div("Dados adicionais"));
+
+_label("Carteira")
+_click(_textbox(0, _near(_label("Carteira"))));
+_setValue(_textbox(0, _near(_label("Carteira"))), "BaEmBo");
+_keyPress(_textbox(0, _near(_label("Carteira"))), 9);
+
+_click(_link("Gravar"));
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_link("Sair"));
+}
+
+$_.setBankCarteiraBpcBr115 = function () {
+_click(_link("/site-navigation/"));
+_click(_div("Dados de base"));
+_click(_link("Clientes"));
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_textbox(0, _near(_label("Categoria"))));
+_setValue(_textbox(0, _near(_label("Categoria"))), "BR");
+_keyPress(_textbox(0, _near(_label("Categoria"))), 9);
+
+_click(_textbox(0, _near(_label("Cliente"))));
+_setValue(_textbox(0, _near(_label("Cliente"))), "BR115");
+_keyPress(_textbox(0, _near(_label("Cliente"))), 9);
+
+_click(_div("Financeiras"));
+
+_click(_textbox(0, _near(_label("Banco pag."))));
+_setValue(_textbox(0, _near(_label("Banco pag."))), "BkAut");
+_keyPress(_textbox(0, _near(_label("Banco pag."))), 9);
+
+_click(_div("Dados adicionais"));
+
+_label("Carteira")
+_click(_textbox(0, _near(_label("Carteira"))));
+_setValue(_textbox(0, _near(_label("Carteira"))), "BaCoNo");
+_keyPress(_textbox(0, _near(_label("Carteira"))), 9);
+
+_click(_link("Gravar"));
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_link("Sair"));
+}
+
+
+$_.setBankCarteiraBpcBr107();
+$_.setBankCarteiraBpcBr115();
+
+_log("--------------------- End of GESBPC Requiriments --------------------------");

@@ -1,0 +1,151 @@
+// Váriaveis para a RTAX
+
+var $txtCodigo = _textbox(0, _near(_label("Código")));
+var $txtDescricao = _textbox(0, _near(_label("Descrição")));
+
+//------------------------  ICMS  ----------------------------------
+var $SepICMS = _div("ICMS")
+
+var $linkConsiderarICMS = _link(0, _near(_label("Considerar")));
+var $linkAliquotaPadraoICMS = _link(0, _near(_label("Alíquota padrão")));
+
+var $txtAliquotaICMS = _textbox(0, _near(_label("Alíquota")));
+var $txtRedValorICMS = _textbox(0, _near(_label("Redução valor")));
+var $txtRedBaseICMS = _textbox(0, _near(_label("Redução base")));
+var $txtOrigem = _textbox(0, _near(_label("Origem da mercadoria")));
+var $txtCSTICMS = _textbox(0, _near(_label("CST")));
+
+var $cboxIsentoICMS = _checkbox(0, _near(_label("Isento/Suspenso/Não tributável")))
+
+var $linkDesoneracao = _link(0, _near(_label("Motivo da desoneração")));
+
+//----------------------- ICMS ST --------------------------------------------
+var $linkConsiderarICMSST = _link(0, _near(_label("Considerar[1]")));
+var $linkAliquotaPadraoICMSst = _link(0, _near(_label("Alíquota padrão[1]")));
+
+var $txtAliquotaInterna = _textbox(0, _near(_label("Alíquota interna")));
+var $txtRedValorICMSst = _textbox(0, _near(_label("Redução valor[1]")));
+var $txtRedBaseICMSst = _textbox(0, _near(_label("Redução base[1]")));
+var $txtMVAoriginal = _textbox(0, _near(_label("MVA original")));
+var $txtReducaoMVA = _textbox(0, _near(_label("Redução MVA")));
+
+var $lblMVAautomatica = _label("MVA ajustada automat.");
+
+
+//-- ICMS Especifico
+var $linkConsiderarICMSESP = _link(0, _near(_label("Considerar[2]")));
+
+//--------------------------  IPI  -------------------------------------
+var $SepIPI = _div("IPI")
+
+var $linkConsiderarIPI = _link(0, _near(_label("Considerar[4]")));
+
+var $txtAliquotaIPI = _textbox(0, _near(_label("Alíquota[1]")));
+var $txtRedValorIPI = _textbox(0, _near(_label("Redução valor[2]")));
+var $txtRedBaseIPI = _textbox(0, _near(_label("Redução base[2]")));
+var $txtCSTIPI = _textbox(0, _near(_label("CST[1]")));
+
+var $cboxIsentoIPI = _checkbox(0, _near(_label("Isento/Suspenso/Não tributável[1]")));
+
+var $linkConsiderarIPIqtde = _link(0, _near(_label("Considerar[5]")));
+
+var $txtValRefIPI = _textbox(0, _near(_label("Valor")));
+var $txtValIPIqtde = _textbox(0, _near(_label("Quantidade")));
+var $txtCSTIPIqtde = _textbox(0, _near(_label("CST[2]")));
+
+//------------------------  PIS/COFINS  ----------------------------------
+var $SepPIS = _div("PIS / COFINS")
+
+//-- por aliq
+var $linkConsiderarPISaliq = _link(0, _near(_label("Considerar[7]")));
+
+var $txtAliquotaPIS = _textbox(0, _near(_label("Alíq. PIS")));
+var $txtAliquotaCOFINS = _textbox(0, _near(_label("Alíq. COFINS")));
+
+var $txtRedBasePIS = _textbox(0, _near(_label("Redução base PIS")));
+var $txtRedBaseCOFINS = _textbox(0, _near(_label("Redução base COFINS")));
+
+var $txtCSTpis = _textbox(0, _near(_label("CST PIS")));
+var $txtCSTcofins = _textbox(0, _near(_label("CST COFINS")));
+
+var $cboxIsentoPisCofinsAliq = _checkbox(0, _near(_label("Isento/Suspenso/Não tributável[3]")));
+
+//-- por qtde
+var $linkConsiderarPISqtde = _link(0, _near(_label("Considerar[8]")));
+
+var $txtAliquotaPISqtde = _textbox(0, _near(_label("Alíq. PIS[1]")));
+var $txtAliquotaCOFINSqtde = _textbox(0, _near(_label("Alíq. COFINS[1]")));
+
+var $txtValRefPis = _textbox(0, _near(_label("Valor ref. PIS")));
+var $txtValRefCofins = _textbox(0, _near(_label("Valor ref. COFINS")));
+
+var $txtFatorPis = _textbox(0, _near(_label("Fator unid. PIS")));
+var $txtFatorCofins = _textbox(0, _near(_label("Fator unid. COFINS")));
+
+var $txtCSTpisQtde = _textbox(0, _near(_label("CST PIS[1]")));
+var $txtCSTcofinsQtde = _textbox(0, _near(_label("CST COFINS[1]")));
+
+
+//-- por st
+var $linkConsiderarPISst = _link(0, _near(_label("Considerar[9]")));
+
+//-- Obs
+var $linkConsiderarPISobs = _link(0, _near(_label("Considerar[10]")));
+
+
+
+//----------------------------------------- SERVIÇO ----------------------------------------------
+
+var $SepServicos = _div("Serviços");
+
+var $linkConsiderarPisCofinsRF = _link(0, _near(_label("Considerar[15]")));
+var $txtAliquotaPISRF = _textbox(0, _near(_label("Alíquota PIS")));
+var $txtAliquotaCOFINSRF = _textbox(0, _near(_label("Alíquota COFINS")));
+
+var $linkConsiderarCSLLRF = _link(0, _near(_label("Considerar[16]")));
+var $txtAliquotaCSLLRF = _textbox(0, _near(_label("Alíquota CSLL")));
+
+var $linkConsiderarIRPJ = _link(0, _near(_label("Considerar[17]")));
+var $txtAliquotaIRPJ = _textbox(0, _near(_label("Alíquota IRPJ")));
+
+var $linkConsiderarIRRF = _link(0, _near(_label("Considerar[18]")));
+var $txtAliquotaIRRF = _textbox(0, _near(_label("Alíquota IRRF")));
+
+var $linkConsiderarINSSRF = _link(0, _near(_label("Considerar[19]")));
+var $txtAliquotaINSSRF = _textbox(0, _near(_label("Alíquota INSS")));
+var $txtBaseMinINSSRF = _textbox(0, _near(_label("Base cálculo mín. %")));
+
+var $linkConsiderarISS = _link(0, _near(_label("Considerar[20]")));
+var $linkAliquotaPadraoISS = _link(0, _near(_label("Usar alíquota padrão")));
+var $txtAliquotaISS = _textbox(0, _near(_label("Alíquota ISS")));
+var $txtBaseMinISS = _textbox(0, _near(_label("Base cálculo mín. %[1]")));
+var $linkISSRetido = _textbox(0, _near(_label("ISS retido (S/N)")));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

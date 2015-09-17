@@ -1,0 +1,246 @@
+_include("frases.sah");
+
+//CENÁRIO: 01 - Validar a seleção de uma carteira que possua todos os labels e especie, remessa, retorno e boleto
+$dadosBase.gesxqcart.cenario01 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 01 do cadastro de carteira --------------------");
+		this.dadoCadastroCarteira();
+		this.quandoSelecionarCarteira_Banco_('11','BB'); 
+		this.preencherSeqRem(); //#TODO - melhorar isto
+		this.entaoLabel_AlteraPara_('Código Cedente','Código do Convênio'); 
+		this.entaoLabel_AlteraPara_('Outro dado configuração 1','Variação da Carteira'); 
+		this.entaoLabel_AlteraPara_('Outro dado configuração 2','Sigla do Cedente'); 
+		this.entao_PossuiInformacao_('Especie', 'Cheque');
+		this.entao_PossuiInformacao_('Remessa', 'VENDOR');
+		this.entao_PossuiInformacao_('Retorno', 'VENDOR');
+		this.entao_PossuiInformacao_('Boleto', 'Padrao');
+		this.sairTela();		
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 01 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		_click(_link("Sair")); //Corrective action 
+		this.sairTela(); //Corrective action 
+		//#TODO - Passar um assert qualquer com falha aqui para o log ficar vermelho e ser mais facil de identificar
+	}
+}
+
+//CENÁRIO: 02 - Validar a seleção de uma carteira que possua somente código do cedente, especie, remessa, retorno e boleto
+$dadosBase.gesxqcart.cenario02 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 02 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoSelecionarCarteira_Banco_('02','Bradesco');
+		//EntaoLabel_AlteraPara_('Código Cedente','Código Cedente');
+		this.entaoLabel_AlteraPara_('Nao Varia','Código Cedente');		
+		this.entaoLabel_Desabilitada('Outro dado configuração 1');
+		this.entaoLabel_Desabilitada('Outro dado configuração 2');
+		this.entao_PossuiInformacao_('Especie', 'Duplicata Mercantil');
+		this.entao_PossuiInformacao_('Remessa', 'DebitoCC400');
+		this.entao_PossuiInformacao_('Retorno', 'DebitoCC400');
+		this.entao_PossuiInformacao_('Boleto', 'PadraoHTML');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 02 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+			
+//CENÁRIO: 03 - Validar a seleção de uma carteira que possua código do cedente, outro dado configuração 1, especie, remessa, retorno e boleto
+$dadosBase.gesxqcart.cenario03 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 03 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoSelecionarCarteira_Banco_('CNR','HSBC');
+		//EntaoLabel_AlteraPara_('Código Cedente','Código Cedente');
+		this.entaoLabel_AlteraPara_('Não Varia','Código do Cedente');
+		this.entaoLabel_AlteraPara_('Outro dado configuração 1','Cadastro de Nosso Número Sem DV');
+		this.entaoLabel_Desabilitada('Outro dado configuração 2');
+		this.entao_PossuiInformacao_('Especie', 'CE');
+		this.entao_PossuiInformacao_('Remessa', 'FEBRABAN240');
+		this.entao_PossuiInformacao_('Retorno', 'FEBRABAN240');
+		this.entao_PossuiInformacao_('Boleto', 'CarnetReciboLateralDireita');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 03 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+
+}			
+
+//CENÁRIO: 04 - Validar a situação em que o banco controla o nosso número
+$dadosBase.gesxqcart.cenario04 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 04 do cadastro de carteira -------------------");
+		this.dadoCadastroCarteira();
+		this.quandoSelecionarCarteira_Banco_('11','BB');
+		this.quandoBancoContralaNossoNumero();
+		this.entaoLimparDesabilitarCampo_('Próximo Nosso Número');
+		this.entaoNaoEmiteBoleto(); 
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 04 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 05 - Validar a situação em que o banco não controla o nosso número
+$dadosBase.gesxqcart.cenario05 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 05 do cadastro de carteira -------------------");
+		this.dadoCadastroCarteira();
+		this.quandoSelecionarCarteira_Banco_('11','BB');
+		this.quandoBancoNaoContralaNossoNumero();
+		this.entaoObrigatorioContadorCampo_('Próximo Nosso Número');
+		this.entaoPermitirEmitirBoleto();
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 05 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 06 - Validar se não aceita valor negativo na multa
+$dadosBase.gesxqcart.cenario06 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 06 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();		
+		this.quandoValorNegativo_('Multa')
+		this.entaoNaoAceitar_Negativa('Multa');	
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 06 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 07 - Validar se não aceita caracter na multa			
+$dadosBase.gesxqcart.cenario07 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 07 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoInformarChar_('Multa');
+		this.entaoNaoAceitaChar_('Multa');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 07 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 08 - Validar se não aceita valor negativo na mora
+$dadosBase.gesxqcart.cenario08 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 08 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoValorNegativo_('Mora')
+		this.entaoNaoAceitar_Negativa('Mora');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 08 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 09 - Validar se não aceita caracter na mora
+$dadosBase.gesxqcart.cenario09 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 09 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoInformarChar_('Mora');
+		this.entaoNaoAceitaChar_('Mora');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 09 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 10 - Validar se não aceita valor negativo em Dias para protesto
+$dadosBase.gesxqcart.cenario10 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 10 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoValorNegativo_('Dias para Protesto')
+		this.entaoNaoAceitar_Negativa('Dias para Protesto');
+		this.sairTela();
+}catch ($e){
+		_log("Ocorreu um erro no Cenário 10 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 11 - Validar se não aceita caracter em dias para protesto
+$dadosBase.gesxqcart.cenario11 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 11 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoInformarChar_('Dias para Protesto');
+		this.entaoNaoAceitaChar_('Dias para Protesto');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 11 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 12 - Para cobrança registrada o contador Sequencial de Remessa, especie, remessa e retorno devem ser obrigatórios
+$dadosBase.gesxqcart.cenario12 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 12 do cadastro de carteira -------------------");
+		//DadoCadastroCarteira();
+		//BoletoObrigatorio(); 
+		this.dadoCadastroBasicoCarteira();
+		this.quandoCobrancaRegistrada();
+		this.entaoObrigatorioContadorCampo_('Sequencial Remessa');
+		this.entaoObrigatorioInformar_('Especie');
+		this.entaoObrigatorioInformar_('Remessa');
+		this.entaoObrigatorioInformar_('Retorno');
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 12 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 13 - O código de cadastro da carteira deve aceitar caracter.
+$dadosBase.gesxqcart.cenario13 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 13 do cadastro de carteira -------------------");
+		this.dadoCadastroBasicoCarteira();
+		this.quandoCodigoCarteiraChar();				
+		this.quandoCadastrarCarteira();
+		this.entaoGravouCarteira();
+		this.sairTela();
+}catch ($e){
+		_log("Ocorreu um erro no Cenário 13 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}
+
+//CENÁRIO: 14 - Validar o cadastro completo de uma carteira.
+$dadosBase.gesxqcart.cenario14 = function (){
+	try{
+		_log("------------------- Inicio do Cenário 14 do cadastro de carteira -------------------");
+		this.dadoCadastroCarteira();
+		this.quandoCadastroCompletoCarteiraRegistrada();		
+		this.quandoCadastrarCarteira(); 
+		this.entaoGravouCarteira();
+		this.sairTela();
+}catch ($e){
+		_log("Ocorreu um erro no Cenário 14 do cadastro de carteira"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 
+	}
+}

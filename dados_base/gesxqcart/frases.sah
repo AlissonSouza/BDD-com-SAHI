@@ -1,0 +1,591 @@
+//-----------------------------------------------------------------------------
+// Variáveis globais do módulo FINANCEIRO
+/*	$dirty: significa que os dados não foram gravados
+if ($dirty) {
+	_click(_link("Criar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	$dirty = false;
+}
+*/
+//boolean $dirty = true;
+
+if (!$dadosBase) // -- if not exist the object, then create
+	var $dadosBase = {};
+	
+if (!$dadosBase.gesxqcart) // -- if not exist the object, then create
+	$dadosBase.gesxqcart = {};
+
+var $dirty = true;
+_include("variaveis.sah");
+//-----------------------------------------------------------------------------
+
+//TODO trocar os alerts a seguir por '_fail'
+
+$dadosBase.gesxqcart.dadoCadastroCarteira = function (){
+//-----------------------------------------------------------------------------
+// Acesso a função Carteira 
+	_click(_link("/site-navigation/"));
+	//_click(_div("Dados de base"));
+	_click(_div("Dados comuns"));
+	_click(_link("Contas em banco"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	//acessar a tela de carteira dentro da função contas em banco
+	//_click(_div("Leg. Brasileira"))
+	// #TODO???
+	_click(_link("/func-link/"));
+	_setValue(_textbox(0,_near(_div("Chamada Directa"))),"GESXQCART");
+	_click(_link("OK"));
+	
+	
+//-----------------------------------------------------------------------------
+	_click(_link("Nova"));
+	
+	_setValue($txtCartCodCart, _random(999));
+	_keyPress($txtCartCodCart,9);
+	
+	_click($txtCartDescCart);
+	_setValue($txtCartDescCart, "Automação - Descrição da carteira " + _getText($txtCartCodCart));
+	_keyPress($txtCartDescCart,9);
+	
+	$dirty = true;
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.dadoCadastroBasicoCarteira = function (){
+	this.dadoCadastroCarteira();
+	this.quandoSelecionarCarteira_Banco_('11','BB');	
+	this.preencherSeqRem();	
+	this.quandoBancoContralaNossoNumero();	
+	this.preencherEspecie();
+	this.preencherRemessa();
+	this.preencherRetorno();
+	this.preencherBoleto();
+}
+
+//-----------------------------------------------------------------------------
+//------------------------------  QUANDO --------------------------------------
+
+$dadosBase.gesxqcart.quandoSelecionarCarteira_Banco_ = function ($carteira, $banco){
+//function QuandoSelecionarCarteira_Banco_($carteira, $banco){
+	
+	/* A principio, passando o diretorio e o nome do arquivo no campo já será o suficiente para busca-lo
+		_click(_link(0, _near($txtCartArqLic)));
+		_click(_link(0, _near(_div("Volume"))));
+		_click(_div("TMP"));
+		_setValue(_textbox(0, _near(_div("Caminho acesso (PATH)"))),"teste")
+	*/
+	if ($carteira == '11' && $banco == 'BB'){
+		_click($txtCartArqLic);
+		//_setValue($txtCartArqLic,"[TMP]/BB_Carteira-11_Simples.conf");
+		_setValue($txtCartArqLic,"BB_Carteira-11_Simples.conf");
+		_keyPress($txtCartArqLic,9);		
+		this.preencherCodCedente();
+		this.preencherOutDado1();
+		this.preencherOutDado2();
+	}else if ($carteira == '02' && $banco == 'Bradesco'){
+		_click($txtCartArqLic);
+		//_setValue($txtCartArqLic,"[TMP]/Bradesco_Carteira-02.conf");
+		_setValue($txtCartArqLic,"Bradesco_Carteira-02.conf");
+		_keyPress($txtCartArqLic,9);
+		this.preencherCodCedente();
+	}else if ($carteira == 'CNR' && $banco == 'HSBC'){
+		_click($txtCartArqLic);
+		//_setValue($txtCartArqLic,"[TMP]/HSBC_Carteira-CNR.conf");
+		_setValue($txtCartArqLic,"HSBC_Carteira-CNR.conf");
+		_keyPress($txtCartArqLic,9);
+		this.preencherCodCedente();
+		this.preencherOutDado1();
+	}else{	
+		_fail("Carteira: " + $carteira + " e Banco: " + $banco + " não existem nos scripts"); //aqui vai travar o processo (try catch)
+		//_click(_link("Ok"));		
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoBancoContralaNossoNumero = function (){
+//function QuandoBancoContralaNossoNumero(){
+	_check($chkCartNossoNum);
+	_wait(1000); // para dar tempo de uncheck 
+	_uncheck($chkCartNossoNum);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoBancoNaoContralaNossoNumero = function (){
+//function QuandoBancoNaoContralaNossoNumero(){
+	_check($chkCartNossoNum);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoValorNegativo_ = function ($campo){
+//function QuandoValorNegativo_($campo){
+	switch ($campo){	
+		case "Multa":
+			_click(_div("Informações bancárias"));
+			_click($txtCartPercMulta);
+			_setValue($txtCartPercMulta,"-5");		
+			_keyPress($txtCartPercMulta, 9);
+			break;
+		case "Mora":
+			_click(_div("Informações bancárias"));
+			_click($txtCartPercMora);
+			_setValue($txtCartPercMora,"-6");
+			_keyPress($txtCartPercMora, 9);
+			break;		
+		case "Dias para Protesto":
+			_click(_div("Informações bancárias"));
+			_click($txtCartDiasProst);
+			_setValue($txtCartDiasProst,"-7");
+			_keyPress($txtCartDiasProst, 9);			
+			break;		
+		default :
+			_fail("Não encontrou o campo declarado para testar valor negativo");	
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoInformarChar_ = function ($campo){
+//function QuandoInformarChar_($campo){
+	switch ($campo){		
+		case 'Multa':
+			_click(_div("Informações bancárias"));
+			_click($txtCartPercMulta);
+			_setValue($txtCartPercMulta, "CNA");
+			_keyPress($txtCartPercMulta, 9);
+			break;
+		case 'Mora':
+			_click(_div("Informações bancárias"));
+			_click($txtCartPercMora);
+			_setValue($txtCartPercMora,"CNB");
+			_keyPress($txtCartPercMora, 9);
+			break;
+		case 'Dias para Protesto':
+			_click(_div("Informações bancárias"));
+			_click($txtCartDiasProst);
+			_setValue($txtCartDiasProst,"CNC");
+			_keyPress($txtCartDiasProst, 9);
+			break;
+		default :
+			_fail("Não encontrou o campo declarado para testar inserção de char");				
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoCobrancaRegistrada = function (){
+//function QuandoCobrancaRegistrada(){
+	_check($chkCartCobReg);
+} 		
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoCodigoCarteiraChar = function (){
+//function QuandoCodigoCarteiraChar(){
+	_click($txtCartCodCart);
+	//_setValue($txtCartCodCart, "CDE");
+	_setValue($txtCartCodCart, Math.random().toString(36).substr(2, 4));	
+	_keyPress($txtCartCodCart, 9);
+	
+	_click($txtCartDescCart);
+	//_setValue($txtCartDescCart, "Cobrança CDE");
+	_setValue($txtCartDescCart, "Automação - Descrição da carteira " + _getText($txtCartCodCart));
+	_keyPress($txtCartDescCart, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoCadastroCompletoCarteiraRegistrada = function (){
+//function QuandoCadastroCompletoCarteiraRegistrada(){ 
+	//QuandoCodigoCarteiraChar();
+	this.quandoSelecionarCarteira_Banco_('11', 'BB');
+	_click($txtCartCodCedB);
+	_setValue($txtCartCodCedB,"154D");
+	_keyPress($txtCartCodCedB, 9);
+	
+	_click($txtCartOutDadoConf1B);
+	_setValue($txtCartOutDadoConf1B,"155D");
+	_keyPress($txtCartOutDadoConf1B, 9);
+	
+	_click($txtCartOutDadoConf2B);
+	_setValue($txtCartOutDadoConf2B,"156D");
+	_keyPress($txtCartOutDadoConf2B, 9);
+	
+	this.quandoCobrancaRegistrada();
+	_check($chkCartNossoNum);
+	
+	_click($txtCartProxNN);
+	_setValue($txtCartProxNN,"XQNFE"); // #TODO criar um contador
+	_keyPress($txtCartProxNN, 9);
+	
+	_click($txtCartSeqRem);
+	_setValue($txtCartSeqRem,"XQNFE"); // #TODO criar um contador
+	_keyPress($txtCartSeqRem, 9);
+
+	_click($linkCartEspecie);		
+	_click(_div("DM"));	
+
+	_click($linkCartRemessa);
+	_click(_div("VENDOR"));	
+	
+	_click($linkCartRetorno);
+	_click(_div("VENDOR"));	
+	
+	_click($linkCartBoleto);
+	_click(_div("PadraoHTML"));			
+	
+	_click(_div("Informações bancárias"));
+	_click($txtCartDemons);
+	_setValue($txtCartDemons, "Automação - Escrever alguma informação que será impressa no campo Demosntrativo do boleto");
+	_keyPress($txtCartDemons, 9);
+	
+	_click($txtCartInstru);
+	_setValue($txtCartInstru, "Automação - Escrever alguma informação que será impressa no campo Instrução do Boleto");
+	_keyPress($txtCartInstru, 9);
+	
+	_click($txtCartPercMulta);
+	_setValue($txtCartPercMulta, "20");
+	_keyPress($txtCartPercMulta, 9);
+	
+	_click($txtCartPercMora);
+	_setValue($txtCartPercMora, "10");
+	_keyPress($txtCartPercMora, 9);
+	
+	_click($txtCartDiasProst);
+	_setValue($txtCartDiasProst, "15");
+	_keyPress($txtCartDiasProst, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.quandoCadastrarCarteira = function (){
+//function QuandoCadastrarCarteira(){
+	if ($dirty) {
+		_click(_link("Criar"));
+		_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+		if (! _assert(_link("Criar").syraIsDisabled)){
+			_log("não gravou");
+		}else{
+			$dirty = false;
+			_log("GRAVOU - passou false para dirty");		
+		}
+	}else{
+		_fail("não gravou, verificar se já não estava gravado, talvez script se perdeu"); 
+	}
+}	
+
+//-----------------------------------------------------------------------------
+//--------------------------------    ENTAO   ---------------------------------
+
+$dadosBase.gesxqcart.entaoLabel_AlteraPara_ = function ($label, $newLabel){
+//function EntaoLabel_AlteraPara_($label, $newLabel){	
+	_assertNotExists(_label($label), "Não deveria existir a label: " + $label);
+	_assertExists(_label($newLabel), "Não existe a label: " + $newLabel );
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entao_PossuiInformacao_ = function ($campo, $informacao){
+//function Entao_PossuiInformacao_($campo, $informacao){
+	switch ($campo){
+		case "Especie" : //ENTÃO "Especie" deve possuir a informação "Cheque"
+			_click($linkCartEspecie);		
+			_assertExists(_div($informacao)," Não Existe");
+			_click(_div($informacao));	
+			break;			
+		case "Remessa" : //ENTÃO "Retorno" deve possuir a informação "VENDOR"
+			_click($linkCartRemessa);
+			_assertExists(_div($informacao)," Não Existe");
+			_click(_div($informacao));	
+			break;		
+		case "Retorno" : //ENTÃO "Remessa" deve possuir a informação "VENDOR"
+			_click($linkCartRetorno);
+			_assertExists(_div($informacao)," Não Existe");
+			_click(_div($informacao));	
+			break;
+		case "Boleto" : //ENTÃO "Boleto" deve possuir a informação "Padrao"
+			_click($linkCartBoleto);
+			_assertExists(_div($informacao)," Não Existe");
+			_click(_div($informacao));	
+			break;
+		default :
+		_fail("Não encontrou o campo declarado para verificar se possui a informação necessária");
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoLabel_Desabilitada = function ($outroDado){
+//function EntaoLabel_Desabilitada ($outroDado){
+	switch ($outroDado){
+		case "Outro dado configuração 1":
+			_assertExists($txtCartOutDadoConf1B, "Não Existe");
+			_assert($txtCartOutDadoConf1B.disabled);
+			break;			
+		case "Outro dado configuração 2":
+			_assertExists($txtCartOutDadoConf2B, "Não Existe");
+			_assert($txtCartOutDadoConf2B.disabled);
+			break;
+		default :
+			_fail("Não encontrou o campo declarado para ver se está desabilitado");
+			break;	
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoLimparDesabilitarCampo_ = function ($campo){
+//function EntaoLimparDesabilitarCampo_($campo){
+	switch ($campo){
+		case "Próximo Nosso Número":
+			_assert($txtCartProxNN.disabled);
+			_assertEqual("", _getValue($txtCartProxNN));
+			break;
+		default :
+			_fail("Não encontrou o campo declarado para ver se está desabilitado e sem dados");
+			break;
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoNaoEmiteBoleto = function (){
+//function EntaoNaoEmiteBoleto(){		
+		_assert($chkCartEmitBol.disabled);
+		_assertNotEqual(true, _getAttribute($chkCartEmitBol,"checked"))	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoObrigatorioContadorCampo_ = function ($campo){
+//function EntaoObrigatorioContadorCampo_($campo){		
+	switch ($campo){
+		case "Próximo Nosso Número":
+			_click($txtCartProxNN);
+			_setValue($txtCartProxNN, "");
+			_keyPress($txtCartProxNN,9);
+			_assertExists(_heading1("Campo obrigatório"));	
+			_click(_link("Ok"));	
+			
+			_click($txtCartProxNN);
+			_setValue($txtCartProxNN, "XQSRV");
+			_keyPress($txtCartProxNN,9);
+			
+			_assertNotTrue($txtCartProxNN.disabled, "Campo Próx. Nosso Nº está desabilitado");
+			_assertNotEqual("", _getValue($txtCartProxNN),"Campo Próx. Nosso Nº está sem informação");
+			break;
+		case "Sequencial Remessa":
+			_click($txtCartSeqRem);
+			_setValue($txtCartSeqRem, "");
+			_keyPress($txtCartSeqRem,9);
+			//_click(_link("Criar"));			
+			_assertExists(_heading1("Campo obrigatório"));	
+			_click(_link("Ok"));
+		
+			_click($txtCartSeqRem);
+			_setValue($txtCartSeqRem, "XQSRV");
+			_keyPress($txtCartSeqRem,9);
+		
+			_assertNotTrue($txtCartSeqRem.disabled, "Campo Sequencial remessa está desabilitado");
+			_assertNotEqual("", _getValue($txtCartSeqRem),"Campo Sequencial remessa está sem informação");
+			break;
+		default :
+			_fail("Não encontrou o campo declarado para verificar se é obrigatório");
+			break;
+	}		
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoPermitirEmitirBoleto = function (){
+//function EntaoPermitirEmitirBoleto(){
+		_assertNotTrue($txtCartBoleto.disabled, "Campo layout Boleto está desabilitado");
+		_assertNotTrue($chkCartEmitBol.disabled, "Campo Emitir Boleto está desabilitado");		
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoNaoAceitar_Negativa = function ($campo){
+//function EntaoNaoAceitar_Negativa($campo){
+	switch ($campo){	
+		case "Multa" :			
+			_wait(2000, _isVisible(_label("O valor registado não respeita o formato ou o tipo do campo")));
+			if(_isVisible(_label("O valor registado não respeita o formato ou o tipo do campo"))){			
+				_assertExists(_label("O valor registado não respeita o formato ou o tipo do campo"));
+			}else{
+				_assertEqual("0,00", _getValue($txtCartPercMulta));				
+				_assertNotEqual("-5", _getValue($txtCartPercMulta));	
+			}
+			_click($txtCartPercMulta);		
+			_setValue($txtCartPercMulta,"");		
+			_keyPress($txtCartPercMulta, 9);
+			break;
+		case "Mora" :
+			_wait(2000, _isVisible(_label("O valor registado não respeita o formato ou o tipo do campo")));
+			if(_isVisible(_label("O valor registado não respeita o formato ou o tipo do campo"))){			
+				_assertExists(_label("O valor registado não respeita o formato ou o tipo do campo"));
+			}else{
+				_assertEqual("0,00", _getValue($txtCartPercMora));				
+			}
+			_click($txtCartPercMora);		
+			_setValue($txtCartPercMora,"");		
+			_keyPress($txtCartPercMora, 9);
+			break;
+		case "Dias para Protesto" :
+			_wait(2000, _isVisible(_label("O valor registado não respeita o formato ou o tipo do campo")));
+			if(_isVisible(_label("O valor registado não respeita o formato ou o tipo do campo"))){			
+				_assertExists(_label("O valor registado não respeita o formato ou o tipo do campo"));
+			}else{
+				_assertEqual("0", _getValue($txtCartDiasProst));				
+			}
+			_click($txtCartPercMulta);		
+			_setValue($txtCartDiasProst,"");		
+			_keyPress($txtCartDiasProst, 9);
+			break;			
+		default :
+			_fail("Campo " + $campo +" não existe no script.");
+			break;
+	}			
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoNaoAceitaChar_ = function ($campo){
+//function EntaoNaoAceitaChar_($campo){
+	switch ($campo){	
+		case "Multa" :	
+			_assertEqual("0,00", _getValue($txtCartPercMulta));				
+			_assertNotEqual("CNA", _getValue($txtCartPercMulta));	
+			break;
+		case "Mora":
+			_assertEqual("0,00", _getValue($txtCartPercMora));		
+			_assertNotEqual("CNB", _getValue($txtCartPercMora));	
+			break;
+		case "Dias para Protesto":
+			_assertEqual("0", _getValue($txtCartDiasProst));
+			_assertNotEqual("CNC", _getValue($txtCartDiasProst));	
+			break;
+		default :
+			_fail("Campo " + $campo +" não existe no script.");
+			break;
+	}		
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoObrigatorioInformar_ = function ($campo){
+//function	EntaoObrigatorioInformar_($campo){
+	switch($campo){
+	case 'Especie'	:
+		_click($txtCartEspecie);
+		_setValue($txtCartEspecie,"");
+		_keyPress($txtCartEspecie,9);
+		//_click(_link("Criar"));
+		_assertExists(_heading1("Campo Espécie obrigatório"));	
+		_click(_link("Ok"));
+		
+		_click($linkCartEspecie);
+		_click(_div("Cheque"));
+		_keyPress($txtCartEspecie,9);		
+		break;
+	case 'Remessa'	:
+		_click($txtCartRemessa);
+		_setValue($txtCartRemessa,"");
+		_keyPress($txtCartRemessa,9);
+		//_click(_link("Criar"));
+		_assertExists(_heading1("Campo Remessa obrigatório"));	
+		_click(_link("Ok"));
+				
+		_click($linkCartRemessa);
+		_click(_div("VENDOR"));
+		_keyPress($txtCartRemessa,9);
+		break;
+	case 'Retorno'	:
+		_click($txtCartRetorno);
+		_setValue($txtCartRetorno,"");
+		_keyPress($txtCartRetorno,9);
+		//_click(_link("Criar"));
+		_assertExists(_heading1("Campo Retorno obrigatório"));	
+		_click(_link("Ok"));	
+		
+		_click($linkCartRetorno);
+		_click(_div("VENDOR"));
+		_keyPress($txtCartRetorno,9);
+		break;
+	default :
+		_fail("Campo " + $campo +" não existe no script.");
+		break;
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.entaoGravouCarteira = function (){
+//function EntaoGravouCarteira(){
+	_assert(_link("Gravar").syraIsDisabled)
+	_assert(_link("Criar").syraIsDisabled)	
+}
+//-----------------------------------------------------------------------------
+//------------------------ FUNCOES COMPLEMENTARES -----------------------------
+
+$dadosBase.gesxqcart.sairTela = function (){
+//function SairTela(){
+	_click(_link("Sair"));
+	_wait(3000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}
+}
+//-----------------------------------------------------------------------------
+/*
+function BoletoObrigatorio(){
+	_click($linkCartBoleto);
+	_click(_div("PadraoHTML"));	
+}
+*/
+
+$dadosBase.gesxqcart.preencherCodCedente = function (){
+	_click($txtCartCodCedB);
+	_setValue($txtCartCodCedB,"154D");
+	_keyPress($txtCartCodCedB, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherOutDado1 = function (){
+	_click($txtCartOutDadoConf1B);
+	_setValue($txtCartOutDadoConf1B,"189D");
+	_keyPress($txtCartOutDadoConf1B, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherOutDado2 = function (){
+	_click($txtCartOutDadoConf2B);
+	_setValue($txtCartOutDadoConf2B,"178D");
+	_keyPress($txtCartOutDadoConf2B, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherNossoNum = function (){
+	_click($txtCartProxNN);
+	_setValue($txtCartProxNN, "XQSRV");
+	_keyPress($txtCartProxNN, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherSeqRem = function (){
+	_click($txtCartSeqRem);
+	_setValue($txtCartSeqRem, "XQSRV");
+	_keyPress($txtCartSeqRem, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherEspecie = function (){
+	_click($txtCartEspecie);
+	_setValue($txtCartEspecie, "DM");
+	_keyPress($txtCartEspecie, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherRemessa = function (){
+
+	_click($txtCartRemessa);
+	_setValue($txtCartRemessa, "VENDOR");
+	_keyPress($txtCartRemessa, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherRetorno = function (){
+	_click($txtCartRetorno);
+	_setValue($txtCartRetorno, "VENDOR");
+	_keyPress($txtCartRetorno,9);
+}	
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherBoleto = function (){
+//function PreencherBoleto(){
+	_click($txtCartBoleto);
+	_setValue($txtCartBoleto, "PadraoHTML");
+	_keyPress($txtCartBoleto,9);
+}		
+//-----------------------------------------------------------------------------
+$dadosBase.gesxqcart.preencherSeparadorInfBan = function (){
+	_click($divCartInfBan);
+	
+	_click($txtCartDemons);
+	_setValue($txtCartDemons, "Automação - Escrever alguma informação que será impressa no campo Demosntrativo do boleto");
+	_keyPress($txtCartDemons, 9);
+	
+	_click($txtCartInstru);
+	_setValue($txtCartInstru, "Automação - Escrever alguma informação que será impressa no campo Instrução do Boleto");
+	_keyPress($txtCartInstru, 9);
+	
+	_click($txtCartPercMulta);
+	_setValue($txtCartPercMulta, "20");
+	_keyPress($txtCartPercMulta, 9);
+	
+	_click($txtCartPercMora);
+	_setValue($txtCartPercMora, "10");
+	_keyPress($txtCartPercMora, 9);
+	
+	_click($txtCartDiasProst);
+	_setValue($txtCartDiasProst, "15");
+	_keyPress($txtCartDiasProst, 9);
+}

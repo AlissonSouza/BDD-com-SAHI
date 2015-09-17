@@ -1,0 +1,144 @@
+FUNCIONALIDADE:	Afim de criar carteiras bancárias
+						Como usuário do X3
+						Eu preciso ser capaz cadastrar novas carteiras
+
+// deve mudar os labels ao selecionar outros arquivos conf - 	conf com todos os campos					
+//verificar se o conteudo dos campos 'especie', 'remessa', 'retorno' e 'boleto' varia de acordo com diferentes confs
+CENÁRIO: 01 - Validar a seleção de uma carteira que possua todos os labels e especie, remessa, retorno e boleto
+			DADO cadastro de carteira
+			QUANDO selecionar a carteira "11" do banco "BB"
+			ENTÃO o nome da label "Código Cedente" deve alterar para "Código do Convênio"
+			ENTÃO o nome da label "Outro dado configuração 1" deve alterar para "Variação da Carteira"
+			ENTÃO o nome da label "Outro dado configuração 2" deve alterar para "Sigla do Cedente"
+			ENTÃO "Especie" deve possuir a informação "Cheque"
+			ENTÃO "Remessa" deve possuir a informação "VENDOR"
+			ENTÃO "Retorno" deve possuir a informação "VENDOR"
+			ENTÃO "Boleto" deve possuir a informação "Padrao"
+
+// deve mudar os labels ao selecionar outros arquivos conf - 	conf sem nenhum campo adicional		
+//verificar se o conteudo dos campos 'especie', 'remessa', 'retorno' e 'boleto' varia de acordo com diferentes confs			
+CENÁRIO: 02 - Validar a seleção de uma carteira que possua somente código do cedente, especie, remessa, retorno e boleto
+			DADO cadastro de carteira
+			QUANDO selecionar a carteira "02" do banco "Bradesco"
+			ENTÃO label "Código Cedente" deve manter nome "Código Cedente"
+			ENTÃO label "Outro dado configuração 1" deve estar desabilitado
+			ENTÃO label "Outro dado configuração 2" deve estar desabilitado
+			ENTÃO "Especie" deve possuir a informação "DuplicataMercantil"
+			ENTÃO "Remessa" deve possuir a informação "DebitoCC400"
+			ENTÃO "Retorno" deve possuir a informação "DebitoCC400"
+			ENTÃO "Boleto" deve possuir a informação "PadraoHTML"
+
+// deve mudar os labels ao selecionar outros arquivos conf - 	conf com um campo adicional	
+//verificar se o conteudo dos campos 'especie', 'remessa', 'retorno' e 'boleto' varia de acordo com diferentes confs
+CENÁRIO: 03 - Validar a seleção de uma carteira que possua código do cedente, outro dado configuração 1, especie, remessa, retorno e boleto
+			DADO cadastro de carteira
+			QUANDO selecionar a carteira "CNR" do banco "HSBC"
+			ENTÃO label "Código Cedente" deve manter nome "Código Cedente"
+			ENTÃO label "Outro dado configuração 1" deve alterar para "Cadastro de Nosso Número Sem DV"
+			ENTÃO label "Outro dado configuração 2" deve estar desabilitado 
+			ENTÃO "Especie" deve possuir a informação "CE"
+			ENTÃO "Remessa" deve possuir a informação "FEBRABAN240"
+			ENTÃO "Retorno" deve possuir a informação "FEBRABAN240"
+			ENTÃO "Boleto" deve possuir a informação "CarnetReciboLateralDireita"
+			
+// marcando que o banco gerencia a numeracao deve limpar e desabilitar o contador correspondente
+//nao permitir que o x3 emita boleto mas nao controle o NN
+CENÁRIO: 04 - Validar a situação em que o banco controla o nosso número
+			DADO cadastro de carteira
+			QUANDO selecionar a carteira "11" do banco "BB"
+			QUANDO o banco controla nosso numero
+			ENTÃO deve limpar e desabilitar campo "Próximo Nosso Número"
+			ENTÃO não deve permitir emitir boleto
+
+//desmarcando deve ser obrigatorio preencher o contador
+CENÁRIO: 05 - Validar a situação em que o banco não controla o nosso número
+			DADO cadastro de carteira
+			QUANDO selecionar a carteira "11" do banco "BB"
+			QUANDO banco não controla nosso numero
+			ENTÃO deve ser obrigatório informar um contator para o campo "Próximo Nosso Número"
+			ENTÃO deve permitir emitir boleto
+
+//nao deve aceitar numeros negativos em multa, mora e dias para protesto
+CENÁRIO: 06 - Validar se não aceita valor negativo na multa
+			DADO cadastro de carteira
+			QUANDO informar um valor negativo para Multa 
+			ENTÃO não deve aceitar multa negativa
+			
+CENÁRIO: 07 - Validar se não aceita caracter na multa			
+			DADO cadastro de carteira
+			QUANDO informar um caracter para "Multa" 
+			ENTÃO não deve aceitar caracter para "Multa"
+			
+CENÁRIO: 08 - Validar se não aceita valor negativo na mora
+			DADO cadastro de carteira
+			QUANDO informar um valor negativo para "Mora"
+			ENTÃO não deve aceitar "Mora" negativa
+			
+CENÁRIO: 09 - Validar se não aceita caracter na mora
+			DADO cadastro de carteira
+			QUANDO informar um caracter para "Mora"
+			ENTÃO não deve aceitar caracter para "Mora"
+			
+CENÁRIO: 10 - Validar se não aceita valor negativo em Dias para protesto
+			DADO cadastro de carteira
+			QUANDO informar um valor negativo para "Dias para Protesto"
+			ENTÃO não deve aceitar "Dias para protesto" negativo
+
+CENÁRIO: 11 - Validar se não aceita caracter em dias para protesto
+			DADO cadastro de carteira
+			QUANDO informar um caracter para "Dias para protesto"
+			ENTÃO não deve aceitar caracter em "Dias para protesto"
+
+//se cobranca registrada. contador remessa deve ser obrigatorio
+//se for c.r. obrigatorios: 'especie', 'remessa', 'retorno'
+CENÁRIO: 12 - Para cobrança registrada o contador Sequencial de Remessa, especie, remessa e retorno devem ser obrigatórios
+			DADO cadastro de carteira
+			QUANDO cobrança registrada
+			ENTÃO nao deve aceitar gravar sem informação "de sequencial de remessa"
+			ENTÃO nao deve aceitar gravar sem informação "da especie"
+			ENTÃO nao deve aceitar gravar sem informação "do layout de remessa"
+			ENTÃO nao deve aceitar gravar sem informação "do layout de retorno"
+
+// -- validar se aceita caracter no código do cadastro de carteira
+CENÁRIO: 13 - O código de cadastro da carteira deve aceitar caracter.
+			DADO cadastro de carteira
+			QUANDO o código de cadastro da carteira for caracter.			
+			QUANDO cadastrar carteira
+			ENTÃO gravou carteira
+			
+// validar o cadastro complete de uma carteira
+CENÁRIO: 14 - Validar o cadastro completo de uma carteira.
+			DADO cadastro de carteira
+			QUANDO efetuar o cadastro completo de uma carteira registrada
+			QUANDO cadastrar carteira
+			ENTÃO gravou carteira
+
+			
+//---------------------------------- Os cenários abaixo não foram criados e nem desenvolvidos ---------------------------------------------------			
+
+
+// #TODO -- se o banco emite o boleto nao deve habilitar 'boleto' ???? (NECESSÁRIA?)
+// #TODO -- Nao deve permitir deleter uma carteira que esteja sendo usada por alguma função (GESBAN,GESBPC, Tela Boleto, Tela Remessa),  existe vinculo entre a gesban e carteira, se eu deletar a carteira eu perco o vinculo.
+
+CENÁRIO: 15 - Não permitir deletar uma carteira que esteja vinculada a um cliente. //#TODO
+			DADO situação CENÁRIO: 14
+			DADO Cliente cadastrado com carteira do cenário 14
+			QUANDO tentar deletar a carteira do cenário 14
+			ENTÃO deve apresentar mensagem "Impossivel excluir pois a carteira está vinculada ao cliente XXXX".
+			
+CENÁRIO: 16 - Não permitir deletar uma carteira que esteja vinculada a uma conta corrente. //#TODO			
+			DADO situação CENÁRIO: 14
+			DADO conta corrente com carteira do cenário 14
+			QUANDO tentar deletar a carteira do cenário 14
+			ENTÃO deve apresentar mensagem "Impossivel excluir pois a carteira está vinculada a conta corrente XXXX".
+
+CENÁRIO: 17 - Quando nosso numero desabilitado, considerar que obrigatóriamente a carteira é do tipo cobrança registrada  //#TODO -- validar
+			DADO cadastro de carteira
+			QUANDO Nosso Numero estiver desabilitado
+			ENTÃO cobrança registrada deve estar marcada e desabilitada
+			
+//  Deve existir algum vinculo entre a carteira e o titulo? Se eu quiser saber sobre qual carteira foi emitido o boleto ou arquivo remessa? necessário?
+//  validações para caso informe valores que não existam para as textbox com pesquisa, não permite sair da textbox?
+//  Validar se são obrigatorios os campos, Arquivo de licença, codigo cedente, outros dados conf 1, outros dados conf 2
+// quando mudar o arquivo conf, desabilitar e limpar campos outros dados conf 1, outros dados conf 2		
+

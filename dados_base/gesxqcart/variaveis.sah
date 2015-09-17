@@ -1,0 +1,49 @@
+// Variáveis da Função Carteira
+
+//-------- Header
+var $txtCartCodCart = _textbox(0, _near(_label("Cód. carteira")));
+var $txtCartDescCart = _textbox(0, _near(_label("Descrição")));
+
+//-------- Dados Gerais
+var $txtCartArqLic = _textbox(0, _near(_label("Arquivo licença")));
+var $txtCartCodCed = _textbox(0, _near(_label("Código cedente")));
+var $txtCartCodCedB = _textbox(1, _near(_label("Arquivo licença")));
+var $txtCartOutDadoConf1 = _textbox(0, _near(_label("Outro dado configuração 1")));
+var $txtCartOutDadoConf1B = _textbox(2, _near(_label("Arquivo licença")));
+var $txtCartOutDadoConf2 = _textbox(0, _near(_label("Outro dado configuração 2")));
+var $txtCartOutDadoConf2B = _textbox(3, _near(_label("Arquivo licença")));
+
+var $chkCartNossoNum = _checkbox(0, _near(_label("Nosso número")));
+//var $chkCartNossoNum = _checkbox(0, _near(_label("BC control. NN")));
+
+var $txtCartProxNN = _textbox(0, _near(_label("Próximo nosso número")));
+//var $txtCartProxNN = _textbox(0, _near(_label("Próx. nosso nº")));
+
+var $chkCartCobReg = _checkbox(0, _near(_label("Cobrança registrada")));
+//var $chkCartCartReg = _checkbox(0, _near(_label("Cart. registrada")));
+
+var $chkCartEmitBol = _checkbox(0, _near(_label("Emite boleto")));
+//var $chkCartBancoEmitBol = _checkbox(0, _near(_label("Banco emite boleto")));
+
+var $txtCartSeqRem = _textbox(0, _near(_label("Sequencial remessa")));
+
+var $txtCartEspecie = _textbox(0, _near(_label("Espécie")));
+var $txtCartRemessa = _textbox(0, _near(_label("Remessa")));
+var $txtCartRetorno = _textbox(0, _near(_label("Retorno")));
+var $txtCartBoleto = _textbox(0, _near(_label("Boleto")));
+
+var $linkCartEspecie = _link(0, _near(_label("Espécie")));
+var $linkCartRemessa = _link(0, _near(_label("Remessa")));
+var $linkCartRetorno = _link(0, _near(_label("Retorno")));
+var $linkCartBoleto = _link(0, _near(_label("Boleto")));
+
+//-------- Instruções Bancárias
+var $divCartInfBan = _div("Informações bancárias");
+var $txtCartDemons = _textarea(0, _near(_label("Demonstrativo")));
+var $txtCartInstru = _textarea(0, _near(_label("Instruções")));
+var $txtCartPercMulta = _textbox(0, _near(_label("% multa por atraso")));
+var $txtCartPercMora = _textbox(0, _near(_label("% juros por dia")));
+var $txtCartDiasProst = _textbox(0, _near(_label("Dias para protesto")));
+
+
+

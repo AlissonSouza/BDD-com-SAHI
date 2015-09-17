@@ -1,0 +1,219 @@
+//	--------------------  TESTE PARA REGRAS DA TELA
+/*_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+_click(_div("Orçamentos[1]"))
+// Escolhe a transação
+_click(_div("ALL Registo completo orçamentos"));
+_wait(2000);
+*/
+
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Devolucao_Subcontratacao\Devolucao_SubContatracao_Variaveis.sah");
+
+_click(_div("Nova"));
+
+_setValue($txtDevSubEstabDev, "BR333");
+_keyPress($txtDevSubEstabDev, 9);
+
+_click($txtDevSubTipo);
+_setValue($txtDevSubTipo, "BRSRC");
+_keyPress($txtDevSubTipo, 9);
+
+_click($txtDevSubCliente);
+_setValue($txtDevSubCliente, "BR444");
+_keyPress($txtDevSubCliente, 9);
+
+_click($txtDevSubEndereco);
+_setValue($txtDevSubEndereco, "MAIN");
+//_keyPress($txtDevSubEndereco, 9);
+
+//--------------- Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click($txtDevSubOpFiscal);
+_setValue($txtDevSubOpFiscal, "107");
+_keyPress($txtDevSubOpFiscal, 9);
+
+_assertEqual(true, _getAttribute($txtDevSubNumNfe,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubSerie,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubChaveAcess,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubEspecie,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubDataEmi,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubHoraEmi,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubDataEnt,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubHoraEnt,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubDataEnvSefaz,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubHoraEnvSefaz,"disabled"));
+
+_click($txtDevSubOpFiscal);
+_setValue($txtDevSubOpFiscal, "106");
+_keyPress($txtDevSubOpFiscal, 9);
+
+_assertEqual(false, _getAttribute($txtDevSubNumNfe,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubSerie,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubChaveAcess,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubEspecie,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubDataEmi,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubHoraEmi,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubDataEnt,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubHoraEnt,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubDataEnvSefaz,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubHoraEnvSefaz,"disabled"));
+
+_click($txtDevSubNumNfe);
+_setValue($txtDevSubNumNfe, "13458");
+_keyPress($txtDevSubNumNfe, 9);
+
+_click($txtDevSubSerie);
+_setValue($txtDevSubSerie, "1");
+_keyPress($txtDevSubSerie, 9);
+
+_click($txtDevSubChaveAcess);
+_setValue($txtDevSubChaveAcess, "54687123567849521456879654123547896541236547");
+_keyPress($txtDevSubChaveAcess, 9);
+
+_click($txtDevSubEspecie);
+_setValue($txtDevSubEspecie, "1");
+_keyPress($txtDevSubEspecie, 9);
+
+_click($txtDevSubDataEmi);
+_setValue($txtDevSubDataEmi, "280515");
+_keyPress($txtDevSubDataEmi, 9);
+
+_click($txtDevSubHoraEmi);
+_setValue($txtDevSubHoraEmi, "1100");
+_keyPress($txtDevSubHoraEmi, 9);
+
+_click($txtDevSubDataEnt);
+_setValue($txtDevSubDataEnt, "280515");
+_keyPress($txtDevSubDataEnt, 9);
+
+_click($txtDevSubHoraEnt);
+_setValue($txtDevSubHoraEnt, "1115");
+_keyPress($txtDevSubHoraEnt, 9);
+
+_click($txtDevSubDataEnvSefaz);
+_setValue($txtDevSubDataEnvSefaz, "280515");
+_keyPress($txtDevSubDataEnvSefaz, 9);
+
+_click($txtDevSubHoraEnvSefaz);
+_setValue($txtDevSubHoraEnvSefaz, "1115");
+_keyPress($txtDevSubHoraEnvSefaz, 9);
+
+//------------------------- DADOS DE TRANSPORTE -------------------------
+_click($guiaDevEmpDadosTransp);
+
+_click($linkDevEmpFreteConta);
+_click($linkDevEmpSemFrete);
+_assertEqual(true, _getAttribute($txtDevSubTranspotador,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubModoExped,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubPlacaVeic,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubUfPlaca,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubRNTC,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubMarca,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubIdentVagao,"disabled"));
+_assertEqual(true, _getAttribute($txtDevSubIdentBalsa,"disabled"));
+
+_click($linkDevEmpFreteConta);
+_click($linkDevEmpTerceiros);
+_assertEqual(false, _getAttribute($txtDevSubTranspotador,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubModoExped,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubPlacaVeic,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubUfPlaca,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubRNTC,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubMarca,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubIdentVagao,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubIdentBalsa,"disabled"));
+
+_click($linkDevEmpFreteConta);
+_click($linkDevEmpDestRemet);
+_assertEqual(false, _getAttribute($txtDevSubTranspotador,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubModoExped,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubPlacaVeic,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubUfPlaca,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubRNTC,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubMarca,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubIdentVagao,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubIdentBalsa,"disabled"));
+
+_click($linkDevEmpFreteConta);
+_click($linkDevEmpFreteEmitente);
+_assertEqual(false, _getAttribute($txtDevSubTranspotador,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubModoExped,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubPlacaVeic,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubUfPlaca,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubRNTC,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubMarca,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubIdentVagao,"disabled"));
+_assertEqual(false, _getAttribute($txtDevSubIdentBalsa,"disabled"));
+
+_click($txtDevSubTranspotador);
+_setValue($txtDevSubTranspotador,"BR250");
+_keyPress($txtDevSubTranspotador,9);
+
+_click($txtDevSubModoExped);
+_setValue($txtDevSubModoExped,"3");
+_keyPress($txtDevSubModoExped,9);
+
+_click($txtDevSubPlacaVeic);
+_setValue($txtDevSubPlacaVeic,"AFC1234");
+_keyPress($txtDevSubPlacaVeic,9);
+
+_click($txtDevSubUfPlaca);
+_setValue($txtDevSubUfPlaca,"PR");
+_keyPress($txtDevSubUfPlaca,9);
+
+_click($txtDevSubRNTC);
+_setValue($txtDevSubRNTC,"1564684");
+_keyPress($txtDevSubRNTC,9);
+
+_click($txtDevSubMarca);
+_setValue($txtDevSubMarca,"Fiat");
+//_keyPress($txtDevSubMarca,9);
+
+//-------------------------- LINHAS IMPOSTOS ---------------------------
+
+/*
+_click(_radio(0, _near(_label("ICMS"))));
+_click(_radio(0, _near(_label("ICMS ST"))));
+_click(_radio(0, _near(_label("IPI"))));
+_click(_radio(0, _near(_label("PIS"))));
+_click(_radio(0, _near(_label("COFINS"))));
+_click(_radio(0, _near(_label("Todos"))));
+*/
+//-----------------------RESUMO DOS IMPOSTOS----------------
+_click(_div("Resumo NF-e"));
+
+_assertEqual(true, _getAttribute($txtDevSubTotMerc,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotDesc,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotSuf,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotDeson,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotIPIeST,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotFrete,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotSeguro,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotDespAc,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotNFe,"readOnly"));
+
+_assertEqual(true, _getAttribute($txtDevSubTotBaseICMS,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotICMSop,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotICMSdif,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotICMSdeson,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotICMSdevid,"readOnly"));
+
+_assertEqual(true, _getAttribute($txtDevSubTotBaseICMSST,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotValorICMSST,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotBaseIPI,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotValorIPI,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotBasePIS,"readOnly"));
+
+_assertEqual(true, _getAttribute($txtDevSubTotBasePISQtde,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotValorPIS,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotBaseCOFINS,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotBaseCOFINSQtde,"readOnly"));
+_assertEqual(true, _getAttribute($txtDevSubTotValorCOFINS,"readOnly"));
+
+//-----------------------------------
+
+_click(_div("Cancelar"));
+
+

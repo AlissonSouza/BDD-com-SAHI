@@ -1,0 +1,225 @@
+// Requiriments of the funciont consxqb - Boleto
+
+if (!$dadosBase) // -- if not exist the object, then create
+	var $dadosBase = {};
+
+var $_ = $dadosBase // -- create an alias
+
+_include("gesxqcart/frases.sah");	
+_include("../login.sah")
+//_include("phrases.sah");
+
+
+// Create the account "BkAut" 
+// Used by CONSXQB - CONSXQR
+$_.createBankAccount = function (){
+
+	_include("gesban/variaveis.sah");
+	
+	_click(_link("/site-navigation/"));
+	_click(_div("Dados de base"));
+	_click(_link("Contas em banco"))	
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Nova"));
+	$dirty = true;
+	
+	_setValue($txtGesBanCod, "BkAut");
+	_keyPress($txtGesBanCod, 9);
+	
+	_click($txtGesBanDesc);
+	_setValue($txtGesBanDesc, "Bank used in the scenarios");
+	_keyPress($txtGesBanDesc, 9);
+	
+//--- Geral	
+	_click($txtGesBanEnd);
+	_setValue($txtGesBanEnd, "address registered by automation");
+	_keyPress($txtGesBanEnd, 9);
+	
+	_click($txtGesBanPais);
+	_setValue($txtGesBanPais, "BR");
+	_keyPress($txtGesBanPais, 9);
+	
+	_click($txtGesBanPaisDesc);
+	
+	_click($txtGesBanCep);
+	_setValue($txtGesBanCep, "81250000");
+	_keyPress($txtGesBanCep, 9);
+	
+	_click($txtGesBanCidade);
+	_keyPress($txtGesBanCidade,9);
+	
+	_keyPress($linkGesBanPlano, 9);
+	
+	_click($txtGesBanEstado);
+	_setValue($txtGesBanEstado, "PR");
+	_keyPress($txtGesBanEstado, 9);
+	
+	_click($txtGesBanDescCurta);
+	_setValue($txtGesBanDescCurta, "Automation Small Des");
+	_keyPress($txtGesBanDescCurta, 9);
+	
+	_click($txtGesBanNrRegCom);
+	_setValue($txtGesBanNrRegCom, "151894");
+	_keyPress($txtGesBanNrRegCom, 9);
+	
+	_click($txtGesBanNumNib);
+	_setValue($txtGesBanNumNib,"1348");
+	_keyPress($txtGesBanNumNib, 9);
+	
+	_click($txtGesBanCodNib);
+	_setValue($txtGesBanCodNib,"1561");
+	_keyPress($txtGesBanCodNib, 9);
+	
+	_click($txtGesBanCodIban);
+	_setValue($txtGesBanCodIban,"154");
+	_keyPress($txtGesBanCodIban, 9);
+	
+	_click($txtGesBanDom1);
+	_setValue($txtGesBanDom1,"Automação Domiciliação 1");
+	_keyPress($txtGesBanDom1, 9);
+	
+	_click($txtGesBanDom2);
+	_setValue($txtGesBanDom2,"Automação Domiciliação 2");
+	_keyPress($txtGesBanDom2, 9);
+	
+	_click($txtGesBanNumEmisTrans);
+	_setValue($txtGesBanNumEmisTrans,"12312");
+	_keyPress($txtGesBanNumEmisTrans, 9);
+	
+	_click($txtGesBanIntTes);
+	_setValue($txtGesBanIntTes, _random(999999));
+	_keyPress($txtGesBanIntTes, 9);
+	
+	_click($txtGesBanNumEmiDebDir);
+	_setValue($txtGesBanNumEmiDebDir,"1532");
+	_keyPress($txtGesBanNumEmiDebDir, 9);
+	
+//--- Gestão
+	_click(_div("Gestão"));
+	
+	_click($txtGesBanSocied);
+	_setValue($txtGesBanSocied, "BR01");
+	//_keyPress($txtGesBanSocied, 9);
+	
+//----- tabela: parametros: linha, nomeColuna, valor
+	
+	clickLinkLinha(0, "Tipo de diários", "Banco");
+	//tabLinha(0, "Tipo de diários");
+	
+	clickLinha(0, "Diário");
+	setLinha(0, "Diário", "BKBRA");
+	tabLinha(0, "Diário");
+	
+	/*
+	clickLinha(0, "Descr.[2]");
+	setLinha(0, "Descr.[2]", "");
+	tabLinha(0, "Descr.[2]");
+	
+	clickLinha(0, "Tipo de docum.");
+	setLinha(0, "Tipo de docum.", "");
+	tabLinha(0, "Tipo de docum.");
+	
+	clickLinha(0, "Descr.[3]");
+	setLinha(0, "Descr.[3]", "");
+	tabLinha(0, "Descr.[3]");
+	
+	clickLinha(0, "Conta tesour.");
+	setLinha(0, "Conta tesour.", "");
+	enterLinha(0, "Conta tesour.");
+	*/
+//--------------	
+//	_click($txtGesBanCodTerc);
+//	_setValue($txtGesBanCodTerc, "BR007")
+//	_keyPress($txtGesBanCodTerc, 9);;
+	
+	_click($txtGesBanCodContab);
+	_setValue($txtGesBanCodContab, "STD")
+	_keyPress($txtGesBanCodContab, 9);;
+	
+	_click($txtGesBanDivisaCont);
+	_setValue($txtGesBanDivisaCont, "BRL");
+	_keyPress($txtGesBanDivisaCont, 9);
+	
+	_click($txtGesBanDivisaImput);
+	_setValue($txtGesBanDivisaImput, "BRL");
+	_keyPress($txtGesBanDivisaImput, 9);
+	
+	_click($txtGesBanExtFich);
+	_setValue($txtGesBanExtFich, "sah");
+	_keyPress($txtGesBanExtFich, 9);
+	
+// --- Separador Carteira
+	_click($divGesBanCart);
+	
+	_click($txtGesBanAgencia);
+	_setValue($txtGesBanAgencia, "1634");
+	_keyPress($txtGesBanAgencia, 9);
+	
+	_click($txtGesBanAgenciaDig);
+	_setValue($txtGesBanAgenciaDig, "1");
+	_keyPress($txtGesBanAgenciaDig, 9);
+	
+	_click($txtGesBanCC);
+	_setValue($txtGesBanCC, "1635");
+	_keyPress($txtGesBanCC, 9);
+	
+	_click($txtGesBanCCDig);
+	_setValue($txtGesBanCCDig, "1");
+	_keyPress($txtGesBanCCDig, 9);
+
+// --- Criar / Alterar
+	
+	_click(_link("Criar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_click(_link("Gravar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_click(_link("Sair"));
+	_wait(1000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}	
+}
+
+// Create a book who the bank emit boleto
+// Used by CONSXQB - CONSXQR
+$_.createBookBankEmitBoleto = function (){
+	// Acesso a função Carteira 
+	_click(_link("/site-navigation/"));
+	//_click(_div("Dados de base"));
+	_click(_div("Dados comuns"));
+	_click(_link("Contas em banco"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	//acessar a tela de carteira dentro da função contas em banco
+	//_click(_div("Leg. Brasileira"))
+	// #TODO???
+	_click(_link("/func-link/"));
+	_setValue(_textbox(0,_near(_div("Chamada Directa"))),"GESXQCART");
+	_click(_link("OK"));
+//--------------------------------------------------------------------
+	_click(_link("Nova"));
+	
+	_click($txtCartCodCart);
+	_setValue($txtCartCodCart, "BaEmBo");
+	_keyPress($txtCartCodCart,9);
+	
+	_click($txtCartDescCart);
+	_setValue($txtCartDescCart, "Automação - Carteira Banco Emite Boleto");
+	_keyPress($txtCartDescCart,9);
+
+	$_.gesxqcart.quandoSelecionarCarteira_Banco_('11','BB');	
+	$_.gesxqcart.preencherSeqRem();
+	$_.gesxqcart.preencherEspecie();
+	$_.gesxqcart.preencherRemessa();
+	$_.gesxqcart.preencherRetorno();
+	$_.gesxqcart.preencherBoleto();	
+	$_.gesxqcart.preencherSeparadorInfBan();
+	$_.gesxqcart.quandoCadastrarCarteira();
+}
+
+
+//Call functions
+$_.createBankAccount();
+$_.createBookBankEmitBoleto();

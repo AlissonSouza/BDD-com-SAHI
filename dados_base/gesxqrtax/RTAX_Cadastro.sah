@@ -1,0 +1,2845 @@
+//Acesso o link da função RTAX
+
+_click(_link("Navigation"));
+
+_click(_div("Dados de base"));
+
+_click(_div("Regra de cálculo de imposto"));
+
+_wait(1000);
+
+//	Adiciona as variaveis
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/RTAX_Variaveis.sah");
+
+
+// CADASTRO 7º -- PROBLEMA AO CONFIGURAR O ICMS ST DA CST 030 - consegui "corrigir" usando um While 
+
+// CADASTRO 8º -- DEVERIA SER O PIS/COFINS POR ST, MAS O SISTEMA NÃO ESTÁ PREPARADO PARA TRATAR ISTO
+
+// CADASTRO 17 -- ICMS 60 - ALGUMAS DUVIDAS SOBRE COMO GERAR O ST
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------  DELETANDO CADASTRADAS-------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------
+
+function trydelet(){
+	try{
+		_click(_div("Eliminar"));
+		_click(_div("OK"));
+		_click(_div("Ok"));
+	}catch($e){
+		_click($txtCodigo);
+	}
+}
+
+// PARA CADA RTAX NOVA DEVEMOS INCREMENTAR O VALOR QUE ESTÁ SENDO COMPARADO PARA VARIAVEL $i
+
+for (var $i = 50; $i <= 77; $i++){
+
+	_click($txtCodigo);
+	_setValue($txtCodigo, $i);
+	_keyPress($txtCodigo, 9);
+	
+	trydelet();
+}
+
+// deletando a rtax 40 referente ao serviço
+	_click($txtCodigo);
+	_setValue($txtCodigo, 40);
+	_keyPress($txtCodigo, 9);
+	trydelet();
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//-------------- RTAX 50 --------------------  1º Cadastro  ICMS 00 - IPI 50 - PIS/COFINS 01 --------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------
+
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "50");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 00 - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "00");
+_keyPress($txtCSTICMS, 9);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//----------------------Criar 
+
+_click(_div("Criar"));
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------ RTAX 51 ---------------------  2º Cadastro  ICMS 10 - IPI 50 - PIS/COFINS 02 --------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "51");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 10 - IPI 50 - PC 02");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "10");
+_keyPress($txtCSTICMS, 9);
+
+
+try{
+	_click(_cell("10[1]"));
+}catch ($e){
+	try{
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("10"));			
+		}catch($e){
+		_click(_cell("10[2]"));
+		}
+	}
+}
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "1");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "6");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "02");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "02");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------ RTAX 52 ---------------------  3º Cadastro  ICMS 10 - IPI 51 - PIS/COFINS 02 --------------------------------------------------
+//-------------------------------------------------------Com Redução na base do ICMS ST-------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "52");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 10 Red - IPI 51 - PC 02");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "10");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("10[1]"));
+}catch ($e){
+	try{
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("10"));			
+		}catch($e){
+		_click(_cell("10[2]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($txtRedBaseICMSst);
+_setValue($txtRedBaseICMSst, "33,33");
+_keyPress($txtRedBaseICMSst, 9);
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "51");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "1");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "6");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "02");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "02");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 53 ---------------------  4º Cadastro  ICMS 20 - IPI 52 - PIS/COFINS 03 --------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------
+
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "53");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 20 - IPI 52 - PC 03");
+_keyPress($txtDescricao, 9);
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "20");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("20[1]"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("20"));			
+		}catch($e){
+		_click(_cell("20[2]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------- Configurando IPI CST: 52 - Saída Isenta
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "52");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISqtde);
+_click(_link("Sim"));
+
+_click($txtAliquotaPISqtde);
+_setValue($txtAliquotaPISqtde, "2");
+_keyPress($txtAliquotaPISqtde, 9);
+
+_click($txtAliquotaCOFINSqtde);
+_setValue($txtAliquotaCOFINSqtde, "4");
+_keyPress($txtAliquotaCOFINSqtde, 9);
+
+_click($txtValRefPis);
+_setValue($txtValRefPis, "2");
+_keyPress($txtValRefPis, 9);
+
+_click($txtValRefCofins);
+_setValue($txtValRefCofins, "4");
+_keyPress($txtValRefCofins, 9);
+
+_click($txtFatorPis);
+_setValue($txtFatorPis, "2");
+_keyPress($txtFatorPis, 9);
+
+_click($txtFatorCofins);
+_setValue($txtFatorCofins, "4");
+_keyPress($txtFatorCofins, 9);
+
+_click($txtCSTpisQtde);
+_setValue($txtCSTpisQtde, "03");
+_keyPress($txtCSTpisQtde, 9);
+
+_click($txtCSTcofinsQtde);
+_setValue($txtCSTcofinsQtde, "03");
+_keyPress($txtCSTcofinsQtde, 9);
+
+//_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 54 ---------------------  5º Cadastro  ICMS 20 - IPI 52 - PIS/COFINS 03 --------------------------------------------------
+//------------------------------------------------------ Com Motivo de Desoneração ------------------------------------------------------------
+
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "54");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 20 Deson - IPI 52 - PC 03");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "20");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("20[1]"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("20"));			
+		}catch($e){
+		_click(_cell("20[2]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Uso na agropecuária"));
+
+//--------- Configurando IPI CST: 52 - Saída Isenta
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "52");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISqtde);
+_click(_link("Sim"));
+
+_click($txtAliquotaPISqtde);
+_setValue($txtAliquotaPISqtde, "2");
+_keyPress($txtAliquotaPISqtde, 9);
+
+_click($txtAliquotaCOFINSqtde);
+_setValue($txtAliquotaCOFINSqtde, "4");
+_keyPress($txtAliquotaCOFINSqtde, 9);
+
+_click($txtValRefPis);
+_setValue($txtValRefPis, "2");
+_keyPress($txtValRefPis, 9);
+
+_click($txtValRefCofins);
+_setValue($txtValRefCofins, "4");
+_keyPress($txtValRefCofins, 9);
+
+_click($txtFatorPis);
+_setValue($txtFatorPis, "2");
+_keyPress($txtFatorPis, 9);
+
+_click($txtFatorCofins);
+_setValue($txtFatorCofins, "4");
+_keyPress($txtFatorCofins, 9);
+
+_click($txtCSTpisQtde);
+_setValue($txtCSTpisQtde, "03");
+_keyPress($txtCSTpisQtde, 9);
+
+_click($txtCSTcofinsQtde);
+_setValue($txtCSTcofinsQtde, "03");
+_keyPress($txtCSTcofinsQtde, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 55 ---------------------  6º Cadastro  ICMS 30 - IPI 53 - PIS/COFINS 04 --------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "55");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 30 - IPI 53 - PC 04");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "30");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("30[1]"));
+}catch ($e){
+	try{
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("30"));			
+		}catch($e){
+		_click(_cell("30[2]"));
+		}
+	}
+}
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "53");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "04");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "04");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 56 ---------------------  7º Cadastro  ICMS 30 Red + Deson - IPI 53 - PIS/COFINS 04 --------------------------------------------
+//------------------------------------------------------ Com redução BASE ST e Desoneração ----------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "56");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 30 Red + Deson - IPI 53 - PC 04");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_check($cboxIsentoICMS);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "30");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("30[1]"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("30"));			
+		}catch($e){
+		_click(_cell("30[2]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("SUFRAMA[1]"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($txtRedBaseICMSst);
+_setValue($txtRedBaseICMSst, "33,33");
+_keyPress($txtRedBaseICMSst, 9);
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "53");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "04");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "04");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//------------ RTAX 57 ----------------------  8º Cadastro  ICMS 40 - IPI 54 - PIS/COFINS 05 --------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "57");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 40 - IPI 54 - PC 05");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "40");
+_keyPress($txtCSTICMS, 9);
+
+
+try{
+	_click(_cell("40[1]"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("40"));			
+		}catch($e){
+		_click(_cell("40[2]"));
+		}
+	}
+}
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "54");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+//---- DEVERIA SER O PIS/COFINS POR ST, MAS O SISTEMA NÃO ESTÁ PREPARADO PARA TRATAR ISTO
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "05");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "05");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//------------ RTAX 58 ----------------------  9º Cadastro  ICMS 40 - IPI 54 - PIS/COFINS 05 --------------------------------------------------
+//------------------------------------------------- Com Desoneração : Taxi --------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "58");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 40 Deson - IPI 54 - PC 05");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "40");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("40[1]"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("40"));			
+		}catch($e){
+		_click(_cell("40[2]"));
+		}
+	}
+}
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Táxi"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "54");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+//---- DEVERIA SER O PIS/COFINS POR ST, MAS O SISTEMA NÃO ESTÁ PREPARADO PARA TRATAR ISTO
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "04");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "04");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+//------------ RTAX 59 ----------------------  10º Cadastro  ICMS 41 - IPI 55 - PIS/COFINS 06 --------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "59");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 41 - IPI 55 - PC 06");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "41");
+_keyPress($txtCSTICMS, 9);
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "55");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "06");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "06");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+//------------ RTAX 60 ----------------------  11º Cadastro  ICMS 41 - IPI 55 - PIS/COFINS 06 --------------------------------------------------
+//------------------------------------------------- Com Desoneração: Frotista ------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "60");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 41 Deson. - IPI 55 - PC 06");
+_keyPress($txtDescricao, 9);
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "41");
+_keyPress($txtCSTICMS, 9);
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Frotista/Locadora"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "0");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "55");
+_keyPress($txtCSTIPI, 9);
+
+_check($cboxIsentoIPI);
+_check($cboxIsentoIPI);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "06");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "06");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+
+_click(_div("Criar"));
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 61 ------------------  12º Cadastro  ICMS 50 - IPI 99 - PIS/COFINS 07 --------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "61");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 50 - IPI 99 - PC 07");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "50");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("50[2]"));
+}catch ($e){
+	try{
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("50"));
+		}catch($e){
+		_click(_cell("50[1]"));
+		}
+	}
+}
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "99");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "07");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "07");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 62 ------------------  13º Cadastro  ICMS 50 - IPI 99 QTDE - PIS/COFINS 07 --------------------------------------------------
+//-----------------------------------------------Com Desoneração: Deficiente Não Condutor (Convênio ICMS 38/12)------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "62");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 50 Deson - IPI 99 qtde - PC 07");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "50");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("50[2]"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("50"));			
+		}catch($e){
+		_click(_cell("50[1]"));
+		}
+	}
+}
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Deficiente Não Condutor (Convênio ICMS 38/12)"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPIqtde);
+_click(_link("Sim"));
+
+_click($txtValRefIPI);
+_setValue($txtValRefIPI, "2");
+_keyPress($txtValRefIPI, 9);
+
+_click($txtValIPIqtde);
+_setValue($txtValIPIqtde, "2");
+_keyPress($txtValIPIqtde, 9);
+
+_click($txtCSTIPIqtde);
+_setValue($txtCSTIPIqtde, "99");
+_keyPress($txtCSTIPIqtde, 9);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "07");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "07");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 63 ------------------  14º Cadastro  ICMS 51 - Sem IPI - PIS/COFINS 08 --------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "63");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 51 - Sem IPI - PC 08");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedValorICMS);
+_setValue($txtRedValorICMS, "33,33");
+_keyPress($txtRedValorICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "51");
+_keyPress($txtCSTICMS, 9);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Não"));
+
+_click($linkConsiderarIPIqtde);
+_click(_link("Não"));
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "08");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "08");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 64 ------------------  15º Cadastro  ICMS 51 + Red BC - Sem IPI - PIS/COFINS 08 --------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "64");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 51 + Red BC - Sem IPI - PC 08");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedValorICMS);
+_setValue($txtRedValorICMS, "33,33");
+_keyPress($txtRedValorICMS, 9);
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "10");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "51");
+_keyPress($txtCSTICMS, 9);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Não"));
+
+_click($linkConsiderarIPIqtde);
+_click(_link("Não"));
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "08");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "08");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 65 ------------------  16º Cadastro  ICMS 51 100% - Sem IPI - PIS/COFINS 08 --------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "65");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 51 100% - Sem IPI - PC 08");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedValorICMS);
+_setValue($txtRedValorICMS, "100");
+_keyPress($txtRedValorICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "51");
+_keyPress($txtCSTICMS, 9);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Não"));
+
+_click($linkConsiderarIPIqtde);
+_click(_link("Não"));
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "08");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "08");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 66 ------------------  17º Cadastro  ICMS 60 - Sem IPI - PIS/COFINS 09 --------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "66");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 60 - Sem IPI - PC 09");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "60");
+_keyPress($txtCSTICMS, 9);
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Não"));
+
+_click($linkConsiderarIPIqtde);
+_click(_link("Não"));
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "09");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "09");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 67 ------------------  18º Cadastro  ICMS 70 - IPI 50 - PIS/COFINS 09 --------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "67");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 70 - IPI 50 - PC 09");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "70");
+_keyPress($txtCSTICMS, 9);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "09");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "09");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 68 ------------------  19º Cadastro  ICMS 70 + Red BC ST + Deson - IPI 50 - PIS/COFINS 01 -------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "68");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 70 + Red ST + Deson - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "70");
+_keyPress($txtCSTICMS, 9);
+
+_click($linkDesoneracao);
+_click(_link("Órgão de fomento e desenvolvimento agropecuário"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMSst);
+_setValue($txtRedBaseICMSst, "33,33");
+_keyPress($txtRedBaseICMSst, 9);
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 69 ------------------  20º Cadastro  ICMS 90 Isento - Sem IPI - PIS/COFINS 07 Isento ------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "69");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 Isento - Sem IPI - PC 07");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_check($cboxIsentoICMS);
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Não"));
+
+_click($linkConsiderarIPIqtde);
+_click(_link("Não"));
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "0");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "07");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "07");
+_keyPress($txtCSTcofins, 9);
+
+_check($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 70 ------------------  21º Cadastro  ICMS 90 Tributado - IPI 50 - PIS/COFINS 01 -----------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "70");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 Tributado - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+
+_uncheck($cboxIsentoPisCofinsAliq);
+//---------  Criar 
+_click(_div("Criar"));
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 71 ------------------  22º Cadastro  ICMS 90 + RedBC - IPI 50 - PIS/COFINS 49 QTDE --------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "71");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 RedBC - IPI 50 - PC 49 qtde");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISqtde);
+_click(_link("Sim"));
+
+_click($txtAliquotaPISqtde);
+_setValue($txtAliquotaPISqtde, "2");
+_keyPress($txtAliquotaPISqtde, 9);
+
+_click($txtAliquotaCOFINSqtde);
+_setValue($txtAliquotaCOFINSqtde, "4");
+_keyPress($txtAliquotaCOFINSqtde, 9);
+
+_click($txtValRefPis);
+_setValue($txtValRefPis, "2");
+_keyPress($txtValRefPis, 9);
+
+_click($txtValRefCofins);
+_setValue($txtValRefCofins, "4");
+_keyPress($txtValRefCofins, 9);
+
+_click($txtFatorPis);
+_setValue($txtFatorPis, "2");
+_keyPress($txtFatorPis, 9);
+
+_click($txtFatorCofins);
+_setValue($txtFatorCofins, "4");
+_keyPress($txtFatorCofins, 9);
+
+_click($txtCSTpisQtde);
+_setValue($txtCSTpisQtde, "49");
+_keyPress($txtCSTpisQtde, 9);
+
+_click($txtCSTcofinsQtde);
+_setValue($txtCSTcofinsQtde, "49");
+_keyPress($txtCSTcofinsQtde, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 72 ------------------  23º Cadastro  ICMS 90 + RedBC + Deson - IPI 50 - PIS/COFINS 49 QTDE ------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "72");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 RedBC + Deson - IPI 50 - PC 49 qtde");
+_keyPress($txtDescricao, 9);
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("outros. (NT 2011/004)"));
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISqtde);
+_click(_link("Sim"));
+
+_click($txtAliquotaPISqtde);
+_setValue($txtAliquotaPISqtde, "2");
+_keyPress($txtAliquotaPISqtde, 9);
+
+_click($txtAliquotaCOFINSqtde);
+_setValue($txtAliquotaCOFINSqtde, "4");
+_keyPress($txtAliquotaCOFINSqtde, 9);
+
+_click($txtValRefPis);
+_setValue($txtValRefPis, "2");
+_keyPress($txtValRefPis, 9);
+
+_click($txtValRefCofins);
+_setValue($txtValRefCofins, "4");
+_keyPress($txtValRefCofins, 9);
+
+_click($txtFatorPis);
+_setValue($txtFatorPis, "2");
+_keyPress($txtFatorPis, 9);
+
+_click($txtFatorCofins);
+_setValue($txtFatorCofins, "4");
+_keyPress($txtFatorCofins, 9);
+
+_click($txtCSTpisQtde);
+_setValue($txtCSTpisQtde, "49");
+_keyPress($txtCSTpisQtde, 9);
+
+_click($txtCSTcofinsQtde);
+_setValue($txtCSTcofinsQtde, "49");
+_keyPress($txtCSTcofinsQtde, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 73 ------------------  24º Cadastro  ICMS 90 + ICMS ST - IPI 50 - PIS/COFINS 01 ---------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "73");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 + ICMS ST - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 74 ------------------  25º Cadastro  ICMS 90 RedBC + ICMS ST - IPI 50 - PIS/COFINS 01 -----------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "74");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 RedBC + ICMS ST - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 75 ------------------  26º Cadastro  ICMS 90 RedBC + Deson + ICMS ST - IPI 50 - PIS/COFINS 01 ---------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "75");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 RedBC + Deson + ICMS ST - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("outros. (NT 2011/004)"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 76 ------------------  27º Cadastro ICMS 90 RedBC + RedBC ST - IPI 50 - PIS/COFINS 01 -----------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "76");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 RedBC + RedBC ST - IPI 50 - PC 01");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("Não aplicável"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMSst);
+_setValue($txtRedBaseICMSst, "33,33");
+_keyPress($txtRedBaseICMSst, 9);
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+_click($SepPIS);
+
+_click($linkConsiderarPISaliq);
+_click(_link("Sim"));
+
+_click($txtAliquotaPIS);
+_setValue($txtAliquotaPIS, "0,65");
+_keyPress($txtAliquotaPIS, 9);
+
+_click($txtAliquotaCOFINS);
+_setValue($txtAliquotaCOFINS, "3");
+_keyPress($txtAliquotaCOFINS, 9);
+
+_click($txtCSTpis);
+_setValue($txtCSTpis, "01");
+_keyPress($txtCSTpis, 9);
+
+_click($txtCSTcofins);
+_setValue($txtCSTcofins, "01");
+_keyPress($txtCSTcofins, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+//---------  Criar 
+_click(_div("Criar"));
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+//------------- RTAX 77 ------------------  28º Cadastro  ICMS 90 + RedBC + RedBCST + Deson - IPI 50 - PIS/COFINS 49 QTDE --------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "77");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. ICMS 90 RedBC + RedST + Deson - IPI 50 - PC 49 qtde");
+_keyPress($txtDescricao, 9);
+
+
+//-------- Configurando ICMS
+_click($SepICMS);
+
+_click($linkConsiderarICMS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMS);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMS);
+_setValue($txtRedBaseICMS, "33,33");
+_keyPress($txtRedBaseICMS, 9);
+
+_click($txtOrigem);
+_setValue($txtOrigem, "0");
+_keyPress($txtOrigem, 9);
+
+_click($txtCSTICMS);
+_setValue($txtCSTICMS, "90");
+_keyPress($txtCSTICMS, 9);
+
+try{
+	_click(_cell("90"));
+}catch ($e){
+	try{		
+		_click($txtRedBaseICMS);
+		}catch($e){
+		try{
+			_click(_div("90"));			
+		}catch($e){
+		_click(_cell("90[1]"));
+		}
+	}
+}
+
+_click($linkDesoneracao);
+_click(_link("outros. (NT 2011/004)"));
+
+//--------ICMS ST
+
+_click($linkConsiderarICMSST);
+
+while(_isVisible(_link("Sim")) == false){
+	_click($linkConsiderarICMSST);
+}
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoICMSst);
+_click(_link("Sim"));
+
+_click($txtRedBaseICMSst);
+_setValue($txtRedBaseICMSst, "33,33");
+_keyPress($txtRedBaseICMSst, 9);
+
+_click($txtMVAoriginal);
+_setValue($txtMVAoriginal, "40");
+_keyPress($txtMVAoriginal, 9);
+
+
+//--------- Configurando IPI
+_click($SepIPI);
+
+_click($linkConsiderarIPI);
+_click(_link("Sim"));
+
+_click($txtAliquotaIPI);
+_setValue($txtAliquotaIPI, "5");
+_keyPress($txtAliquotaIPI, 9);
+
+_click($txtCSTIPI);
+_setValue($txtCSTIPI, "50");
+_keyPress($txtCSTIPI, 9);
+
+//--------- Configurando PIS/COFINS
+
+_click($SepPIS);
+
+_click($linkConsiderarPISqtde);
+_click(_link("Sim"));
+
+_click($txtAliquotaPISqtde);
+_setValue($txtAliquotaPISqtde, "2");
+_keyPress($txtAliquotaPISqtde, 9);
+
+_click($txtAliquotaCOFINSqtde);
+_setValue($txtAliquotaCOFINSqtde, "4");
+_keyPress($txtAliquotaCOFINSqtde, 9);
+
+_click($txtValRefPis);
+_setValue($txtValRefPis, "2");
+_keyPress($txtValRefPis, 9);
+
+_click($txtValRefCofins);
+_setValue($txtValRefCofins, "4");
+_keyPress($txtValRefCofins, 9);
+
+_click($txtFatorPis);
+_setValue($txtFatorPis, "2");
+_keyPress($txtFatorPis, 9);
+
+_click($txtFatorCofins);
+_setValue($txtFatorCofins, "4");
+_keyPress($txtFatorCofins, 9);
+
+_click($txtCSTpisQtde);
+_setValue($txtCSTpisQtde, "49");
+_keyPress($txtCSTpisQtde, 9);
+
+_click($txtCSTcofinsQtde);
+_setValue($txtCSTcofinsQtde, "49");
+_keyPress($txtCSTcofinsQtde, 9);
+
+_uncheck($cboxIsentoPisCofinsAliq);
+
+
+//---------  Criar 
+_click(_div("Criar"));
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------- RTAX 40 --------------------  29º Cadastro  serviço --------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------
+
+_click($SepServicos);
+
+_click(_div("Nova"));
+
+_setValue($txtCodigo, "40");
+_keyPress($txtCodigo, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Autom. Service all tax");
+_keyPress($txtDescricao, 9);
+
+
+// --- PIS/COFINS
+_click($linkConsiderarPisCofinsRF);
+_click(_link("Sim"));
+
+_click($txtAliquotaPISRF);
+_setValue($txtAliquotaPISRF, "3");
+_keyPress($txtAliquotaPISRF, 9);
+
+_click($txtAliquotaCOFINSRF);
+_setValue($txtAliquotaCOFINSRF, "4");
+_keyPress($txtAliquotaCOFINSRF, 9);
+
+// --- CSLL
+_click($linkConsiderarCSLLRF);
+_click(_link("Sim"));
+
+_click($txtAliquotaCSLLRF);
+_setValue($txtAliquotaCSLLRF, "2");
+_keyPress($txtAliquotaCSLLRF, 9);
+
+// --- IRPJ
+_click($linkConsiderarIRPJ);
+_click(_link("Sim"));
+
+_click($txtAliquotaIRPJ);
+_setValue($txtAliquotaIRPJ, "6");
+_keyPress($txtAliquotaIRPJ, 9);
+
+
+// --- IRRF
+_click($linkConsiderarIRRF);
+_click(_link("Sim"));
+
+_click($txtAliquotaIRRF);
+_setValue($txtAliquotaIRRF, "7");
+_keyPress($txtAliquotaIRRF, 9);
+
+// --- INSS
+_click($linkConsiderarINSSRF);
+_click(_link("Sim"));
+
+_click($txtAliquotaINSSRF);
+_setValue($txtAliquotaINSSRF, "8");
+_keyPress($txtAliquotaINSSRF, 9);
+
+_click($txtBaseMinINSSRF);
+_setValue($txtBaseMinINSSRF, "0");
+_keyPress($txtBaseMinINSSRF, 9);
+
+// --- ISS
+_click($linkConsiderarISS);
+_click(_link("Sim"));
+
+_click($linkAliquotaPadraoISS);
+_click(_link("Sim"));
+
+//_click($txtAliquotaISS);
+//_setValue($txtAliquotaISS, "10");
+//_keyPress($txtAliquotaISS, 9);
+
+_click(_div("Criar"));

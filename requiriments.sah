@@ -1,0 +1,24 @@
+// Este script contempla os requisitos necessários para a execução de alguns cenários e deve seguir a sequencia abaixo.
+_include("login.sah");
+
+// Cadastro de um diário para utilização nos cenários da gesban GESJOU
+_include("dados_base\gesjou\gesjou_requiriments.sah");
+
+// Altera o teceiro BR007 para teceiro diversos (supoe que ja existe um cadastro do BR007 GESBPR)
+_include("dados_base\gesbpr\gesbprRequiriments.sah");
+
+// Cria a carteira "AutoBR" para ser utilizada nos cenarios da Gesban
+_include("dados_base\gesxqcart\requirimentsGesxqcart.sah");
+
+// Cria a carteira "AutoBR" para ser utilizada nos cenarios da Gesban
+_include("dados_base\gesban\requirimentsGesban.sah");
+
+// Altera o cliente BR107 para banco = BkAut e Carteira = BaEmBo (supoe que ja existe um cadastro do BR107 GESBPC)
+_include("dados_base\gesbpc\gesbpcRequiriments.sah");
+
+// Cria o modo de pagamento BOLET
+_include("dados_base\gestam\requirimentsGestam.sah");
+
+// Cria condições de pagamento para serem usadas com boleto
+_include("dados_base\gestpt\requirimentsGestpt.sah");
+

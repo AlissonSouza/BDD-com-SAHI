@@ -1,0 +1,151 @@
+_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_link("Expedições"));
+
+_click(_div("ALL Registo expedições (completo)"));
+
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Expedicao\Expedicao_Vendas_Cad_01-01.sah");
+
+var $NumExpedicao = _getValue(_textbox(0, _near(_label("Sem entrega"))));
+/*
+var $DataEmissao = _getValue(_textbox(0, _near(_label("Data de emissão"))));
+var $ClienteExped = _getValue(_textbox(0, _near(_label("Cliente exped."))));
+var $EndCliExped = _getValue(_textbox(0, _near(_label("Endereço"))));
+*/
+_click(_link("Validação"));
+
+_click(_link("Ok"));
+
+_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));
+
+try{
+_click(_link("Validação"));
+_click(_link("Ok"));
+_click(_link("Sair"));
+}catch($e){
+_click(_link("Sair"));
+}
+//-------------------------- Cria Fatura --------------------------
+
+_wait(3000);
+
+//_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_link("Faturas"));
+
+_click(_div("ALL Registo completo factura"));
+
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Fatura\Fatura_Vendas_Variaveis.sah");
+
+
+_click(_link("Nova"));
+
+_setValue($txtEstabVenda, "BR050");
+_keyPress($txtEstabVenda, 9);
+
+_click($txtTipo);
+_setValue($txtTipo, "BRFCL");
+_keyPress($txtTipo, 9);
+
+_click(_textbox(0, _near( _label("Cli. fatura"))));
+_setValue(_textbox(0, _near( _label("Cli. fatura"))),"BR107");
+//_keyPress(_textbox(0, _near( _label("Cli. fatura"))), 9);
+
+//Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click(_textbox(0, _near( _label("Operação fiscal"))));
+_setValue(_textbox(0, _near( _label("Operação fiscal"))), "500");
+_keyPress(_textbox(0, _near( _label("Operação fiscal"))), 9);
+
+_click(_link("Seleção exped."));
+
+_check(_checkbox(0, _near(_div($NumExpedicao))));
+
+_click(_div("Faturação"));
+
+_click(_textbox(0, _near(_label("Colectivo"))));
+_setValue(_textbox(0, _near(_label("Colectivo"))),"CAR");
+_keyPress(_textbox(0, _near(_label("Colectivo"))),9);
+
+_click(_link("Criar"));
+
+_click(_link("Validação"));
+
+_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));
+
+//var $aux3 = _getValue(_textbox(0, _in( _cell( _table("s-grid-table-body"), 3, 2)))); - Autorizado o uso da NF-e
+
+_click(_link("Abandonar a função"));
+
+_click(_link("Sair"));
+
+//--------------------------------- Cria devolução ------------------------------------
+
+_click(_link("Devol. cliente"));
+
+_click(_div("ALL Registo completo devolução"));
+
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Devolucao_Clientes\Devolucao_Clientes_Variaveis.sah");
+
+_click(_link("Nova"));
+
+_setValue($txtDevCliEstabDev, "BR050");
+_keyPress($txtDevCliEstabDev, 9);
+
+_click($txtDevCliTipo);
+_setValue($txtDevCliTipo, "SRN");
+_keyPress($txtDevCliTipo, 9);
+
+_click($txtDevCliCliente);
+_setValue($txtDevCliCliente, "BR107");
+_keyPress($txtDevCliCliente, 9);
+
+_click($txtDevCliEnd);
+_setValue($txtDevCliEnd, "001");
+_keyPress($txtDevCliEnd, 9);
+
+_click($txtDevCliOpFiscal);
+_setValue($txtDevCliOpFiscal, "510");
+_keyPress($txtDevCliOpFiscal, 9);
+
+_click(_link("Seleção exped."));
+
+_click(_link(41));
+//_check(_checkbox(0, _near(_div("SHPBR0500084 06-07-2015 Cliente expedido BR107 001"))));
+
+/*$newDataEmissao =  $DataEmissao.replace(/15$/,"2015")
+$n = $NumExpedicao + " " + $newDataEmissao + " Cliente expedido " + $ClienteExped + " " + $EndCliExped;
+_check(_checkbox(0, _near(_div($n))));
+*/
+_check(_checkbox(0, _near(_div("/"+$NumExpedicao+"/"))));
+
+_click(_link("Criar"));
+
+_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_link("Validação NFe"));
+
+_assertExists(_heading1("Nota fiscal processada"));
+_assert(_isVisible(_heading1("Nota fiscal processada")));
+_assertEqual("Nota fiscal processada", _getText(_heading1("Nota fiscal processada")));
+_assertContainsText("Nota fiscal processada", _heading1("Nota fiscal processada"));
+
+_click(_link("Ok"));
+
+_assertExists(_heading1("Autorizado o uso da NF-e"));
+_assert(_isVisible(_heading1("Autorizado o uso da NF-e")));
+_assertEqual("Autorizado o uso da NF-e", _getText(_heading1("Autorizado o uso da NF-e")));
+_assertContainsText("Autorizado o uso da NF-e", _heading1("Autorizado o uso da NF-e"));
+
+_click(_link("Ok"));
+
+_click(_link("Sair"));
+
+
+
+

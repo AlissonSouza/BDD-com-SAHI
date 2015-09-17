@@ -1,0 +1,128 @@
+//	--------------------  TESTE PARA REGRAS DA TELA
+
+/*_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_div("Orçamentos[1]"))
+
+// Escolhe a transação
+_click(_div("ALL Registo completo orçamentos"));
+
+_wait(2000);
+*/
+//	Adiciona as variaveis - eu havia efetuado o chamado aqui porque existia um for dentro deste script que exigia estar com a função aberta
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Devolucao_Clientes\Devolucao_Clientes_Variaveis.sah");
+
+_click(_div("Nova"));
+
+_setValue($txtEstabDev, "BR050");
+_keyPress($txtEstabDev, 9);
+
+_click($txtTipo);
+_setValue($txtTipo, "SRN");
+_keyPress($txtTipo, 9);
+
+_click($txtCliente);
+_setValue($txtCliente, "BR107");
+//_keyPress($txtCliente, 9);
+
+//--------------- Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "500");
+_keyPress($txtOpFiscal, 9);
+
+_click(_div("Ok"));
+
+_click(_link(0, _near(_label("Operação fiscal"))));
+_click(_div("510"));
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "513");
+_keyPress($txtOpFiscal, 9);
+
+_click($txtNumNfe);
+_setValue($txtNumNfe, "13458");
+_keyPress($txtNumNfe, 9);
+
+_click($txtSerie);
+_setValue($txtSerie, "1");
+_keyPress($txtSerie, 9);
+
+_click($txtChaveAcess);
+_setValue($txtChaveAcess, "54687123567849521456879654123547896541236547");
+_keyPress($txtChaveAcess, 9);
+
+_click($txtEspecie);
+_setValue($txtEspecie, "1");
+_keyPress($txtEspecie, 9);
+
+_click($txtDataEmi);
+_setValue($txtDataEmi, "280515");
+_keyPress($txtDataEmi, 9);
+
+_click($txtHoraEmi);
+_setValue($txtHoraEmi, "1100");
+_keyPress($txtHoraEmi, 9);
+
+_click($txtDataEnt);
+_setValue($txtDataEnt, "280515");
+_keyPress($txtDataEnt, 9);
+
+_click($txtHoraEnt);
+_setValue($txtHoraEnt, "1115");
+_keyPress($txtHoraEnt, 9);
+
+_click($txtDataEnvSefaz);
+_setValue($txtDataEnvSefaz, "280515");
+_keyPress($txtDataEnvSefaz, 9);
+
+_click($txtHoraEnvSefaz);
+_setValue($txtHoraEnvSefaz, "1115");
+_keyPress($txtHoraEnvSefaz, 9);
+
+//------------------------- DADOS DE TRANSPORTE -------------------------
+_click(_div("Dados de transporte"));
+
+_click(_link(0,_near(_label("Frete por conta"))));
+_click(_link("0 - Emitente"));
+
+_click(_textbox(0, _near(_label("Transportador"))));
+_setValue(_textbox(0, _near(_label("Transportador"))),"BR250");
+_keyPress(_textbox(0, _near(_label("Transportador"))),9);
+
+_click(_textbox(0, _near(_label("Modo expedição"))));
+_setValue(_textbox(0, _near(_label("Modo expedição"))),"1");
+_keyPress(_textbox(0, _near(_label("Modo expedição"))),9);
+
+_click(_textbox(0, _near(_label("Placa do veículo"))));
+_setValue(_textbox(0, _near(_label("Placa do veículo"))),"AFC1234");
+_keyPress(_textbox(0, _near(_label("Placa do veículo"))),9);
+
+_click(_textbox(0, _near(_label("UF da placa"))));
+_setValue(_textbox(0, _near(_label("UF da placa"))),"PR");
+_keyPress(_textbox(0, _near(_label("UF da placa"))),9);
+
+_click(_textbox(0, _near(_label("RNTC (ANTT)"))));
+_setValue(_textbox(0, _near(_label("RNTC (ANTT)"))),"1564684");
+_keyPress(_textbox(0, _near(_label("RNTC (ANTT)"))),9);
+
+_click(_textbox(0, _near(_label("Marca"))));
+_setValue(_textbox(0, _near(_label("Marca"))),"Fiat");
+_keyPress(_textbox(0, _near(_label("Marca"))),9);
+
+//-------------------------- LINHAS IMPOSTOS ---------------------------
+
+_click(_radio(0, _near(_label("ICMS"))));
+_click(_radio(0, _near(_label("ICMS ST"))));
+_click(_radio(0, _near(_label("IPI"))));
+_click(_radio(0, _near(_label("PIS"))));
+_click(_radio(0, _near(_label("COFINS"))));
+_click(_radio(0, _near(_label("Todos"))));
+
+//---------------------------------------
+_click(_div("Cancelar"));
+
+

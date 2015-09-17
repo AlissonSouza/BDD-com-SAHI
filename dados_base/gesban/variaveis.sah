@@ -1,0 +1,93 @@
+// Variáveis da Função Carteira
+
+//-------- Header
+var $txtGesBanCod = _textbox(0, _near(_label("Cód.")));
+var $txtGesBanDesc = _textbox(0, _near(_label("Descr.")));
+
+//-------- Geral
+//Identidade
+var $txtGesBanEnd = _textbox(0, _near(_label("Endereço")));
+var $txtGesBanPais = _textbox(0, _near(_label("País")));
+var $txtGesBanPaisDesc = _textbox(1, _near(_label("País")));
+var $linkGesBanPlano = _link(0, _near(_label("Plano")));
+var $txtGesBanCep = _textbox(0, _near(_label("Código Postal")));
+var $txtGesBanCidade = _textbox(0, _near(_label("Cidade")));
+var $txtGesBanEstado = _textbox(0, _near(_label("Estado")));
+var $txtGesBanTel = _textbox(0, _near(_label("Telefone")));
+var $txtGesBanFax = _textbox(0, _near(_label("Fax")));
+var $txtGesBanInt = _textbox(0, _near(_label("Internet")));
+//Domiciliação
+var $txtGesBanDescCurta = _textbox(0, _near(_label("Desc. curta")));
+var $txtGesBanNrRegCom = _textbox(0, _near(_label("Nr.Reg.Comercial")));
+var $txtGesBanNumNib = _textbox(0, _near(_label("Número NIB")));
+var $txtGesBanCodNib = _textbox(0, _near(_label("Código")));
+var $txtGesBanCodIban = _textbox(0, _near(_label("Cód. IBAN")));
+var $txtGesBanDom1 = _textbox(0, _near(_label("Domiciliação 1")));
+var $txtGesBanDom2 = _textbox(0, _near(_label("Domiciliação 2")));
+var $txtGesBanNumEmisTrans = _textbox(0, _near(_label("Nº emissor transf.")));
+var $txtGesBanIntTes = _textbox(0, _near(_label("Interface tesouraria")));
+var $txtGesBanNumEmiDebDir = _textbox(0, _near(_label("Nº emissor débitos diretos")));
+
+//-------- Gestão
+//Parâmetros
+var $txtGesBanCodAcess = _textbox(0, _near(_label("Código acesso")));
+var $txtGesBanEstab = _textbox(0, _near(_label("Estab.")));
+var $txtGesBanSocied = _textbox(0, _near(_label("Socied.")));
+//Descontos
+var $chkGesBanDepCheqBan = _checkbox(0, _near(_label("Depósito cheques banco")));
+var $chkGesBanDepCheqVen = _checkbox(0, _near(_label("Depósito cheques p/venc.")));
+var $chkGesBanAvisoDomVen = _checkbox(0, _near(_label("Aviso domiciliação p/vencimento")));
+//Parâmetros contabilíst.
+var $txtGesBanCodTerc = _textbox(0, _near(_label("Cód. terceiros")));
+var $txtGesBanCodContab = _textbox(0, _near(_label("Código contab.")));
+var $txtGesBanDivisaCont = _textbox(0, _near(_label("Divisa")));
+var $txtGesBanTipoCambio = _textbox(0, _near(_label("Tipo câmbio")));
+var $txtGesBanDataModDiv = _textbox(0, _near(_label("Data de mod. divisa")));
+var $txtGesBanSemPrev = _textbox(0, _near(_label("Sem previsões")));
+//Imputação despesas
+var $txtGesBanNib = _textbox(0, _near(_label("NIB")));
+var $txtGesBanDivisaImput = _textbox(0, _near(_label("Divisa[1]"))); //#TODO - verificar nome label
+var $txtGesBanIBAN = _textbox(0, _near(_label("IBAN")));
+//Condições
+var $txtGesBanCondBan = _textbox(0, _near(_label("Condições bancárias")));
+var $txtGesBanTaxaJur = _textbox(0, _near(_label("Taxa de juros")));
+//Ficheiro
+var $txtGesBanExtFich = _textbox(0, _near(_label("Extenção ficheiro")));
+var $txtGesBanRegComp = _textbox(0, _near(_label("Registo complementar")));
+var $txtGesBanTratLot = _textbox(0, _near(_label("Tratamento p/lotes")));
+
+//-------- Leg. Brasileira
+//Dados Bancarios	
+var $divGesBanCart = _div("Carteira");
+var $txtGesBanAgencia = _textbox(0, _near(_label("Agência")));
+var $txtGesBanAgenciaDig = _textbox(0, _near(_label("DV")));
+var $txtGesBanCC = _textbox(0, _near(_label("Número conta")));
+var $txtGesBanCCDig = _textbox(0, _near(_label("DV[1]")));
+//Carteira
+
+
+
+function clickLinha ($linha, $nomeColuna){
+	_click(_textbox($linha, _under(_div($nomeColuna))));
+}
+
+function clickLinkLinha($linha, $nomeColuna, $valor){
+	_click(_link($linha, _under(_div($nomeColuna))));
+	_click(_link($valor));
+}
+
+function setLinha ($linha, $nomeColuna, $valor){
+	_setValue(_textbox($linha, _under(_div($nomeColuna))), $valor);
+}
+
+function tabLinha ($linha, $nomeColuna){
+	_keyPress(_textbox($linha, _under(_div($nomeColuna))), 9);
+}
+
+function enterLinha ($linha, $nomeColuna){
+	_keyPress(_textbox($linha, _under(_div($nomeColuna))), 13);
+}
+
+
+
+

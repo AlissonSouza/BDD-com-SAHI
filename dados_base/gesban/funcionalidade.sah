@@ -1,0 +1,16 @@
+// este script chama o scrip dos cenarios e diz quais cenarios serao executados.
+if (!$dadosBase) // -- Se não existe o objeto, então cria
+	var $dadosBase = {};
+
+$dadosBase.gesban = {};
+var $_ = $dadosBase.gesban; // -- criando um apelido
+
+_include("../../login.sah")
+_include("cenarios.sah");
+
+$_.cenario01();
+$_.cenario02();
+$_.cenario03();
+$_.cenario04();
+$_.cenario05();
+$_.cenario06();

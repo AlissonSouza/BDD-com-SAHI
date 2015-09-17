@@ -1,0 +1,257 @@
+//Acesso o link da função Orçamento
+
+//	--------------------  FATURA SOMENTE COM SERVIÇO, SEM ELMENTO DE FATURAÇÃO OU DESCONTO EM LINHA
+
+/*_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_div("Orçamentos[1]"))
+
+// Escolhe a transação
+_click(_div("ALL Registo completo orçamentos"));
+
+_wait(2000);
+*/
+//	Adiciona as variaveis - eu havia efetuado o chamado aqui porque existia um for dentro deste script que exigia estar com a função aberta
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/Fatura_Vendas_Variaveis.sah");
+
+_click(_div("Nova"));
+
+_setValue($txtEstabVenda, "BR060");
+_keyPress($txtEstabVenda, 9);
+
+_click($txtTipo);
+_setValue($txtTipo, "BRFCL");
+_keyPress($txtTipo, 9);
+
+_click($txtCliente);
+_setValue($txtCliente, "BR001");
+//_keyPress($txtCliente, 9);
+
+//--------------- Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "60");
+_keyPress($txtOpFiscal, 9);
+
+//------- Separador Faturação ------------
+_click(_div("Faturação"));
+
+_click($txtColetivo);
+_setValue($txtColetivo, "CAR");
+_keyPress($txtColetivo, 9);
+
+//-------------------------  LINHAS ----------------------------
+_click(_div("Linhas"));
+
+//var $prod = 50;
+
+for (var $i=0; $i<1; $i++){ // A QUANTIDADE DE ITENS INSERIDOS SERÁ CONTROLADA PELA VARIAVEL i							
+	
+	//PRODUTO
+	clickLinha("Artigo", $i);
+	setLinha("Artigo", $i, "SER007");
+	//setLinha("Artigo", $i, "BMS0"+$prod);
+	tabLinha("Artigo", $i);
+
+	// QUANTIDADE ORÇ.
+	clickLinha ("Qtd. faturada", $i);
+	setLinha("Qtd. faturada", $i, "1");
+	tabLinha ("Qtd. faturada",$i);
+
+	// PREÇO BRUTO
+	clickLinha("Prç. bruto",$i);
+	setLinha("Prç. bruto",$i, "1000");
+	tabLinha("Prç. bruto",$i);
+
+	//ST do ISS	
+	clickLinha("ST do ISS",$i);
+	setLinha("ST do ISS",$i, "1");
+	tabLinha("ST do ISS",$i);
+
+	// NIVEL TAXA 1 -- ENTER
+	clickLinha("Nível taxa 1",$i);
+	//setLinha("Nível taxa 1", $i , "BRL");
+	enterLinha("Nível taxa 1",$i);
+
+}
+
+_click(_div("Criar"));
+
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+// -------------- Validações com Assert
+_click(_div("Resumo NF-e"));
+
+_assertExists($txtTotMerc);
+_assert(_isVisible($txtTotMerc));
+_assertEqual("", _getValue($txtTotMerc));
+
+_assertExists($txtTotServ);
+_assert(_isVisible($txtTotServ));
+_assertEqual("1 000,00", _getValue($txtTotServ));
+
+_assertExists($txtTotDesc);
+_assert(_isVisible($txtTotDesc));
+_assertEqual("", _getValue($txtTotDesc));
+
+_assertExists($txtTotSuf);
+_assert(_isVisible($txtTotSuf));
+_assertEqual("", _getValue($txtTotSuf));
+
+_assertExists($txtTotDeson);
+_assert(_isVisible($txtTotDeson));
+_assertEqual("", _getValue($txtTotDeson));
+
+_assertExists($txtTotIPIeST);
+_assert(_isVisible($txtTotIPIeST));
+_assertEqual("", _getValue($txtTotIPIeST));
+
+_assertExists($txtTotFrete);
+_assert(_isVisible($txtTotFrete));
+_assertEqual("", _getValue($txtTotFrete));
+
+_assertExists($txtTotSeguro);
+_assert(_isVisible($txtTotSeguro));
+_assertEqual("", _getValue($txtTotSeguro));
+
+_assertExists($txtTotDespAc);
+_assert(_isVisible($txtTotDespAc));
+_assertEqual("", _getValue($txtTotDespAc));
+
+_assertExists($txtTotNFe);
+_assert(_isVisible($txtTotNFe));
+_assertEqual("1 000,00", _getValue($txtTotNFe));
+
+
+//---------------------- ICMS -----------------------------------
+_assertExists($txtTotBaseICMS);
+_assert(_isVisible($txtTotBaseICMS));
+_assertEqual("", _getValue($txtTotBaseICMS));
+
+_assertExists($txtTotICMSop);
+_assert(_isVisible($txtTotICMSop));
+_assertEqual("", _getValue($txtTotICMSop));
+
+_assertExists($txtTotICMSdif);
+_assert(_isVisible($txtTotICMSdif));
+_assertEqual("", _getValue($txtTotICMSdif));
+
+_assertExists($txtTotICMSdeson);
+_assert(_isVisible($txtTotICMSdeson));
+_assertEqual("", _getValue($txtTotICMSdeson));
+
+_assertExists($txtTotICMSdevid);
+_assert(_isVisible($txtTotICMSdevid));
+_assertEqual("", _getValue($txtTotICMSdevid));
+
+// ------------------  ICMS ST------------------------------
+_assertExists($txtTotBaseICMSST);
+_assert(_isVisible($txtTotBaseICMSST));
+_assertEqual("", _getValue($txtTotBaseICMSST));
+
+_assertExists($txtTotValorICMSST);
+_assert(_isVisible($txtTotValorICMSST));
+_assertEqual("", _getValue($txtTotValorICMSST));
+
+// ------------------  IPI --------------------------------------
+_assertExists($txtTotBaseIPI);
+_assert(_isVisible($txtTotBaseIPI));
+_assertEqual("", _getValue($txtTotBaseIPI));
+
+_assertExists($txtTotValorIPI);
+_assert(_isVisible($txtTotValorIPI));
+_assertEqual("", _getValue($txtTotValorIPI));
+
+// ------------------  PIS --------------------------------------
+_assertExists($txtTotBasePIS);
+_assert(_isVisible($txtTotBasePIS));
+_assertEqual("", _getValue($txtTotBasePIS));
+
+_assertExists($txtTotValorPIS);
+_assert(_isVisible($txtTotValorPIS));
+_assertEqual("", _getValue($txtTotValorPIS));
+
+// ------------------  COFINS --------------------------------------
+_assertExists($txtTotBaseCOFINS);
+_assert(_isVisible($txtTotBaseCOFINS));
+_assertEqual("", _getValue($txtTotBaseCOFINS));
+
+_assertExists($txtTotValorCOFINS);
+_assert(_isVisible($txtTotValorCOFINS));
+_assertEqual("", _getValue($txtTotValorCOFINS));
+
+// ------------------  ISS --------------------------------------
+_assertExists($txtTotBaseISS);
+_assert(_isVisible($txtTotBaseISS));
+_assertEqual("1 000,00", _getValue($txtTotBaseISS));
+
+_assertExists($txtTotISS);
+_assert(_isVisible($txtTotISS));
+_assertEqual("50,00", _getValue($txtTotISS));
+
+
+_assertExists($txtTotISSRF);
+_assert(_isVisible($txtTotISSRF));
+_assertEqual("", _getValue($txtTotISSRF));
+
+// ------------------  INSS --------------------------------------
+_assertExists($txtTotBaseINSS);
+_assert(_isVisible($txtTotBaseINSS));
+_assertEqual("1 000,00", _getValue($txtTotBaseINSS));
+
+_assertExists($txtTotINSS);
+_assert(_isVisible($txtTotINSS));
+_assertEqual("80,00", _getValue($txtTotINSS));
+
+// ------------------  Pis Cofins CSLL ----------------------------
+
+_assertExists($txtTotBasePisCofinsCSLL);
+_assert(_isVisible($txtTotBasePisCofinsCSLL));
+_assertEqual("1 000,00", _getValue($txtTotBasePisCofinsCSLL));
+
+_assertExists($txtTotPisRF);
+_assert(_isVisible($txtTotPisRF));
+_assertEqual("30,00", _getValue($txtTotPisRF));
+
+_assertExists($txtTotCofinsRF);
+_assert(_isVisible($txtTotCofinsRF));
+_assertEqual("40,00", _getValue($txtTotCofinsRF));
+
+_assertExists($txtTotCSLLRF);
+_assert(_isVisible($txtTotCSLLRF));
+_assertEqual("20,00", _getValue($txtTotCSLLRF));
+
+// ------------------  IRRF --------------------------------------
+_assertExists($txtTotBaseIRRF);
+_assert(_isVisible($txtTotBaseIRRF));
+_assertEqual("1 000,00", _getValue($txtTotBaseIRRF));
+
+_assertExists($txtTotIRRF);
+_assert(_isVisible($txtTotIRRF));
+_assertEqual("70,00", _getValue($txtTotIRRF));
+
+// ------------------  IRPJ --------------------------------------
+_assertExists($txtTotBaseIRPJ);
+_assert(_isVisible($txtTotBaseIRPJ));
+_assertEqual("1 000,00", _getValue($txtTotBaseIRPJ));
+
+_assertExists($txtTotIRPJ);
+_assert(_isVisible($txtTotIRPJ));
+_assertEqual("60,00", _getValue($txtTotIRPJ));
+
+
+/*
+_click(_div("Abandonar a função"));
+
+
+_click(_div("Eliminar"));
+_click(_div("OK"));
+_click(_div("Ok"));
+
+_wait(2000);
+
+_click(_link("Navigation"));
+*/

@@ -1,0 +1,47 @@
+// Variáveis da Função Sociedade
+
+var $txtEstab = _textbox(0, _near(_label("Estabelecimento")));
+
+
+//-------------Linha----------------
+
+$INDICE_COLUNAS = []; // esta variavel global irá armazenar o nome das colunas como um indice do array e o indice da coluna dentro do array
+
+function acharIndice($nameHeader, $linha){
+	var $cache = $INDICE_COLUNAS[$nameHeader]; // caso exista o indice, este será repassado a variavel cache e assim será maior que 0
+	if ($cache > 0)
+		return $cache; 
+
+	//---
+	var $i = 0;
+	var $tableHeader = "";
+
+	do {
+		$i++;
+		$tableHeader = _getText(_tableHeader($i,_rightOf(_tableHeader("s-grid-title-cell"))));
+	} while($tableHeader != $nameHeader);
+
+	$INDICE_COLUNAS[$nameHeader] = $i + 1;
+	return $i + 1;
+}
+
+function setLinha ($nameHeader, $linha, $valor){
+	var $i = acharIndice($nameHeader, $linha); // aqui a variavel $i irá receber o indice da coluna encontrado na primeira função
+	_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body"), $linha, $i ))),$valor)
+}
+
+function clickLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);
+	_click(_textbox(0, _in( _cell( _table("s-grid-table-body"), $linha, $i ))))
+}
+
+function tabLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);
+	 _keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body"), $linha, $i ))), 9)
+}
+
+function enterLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);	
+	_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body"), $linha, $i ))), 13)
+}
+

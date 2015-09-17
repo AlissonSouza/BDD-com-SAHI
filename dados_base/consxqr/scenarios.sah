@@ -1,0 +1,240 @@
+// Scenarios of the function consxqr - Bank Remittance
+
+_include("phrases.sah");
+//_include("../../vendas/gessih/invoiceNotPosted.sah"); // to create a invoice not posted
+
+//SCENARIO: 01 - not allow end data less than start date
+$dadosBase.consxqr.scenario01 = function (){
+	try{
+		_log("------------------- Start of the Scenario 01 CONSXQR--------------------");
+		this.givenBankRemittance();
+		this.givenDefaultSearchFilters();
+		this.whenInformEndDateLessStartDate();		
+		this.thenMustShowMessage_("Data incorreta");	
+		this.screenExit();		
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 01 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 		
+	}
+}
+
+//SCENARIO: 02 -  not search open items if the invoice is not posted
+$dadosBase.consxqr.scenario02 = function (){
+	try{
+		_log("------------------- Start of the Scenario 02 CONSXQR--------------------");
+		this.givenInvoiceNotPosted();
+		this.givenBankRemittance();
+		//this.givenSearchFilters_9Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', true);  // Estab - Conta - Carteira - Cliente - DatEmiIni - DatEmiFim - DatVencIni - DatVEncFim - Tit Ja Ger
+		this.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', true);
+		this.whenSearch();
+		this.thenEmptyTable();
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 02 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 03 - if nosso numero exists, when process it should not change
+$dadosBase.consxqr.scenario03 = function (){
+	try{
+		_log("------------------- Start of the Scenario 03 CONSXQR--------------------");
+		this.givenOpenItemWithNossoNumero();
+		this.givenBankRemittance();
+		this.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', true);
+		this.whenProcessAll();
+		this.thenCantChangeNossoNumero_($dadosBase.consxqr.dados.nossoNumero); //THEN can't change the generate number
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 03 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 04 - nao pode gerar nosso numero se a carteira estiver configurada para o banco gerar nosso numero
+$dadosBase.consxqr.scenario04 = function (){
+	try{
+		_log("------------------- Start of the Scenario 04 CONSXQR--------------------");
+		this.givenOpenItem_3("BR050", "BR115", "BOL30");
+		this.givenBankRemittance();
+		this.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaCoNo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', true);
+		this.whenProcessAll();
+		this.thenCantChangeNossoNumero_($dadosBase.consxqr.dados.nossoNumero); 
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 04 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+
+//SCENARIO: 05 - deve existir uma confirmacao ao se clicar em 'processar todos', 'Todos os título filtrados serão processados, confirma?'
+$dadosBase.consxqr.scenario05 = function (){
+	try{
+		_log("------------------- Start of the Scenario 05 CONSXQR--------------------");
+		this.givenBankRemittance();
+		this.givenDefaultSearchFilters();
+		this.whenSearch();
+		this.whenProcessAll();
+		this.thenMustShowMessage_("Todos os título filtrados serão processados, confirma?");	
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 05 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 06 - se o titulo foi enviado para o banco nao deve aparecer na lista, desde que nao esteja marcada a checkbox 'Titulos enviados'
+$dadosBase.consxqr.scenario06 = function (){
+	try{
+		_log("------------------- Start of the Scenario 06 CONSXQR--------------------");
+		this.givenOpenItemWithNossoNumero();
+		this.givenBankRemittance();
+		this.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', false);
+		this.whenSearch();
+		this.thenEmptyTable();
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 06 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 07 - nao permitir a exclusao de um vencimento boleto remetido ao banco
+$dadosBase.consxqr.scenario07 = function (){
+	try{
+		_log("------------------- Start of the Scenario 07 CONSXQR--------------------");
+		this.givenOpenItemWithNossoNumero();
+		this.whenTryDeleteOpenItemPosted(); //#TODO - melhorar
+		this.thenMustShowMessage_("Não é possivel deletar vencimentos já transmitidos ao banco.");
+		this.screenExit();
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 07 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 08 - nao permitir a alteracao do tipo de pagamento se boleto remetido ao banco
+$dadosBase.consxqr.scenario08 = function (){
+	try{
+		_log("------------------- Start of the Scenario 08 CONSXQR--------------------");
+		this.givenOpenItemWithNossoNumero();
+		this.whenTryAlterPayMethod
+		this.thenMustShowMessage_("Não é possivel alterar o modo de pagamento, este titulo já foi enviado ao banco");
+		this.screenExit();
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 08 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 09 - nao pertmitir selecionar uma carteira que não existe para o banco informado
+$dadosBase.consxqr.scenario09 = function (){
+	try{
+		_log("------------------- Start of the Scenario 09 CONSXQR--------------------");
+		this.givenBankRemittance();
+		this.givenDefaultSearchFilters();
+		this.whenSelectCarteira_("Gener");
+		this.thenMustShowMessage_("A carteira selecionada não pertence ao banco informado");			
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 09 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 10 - trazer somente os titulos que foram criados com modo de pagamento boleto
+$dadosBase.consxqr.scenario10 = function (){
+	try{
+		_log("------------------- Start of the Scenario 10 CONSXQR--------------------");
+		this.givenInvoicePaymentMethod_("CASH");
+		this.givenBankRemittance();
+		this.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', false);
+		this.whenSearch();
+		this.thenEmptyTable()		
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 10 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 11 - GESBAN without agencia e conta corrente
+$dadosBase.consxqr.scenario11 = function (){
+	try{
+		_log("------------------- Start of the Scenario 11 CONSXQR--------------------");
+		this.givenBankRemittance();
+		this.whenSelectGesban_("NoAgCc"); 
+		this.thenMustShowMessage_("Esta conta não possui agencia e conta corrente cadastradas.");
+		this.thenField_Value_("Conta corrente", "");		//THEN not allow use that account
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 11 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 12 - GESBAN without carteira linked
+$dadosBase.consxqr.scenario12 = function (){
+	try{
+		_log("------------------- Start of the Scenario 12 CONSXQR--------------------");
+		this.givenBankRemittance();
+		this.whenSelectGesban_("NoCart"); 
+		this.thenMustShowMessage_("Esta conta não possui uma carteira vinculada.");
+		this.thenField_Value_("Conta corrente", "");		//THEN not allow use that account
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 12 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}
+
+//SCENARIO: 13 - Testing the search filters
+$dadosBase.consxqr.scenario13 = function (){
+	try{
+		_log("------------------- Start of the Scenario 13 CONSXQR--------------------");
+		this.givenOpenItem_3("BR050", "BR115", "BOL30");
+		this.givenBankRemittance();
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", "", "", "", "", "", "", false);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", $vendas.gessih.dados.numInvoice);
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", "", "", $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, "", "", false);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", $vendas.gessih.dados.numInvoice);
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", "", "", "", "", $vendas.gessih.dados.dataVenc, $vendas.gessih.dados.dataVenc, false);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", $vendas.gessih.dados.numInvoice);
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", $vendas.gessih.dados.cliente, "", "", "", "", "", false);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", $vendas.gessih.dados.numInvoice);
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", "", $vendas.gessih.dados.numInvoice, "", "", "", "", false);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", $vendas.gessih.dados.numInvoice);
+		this.whenProcessAll();
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", "", $vendas.gessih.dados.numInvoice, "", "", "", "", false);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", "");
+		this.givenSearchFilters_10Parametros("BR050","BkAut","BaCoNo", "", $vendas.gessih.dados.numInvoice, "", "", "", "", true);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Título", $vendas.gessih.dados.numInvoice);
+		this.screenExit();
+	}catch ($e){
+		_log("-------- Error occurred in Scenario 13 ---- CONSXQR"); // simple logging. no failure		
+		_logExceptionAsFailure($e); // Logs the exception with fail		
+		this.screenExit(); //Corrective action 	
+	}
+}		

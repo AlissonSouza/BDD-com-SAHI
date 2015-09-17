@@ -1,0 +1,359 @@
+// Para CFOP sempre existirá ICMS e PIS/COFINS, algumas CFOP não terão ICMS ST ou IPI e o que fazer sobre o SUFRAMA?
+// Preciso de CFOP para compras e vendas especificas para o estabelecimento: BR050
+
+//Acesso o link do cadastro de CFOP
+/*_click(_link("Navigation"));
+
+_click(_div("Dados de base"));
+
+_click(_div("Códigos CFOP"));
+
+_wait(2000);
+*/
+//	Adiciona as variaveis - eu havia efetuado o chamado aqui porque existia um for dentro deste script que exigia estar com a função aberta
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/CFOP_Variaveis.sah");
+
+
+
+// ----------------------- COMPRAS ----------------------------
+_click(_div("Nova"));
+
+_click($txtCodigoCFOP);
+_setValue($txtCodigoCFOP, "1101");
+_keyPress($txtCodigoCFOP, 9);
+
+_click($txtDescricao);
+_setValue($txtDescricao, "Compra para industrialização");
+_keyPress($txtDescricao, 9);
+
+_click($txtDataInicio);
+_setValue($txtDataInicio, "01-01-14");
+_keyPress($txtDataInicio, 9);
+
+_click($txtEstabelecimento);
+_setValue($txtEstabelecimento, "BR050");
+_keyPress($txtEstabelecimento, 9);
+
+try{
+	_click(_div("Eliminar"));
+	_click(_link("OK"));
+	_click(_div("Ok"));
+	
+	_click(_div("Nova"));
+
+	_click($txtCodigoCFOP);
+	_setValue($txtCodigoCFOP, "1101");
+	_keyPress($txtCodigoCFOP, 9);
+
+	_click($txtDescricao);
+	_setValue($txtDescricao, "Compra para industrialização");
+	_keyPress($txtDescricao, 9);
+
+	_click($txtDataInicio);
+	_setValue($txtDataInicio, "01-01-14");
+	_keyPress($txtDataInicio, 9);
+
+	_click($txtEstabelecimento);
+	_setValue($txtEstabelecimento, "BR050");
+	_keyPress($txtEstabelecimento, 9);
+
+}catch ($e){
+	_click(_div("Geral"));
+}
+
+// SEPARADOR GERAL
+_click(_div("Geral"));
+
+_click($txtDescCompleta);
+_setValue($txtDescCompleta, "Compra para industrialização");
+_keyPress($txtDescCompleta, 9);
+
+_click($linkCatCFOP);
+_click(_link("Compra (Nacional)"));
+
+//SEPARADOR PARAMETROS
+_click(_div("Parâmetros"));
+
+// Escolha de tributação
+_check($cboxPIS);
+		
+_check($cboxCOFINS);
+	
+_check($cboxIPI); 
+	
+_check($cboxICMS); 
+ 
+_uncheck($cboxICMS_ST); 
+		 
+_uncheck($cboxSUFRAMA); 
+
+ _click(_div("Criar"));
+ 
+ _click(_div("Continuar"));
+
+ 
+ // ----------------------- 5101 - 6101 - 6110 - VENDAS ----------------------------
+ var $auxCFOP = "5101";
+  
+ for (var $i = 0; $i < 3; $i++){ 
+ 
+	 _click(_div("Nova"));
+
+	_click($txtCodigoCFOP);
+	_setValue($txtCodigoCFOP, $auxCFOP);
+	_keyPress($txtCodigoCFOP, 9);
+
+	_click($txtDescricao);
+	if ($auxCFOP == "6110"){
+		_setValue($txtDescricao, "BR050 - Venda de mercadoria adquirida/recebida de tercei");
+	}else{
+		_setValue($txtDescricao, "BR050 - Venda de produção do estabelecimento");
+	}
+	_keyPress($txtDescricao, 9);
+
+	_click($txtDataInicio);
+	_setValue($txtDataInicio, "01-01-14");
+	_keyPress($txtDataInicio, 9);
+
+	_click($txtEstabelecimento);
+	_setValue($txtEstabelecimento, "BR050");
+	_keyPress($txtEstabelecimento, 9);
+
+	try{
+		_click(_div("Eliminar"));
+		_click(_link("OK"));
+		_click(_div("Ok"));
+		
+		_click(_div("Nova"));
+
+		_click($txtCodigoCFOP);
+		_setValue($txtCodigoCFOP, $auxCFOP);
+		_keyPress($txtCodigoCFOP, 9);
+
+		_click($txtDescricao);
+		if ($auxCFOP == "6110"){
+			_setValue($txtDescricao, "BR050 - Venda de mercadoria adquirida/recebida de tercei");
+		}else{
+			_setValue($txtDescricao, "BR050 - Venda de produção do estabelecimento");
+		}
+		_keyPress($txtDescricao, 9);
+
+		_click($txtDataInicio);
+		_setValue($txtDataInicio, "01-01-14");
+		_keyPress($txtDataInicio, 9);
+
+		_click($txtEstabelecimento);
+		_setValue($txtEstabelecimento, "BR050");
+		_keyPress($txtEstabelecimento, 9);
+	}catch ($e){
+		_click(_div("Geral"));
+	}
+	// SEPARADOR GERAL
+	_click(_div("Geral"));
+
+	_click($txtDescCompleta);
+	if($auxCFOP == "6110"){
+		_setValue($txtDescCompleta, "Venda de mercadoria adquirida ou recebida de terceiros, destinada à Zona Franca de Manaus ou Áreas de Livre Comércio");
+	}else{
+		_setValue($txtDescCompleta, "Venda de produção do estabelecimento");
+	}
+	_keyPress($txtDescCompleta, 9);
+
+	_click($linkCatCFOP);
+	_click(_link("Venda (Nacional)"));
+
+	//SEPARADOR PARAMETROS
+	_click(_div("Parâmetros"));
+
+	// Escolha de tributação
+	_check($cboxPIS);
+		
+	_check($cboxCOFINS);
+	
+	_check($cboxIPI); 
+	
+	_check($cboxICMS); 
+	 
+	_uncheck($cboxICMS_ST); 
+	
+	if ($auxCFOP == "6110"){
+		_check($cboxSUFRAMA); 
+	}else{
+		_uncheck($cboxSUFRAMA); 
+	}
+	_click(_div("Criar"));
+	 
+	_click(_div("Continuar"));
+	
+	if ($auxCFOP == "5101"){
+		$auxCFOP = "6101";
+	}else{
+		$auxCFOP = "6110";
+	}
+	 
+}
+ // ------------------- 
+ 
+  // ----------------------- 5401 - 6401 - VENDAS ----------------------------
+ $auxCFOP = "5401";
+ 
+ for (var $j = 0; $j < 2; $j++){ 
+	 _click(_div("Nova"));
+
+	_click($txtCodigoCFOP);
+	_setValue($txtCodigoCFOP, $auxCFOP);
+	_keyPress($txtCodigoCFOP, 9);
+
+	_click($txtDescricao);
+	_setValue($txtDescricao, "BR050 - Venda de produção do estabelecimento operacao");
+	_keyPress($txtDescricao, 9);
+
+	_click($txtDataInicio);
+	_setValue($txtDataInicio, "01-01-14");
+	_keyPress($txtDataInicio, 9);
+
+	_click($txtEstabelecimento);
+	_setValue($txtEstabelecimento, "BR050");
+	_keyPress($txtEstabelecimento, 9);
+
+		try{
+		_click(_div("Eliminar"));
+		_click(_link("OK"));
+		_click(_div("Ok"));
+		
+		_click(_div("Nova"));
+
+		_click($txtCodigoCFOP);
+		_setValue($txtCodigoCFOP, $auxCFOP);
+		_keyPress($txtCodigoCFOP, 9);
+
+		_click($txtDescricao);
+		_setValue($txtDescricao, "BR050 - Venda de produção do estabelecimento operacao");
+		_keyPress($txtDescricao, 9);
+
+		_click($txtDataInicio);
+		_setValue($txtDataInicio, "01-01-14");
+		_keyPress($txtDataInicio, 9);
+
+		_click($txtEstabelecimento);
+		_setValue($txtEstabelecimento, "BR050");
+		_keyPress($txtEstabelecimento, 9);
+	}catch ($e){
+		_click(_div("Geral"));
+	}
+	
+	// SEPARADOR GERAL
+	_click(_div("Geral"));
+
+	_click($txtDescCompleta);
+	_setValue($txtDescCompleta, "Venda de produção do estabelecimento em operação com produto sujeito ao regime de substituição tributária, na condição de contribuinte substituto");
+	_keyPress($txtDescCompleta, 9);
+
+	_click($linkCatCFOP);
+	_click(_link("Venda (Nacional)"));
+
+	//SEPARADOR PARAMETROS
+	_click(_div("Parâmetros"));
+
+	// Escolha de tributação
+	_check($cboxPIS);
+		
+	_check($cboxCOFINS);
+	
+	_check($cboxIPI); 
+	
+	_check($cboxICMS); 
+	 
+	_check($cboxICMS_ST); 
+		 
+	_uncheck($cboxSUFRAMA); 
+		 
+	_click(_div("Criar"));
+	 
+	_click(_div("Continuar"));
+	 
+	$auxCFOP = "6401" 
+	 
+}
+
+// ----------------------- 5102 - 6102 - VENDAS ----------------------------
+ $auxCFOP = "5102";
+ 
+ for (var $j = 0; $j < 2; $j++){ 
+	 _click(_div("Nova"));
+
+	_click($txtCodigoCFOP);
+	_setValue($txtCodigoCFOP, $auxCFOP);
+	_keyPress($txtCodigoCFOP, 9);
+
+	_click($txtDescricao);
+	_setValue($txtDescricao, "BR050 - Venda mercadoria adquirida/recebida de terceiros");
+	_keyPress($txtDescricao, 9);
+
+	_click($txtDataInicio);
+	_setValue($txtDataInicio, "01-01-14");
+	_keyPress($txtDataInicio, 9);
+
+	_click($txtEstabelecimento);
+	_setValue($txtEstabelecimento, "BR050");
+	_keyPress($txtEstabelecimento, 9);
+
+		try{
+		_click(_div("Eliminar"));
+		_click(_link("OK"));
+		_click(_div("Ok"));
+		
+		_click(_div("Nova"));
+
+		_click($txtCodigoCFOP);
+		_setValue($txtCodigoCFOP, $auxCFOP);
+		_keyPress($txtCodigoCFOP, 9);
+
+		_click($txtDescricao);
+		_setValue($txtDescricao, "BR050 - Venda mercadoria adquirida/recebida de terceiros");
+		_keyPress($txtDescricao, 9);
+
+		_click($txtDataInicio);
+		_setValue($txtDataInicio, "01-01-14");
+		_keyPress($txtDataInicio, 9);
+
+		_click($txtEstabelecimento);
+		_setValue($txtEstabelecimento, "BR050");
+		_keyPress($txtEstabelecimento, 9);
+	}catch ($e){
+		_click(_div("Geral"));
+	}
+	
+	// SEPARADOR GERAL
+	_click(_div("Geral"));
+
+	_click($txtDescCompleta);
+	_setValue($txtDescCompleta, "Venda de mercadoria adquirida ou recebida de terceiros");
+	_keyPress($txtDescCompleta, 9);
+
+	_click($linkCatCFOP);
+	_click(_link("Venda (Nacional)"));
+
+	//SEPARADOR PARAMETROS
+	_click(_div("Parâmetros"));
+
+	// Escolha de tributação
+	_check($cboxPIS);
+		
+	_check($cboxCOFINS);
+	
+	_uncheck($cboxIPI); 
+	
+	_check($cboxICMS); 
+	 
+	_uncheck($cboxICMS_ST); 
+		 
+	_uncheck($cboxSUFRAMA); 
+		 
+	_click(_div("Criar"));
+	 
+	_click(_div("Continuar"));
+	 
+	$auxCFOP = "6102" 
+	 
+}

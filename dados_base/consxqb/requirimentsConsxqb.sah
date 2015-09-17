@@ -1,0 +1,12 @@
+// Requiriments of the funciont consxqb - Boleto
+
+if (!$dadosBase) // -- if not exist the object, then create
+	var $dadosBase = {};
+
+if(!$dadosBase.consxqb)
+	$dadosBase.consxqb = {};
+
+var $_ = $dadosBase.consxqb; // -- create an alias
+
+_include("../../login.sah")
+//_include("phrases.sah");

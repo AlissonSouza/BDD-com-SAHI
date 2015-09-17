@@ -1,0 +1,121 @@
+/*
+	Neste Script será validado o rateio do valor dos acrescimos (Frete, Seguro, Desp. Acess)
+	Calculo do IPI, ICMS, PIS, COFINS
+*/
+
+_click(_div("Nova"));
+_click(_textbox(9));
+_setValue(_textbox(9), "br007");
+_click(_textbox(10));
+_setValue(_textbox(10), "sbrl");
+_click(_textbox(16));
+_setValue(_textbox(16), "br101");
+_click(_textbox(18));
+_setValue(_textbox(18), "21");
+
+_click(_div("Entrega"));
+_setValue(_textbox(41), "br007");
+_click(_textbox(41));
+_click(_textbox(43));
+
+_click(_div("Faturação"));
+_click(_textbox(89));
+_setValue(_textbox(89), "50,01");
+_click(_textbox(92));
+_setValue(_textbox(92), "100,02");
+_click(_textbox(95));
+_setValue(_textbox(95), "150,03");
+
+_click(_div("Linhas"));
+_click(_textbox(105));
+_setValue(_textbox(105), "bms001");
+_click(_textbox(109));
+_setValue(_textbox(109), "10");
+_click(_textbox(114));
+_click(_textbox(126));
+_setValue(_textbox(126), "5101");
+_click(_textbox(128));
+_setValue(_textbox(128), "0");
+_click(_textbox(129));
+_setValue(_textbox(129), "00");
+_click(_textbox(132));
+
+_click(_textbox(200));
+_click(_textbox(196));
+_setValue(_textbox(196), "bms002");
+_click(_textbox(200));
+_setValue(_textbox(200), "8");
+_click(_textbox(217));
+_setValue(_textbox(217), "5101");
+_click(_textbox(219));
+_setValue(_textbox(219), "0");
+_click(_textbox(220));
+_setValue(_textbox(220), "00");
+
+_click(_textbox(291));
+_click(_textbox(287));
+_setValue(_textbox(287), "bms003");
+_click(_textbox(291));
+_setValue(_textbox(291), "6");
+_click(_textbox(308));
+_setValue(_textbox(308), "5101");
+_click(_textbox(310));
+_setValue(_textbox(310), "0");
+_click(_textbox(311));
+_setValue(_textbox(311), "00");
+
+_click(_div("Criar"));
+
+//TOTAL MERCADORIAS
+_assertExists(_textbox(476));
+_assert(_isVisible(_textbox(476)));
+_assertEqual("2 427,00", _getValue(_textbox(476)));
+
+// ICMS
+_assertExists(_textbox(475));
+_assert(_isVisible(_textbox(475)));
+_assertEqual("2 727,06", _getValue(_textbox(475)));
+_assertExists(_textbox(478));
+_assert(_isVisible(_textbox(478)));
+_assertEqual("490,87", _getValue(_textbox(478)));
+
+// IPI
+_assertExists(_textbox(488));
+_assert(_isVisible(_textbox(488)));
+_assertEqual("2 727,06", _getValue(_textbox(488)));
+_assertExists(_textbox(490));
+_assert(_isVisible(_textbox(490)));
+_assertEqual("272,70", _getValue(_textbox(490)));
+
+// PIS
+_assertExists(_textbox(477));
+_assert(_isVisible(_textbox(477)));
+_assertEqual("2 727,06", _getValue(_textbox(477)));
+_assertExists(_textbox(480));
+_assert(_isVisible(_textbox(480)));
+_assertEqual("17,72", _getValue(_textbox(480)));
+
+// COFINS
+_assertExists(_textbox(489));
+_assert(_isVisible(_textbox(489)));
+_assertEqual("2 727,06", _getValue(_textbox(489)));
+_assertExists(_textbox(491));
+_assert(_isVisible(_textbox(491)));
+_assertEqual("81,81", _getValue(_textbox(491)));
+
+// ACRESCIMOS
+_assertExists(_textbox(511));
+_assert(_isVisible(_textbox(511)));
+_assertEqual("50,01", _getValue(_textbox(511)));
+_assertExists(_textbox(512));
+_assert(_isVisible(_textbox(512)));
+_assertEqual("100,02", _getValue(_textbox(512)));
+_assertExists(_textbox(513));
+_assert(_isVisible(_textbox(513)));
+_assertEqual("150,03", _getValue(_textbox(513)));
+
+// TOTAL GERAL
+_assertExists(_textbox(482));
+_assert(_isVisible(_textbox(482)));
+_assertEqual("2 999,76", _getValue(_textbox(482)));
+

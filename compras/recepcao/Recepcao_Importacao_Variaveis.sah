@@ -1,0 +1,899 @@
+//-------------- Variáveis do cabeçalho
+
+var $pthTxtEstabRecepcao = _textbox(0, _near(_label("Estabelecimento receção")));
+var $pthTxtFornecedor =  _textbox(0, _near(_label("Fornecedor")));
+var $pthTxtDivisa = _textbox(0, _near( _label("Divisa")));
+
+var $pthTxtDataRecepcao = _textbox(0, _near( _label("Data recepção")));
+
+//-------------- Separador Dados Gerais
+var $pthTxtEndFor = _textbox(0, _near(_label("End. fornecedor")));
+var $pthCboxCalculoAutomatico = _checkbox(0, _near(_label("Calcular impostos automaticamente")));
+
+var $pthTxtOpFiscal = _textbox(0, _near(_label("Operação fiscal")));
+/*
+_label("Número NF-e")
+_label("Série")
+_label("Chave Acesso NF-e")
+_label("Data emissão")
+_label("Hora emissão")
+_label("Data entrada")
+_label("Hora entrada")
+*/
+var $pthTxtNumeroDI = _textbox(0, _near(_label("Número DI")));
+var $pthTxtDataRegistro = _textbox(0, _near(_label("Data registro")));
+var $pthTxtLocalDesem = _textbox(0, _near(_label("Local desembaraço")));
+var $pthTxtUFDesem = _textbox(0, _near(_label("UF")));
+var $pthTxtDataDesem = _textbox(0, _near(_label("Data desembaraço")));
+var $pthTxtFormaImp = _textbox(0, _near(_label("Forma importação")));
+var $pthLinkFormaImp = _link(0, _near(_label("Forma importação")));
+var $pthTxtAdquirente = _textbox(0, _near(_label("Adquirente")));
+var $pthTxtUFAdquirente = _textbox(0, _near(_label("UF adquirente")));
+var $pthTxtCodExportador = _textbox(0, _near(_label("Código exportador")));
+
+//-------------- Dados de Transporte
+var $pthLinkFretePorConta = _link(0, _near(_label("Frete por conta")));
+/*
+_label("Transportador")
+_label("Modo expedição")
+_label("Placa do veículo")
+_label("UF da placa")
+_label("RNTC (ANTT)")
+_label("Marca")
+*/
+
+var $pthLinkViaTransp = _link(0, _near( _label("Via de transporte internacional DI"))); 
+var $pthTxtVlrAFRMM =  _textbox(0, _near( _label("Valor da AFRMM")));
+var $pthTxtDespImp = _textbox(0, _near( _label("Despesas de importação")));
+var $pthTxtCredPresum =  _textbox(0, _near(_label("Crédito presumido")));
+var $pthTxtIOF =  _textbox(0, _near(_label("IOF")));
+
+//-------------- Totalizadores para o teste do SAHI de valores
+var $pthTxtTotMerc = _textbox(0, _near(_label("Valor mercadorias")));
+var $pthTxtTotServ = _textbox(0, _near(_label("Valor serviços")));
+var $pthTxtTotDesc = _textbox(0, _near(_label("Valor descontos")));
+var $pthTxtTotSuf = _textbox(0, _near(_label("Valor desconto SUFRAMA")));
+var $pthTxtTotDeson = _textbox(0, _near(_label("Valor desconto desoneração")));
+var $pthTxtTotIPIeST = _textbox(0, _near(_label("Valor IPI + ICMS ST")));
+var $pthTxtTotFrete = _textbox(0, _near(_label("Frete")));
+var $pthTxtTotSeguro = _textbox(0, _near(_label("Seguro")));
+var $pthTxtTotDespAc = _textbox(0, _near(_label("Despesas acessórias")));
+var $pthTxtTotRecepcao = _textbox(0, _near(_label("Valor total NF-e")));
+
+
+var $pthTxtTotBaseICMS = _textbox(0, _near(_label("Base cálculo ICMS")));
+var $pthTxtTotICMSop = _textbox(0, _near(_label("Valor ICMS operação")));
+var $pthTxtTotICMSdif = _textbox(0, _near(_label("Valor ICMS diferido")));
+var $pthTxtTotICMSdeson = _textbox(0, _near(_label("Valor ICMS desonerado")));
+var $pthTxtTotICMSdevid = _textbox(0, _near(_label("Valor ICMS devido")));
+
+var $pthTxtTotBaseICMSST = _textbox(0, _near(_label("Base cálculo ICMS ST")));
+var $pthTxtTotValorICMSST= _textbox(0, _near(_label("Valor ICMS ST")));
+
+var $pthTxtTotBaseIPI = _textbox(0, _near(_label("Base cálculo IPI")));
+var $pthTxtTotValorIPI = _textbox(0, _near(_label("Valor IPI")));
+
+var $pthTxtTotBasePIS = _textbox(0, _near(_label("Base cálculo PIS (R\$)")));
+var $pthTxtTotBasePISQtde = _textbox(0, _near(_label("Base cálculo PIS (Qtde)")));
+var $pthTxtTotValorPIS = _textbox(0, _near(_label("Valor PIS")));
+
+var $pthTxtTotBaseCOFINS = _textbox(0, _near(_label("Base cálculo COFINS (R\$)")));
+var $pthTxtTotBaseCOFINSQtde = _textbox(0, _near(_label("Base cálculo COFINS (Qtde)")));
+var $pthTxtTotValorCOFINS = _textbox(0, _near(_label("Valor COFINS")));
+
+//------------- SERVIÇO
+var $pthTxtTotBaseISS = _textbox(0, _near( _label("Base cálculo ISS")));
+var $pthTxtTotISS = _textbox(0, _near(_label("Valor ISS")));
+var $pthTxtTotISSRF = _textbox(0, _near(_label("Valor ISS RF")));
+
+var $pthTxtTotBaseINSS = _textbox(0, _near( _label("Base cálculo INSS")));
+var $pthTxtTotINSS = _textbox(0, _near(_label("Valor INSS")));
+
+var $pthTxtTotBasePisCofinsCSLL = _textbox(0, _near( _label("Base PIS/COFINS/CSLL")));
+var $pthTxtTotPisRF= _textbox(0, _near(_label("Valor PIS RF")));
+var $pthTxtTotCofinsRF= _textbox(0, _near(_label("Valor COFINS RF")));
+var $pthTxtTotCSLLRF = _textbox(0, _near(_label("Valor CSLL RF")));
+
+var $pthTxtTotBaseIRRF = _textbox(0, _near( _label("Base cálculo IRRF")));
+var $pthTxtTotIRRF = _textbox(0, _near(_label("Valor IRRF")));
+
+var $pthTxtTotBaseIRPJ = _textbox(0, _near( _label("Base cálculo IRPJ")));
+var $pthTxtTotIRPJ = _textbox(0, _near(_label("Valor IRPJ")));
+
+
+//-------------Linha----------------
+
+$PTH_INDICE_COLUNAS = []; // esta variavel global irá armazenar o nome das colunas como um indice do array e o indice da coluna dentro do array
+
+function pthAcharIndice($nameHeader, $linha){
+	var $cache = $PTH_INDICE_COLUNAS[$nameHeader]; // caso exista o indice, este será repassado a variavel cache e assim será maior que 0
+		
+	if ($cache > 0)
+		return $cache; 
+
+	//---
+	var $i = 0;
+	var $tableHeader = "";
+
+	
+		do {
+			$i++;
+			$tableHeader = _getText(_tableHeader($i,_rightOf(_tableHeader("s-grid-title-cell[17]"))));
+		} while($tableHeader != $nameHeader);
+		
+	$PTH_INDICE_COLUNAS[$nameHeader] = $i + 2;
+	return $i + 2;	
+}
+
+function pthSetLinha ($nameHeader, $linha, $valor){
+	var $i = pthAcharIndice($nameHeader, $linha); // aqui a variavel $i irá receber o indice da coluna encontrado na primeira função
+
+	_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i-1 ))),$valor)
+	
+}
+function pthClickLinha ($nameHeader, $linha){
+	var $i = pthAcharIndice($nameHeader, $linha);
+		
+	_click(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i-1 ))));
+	
+}
+
+function pthTabLinha ($nameHeader, $linha){
+	var $i = pthAcharIndice($nameHeader, $linha);
+	
+	_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i-1))), 9)
+	
+}
+
+function pthEnterLinha ($nameHeader, $linha){
+	var $i = pthAcharIndice($nameHeader, $linha);	
+
+	_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i-1 ))), 13)
+	
+}
+//-------------------------------- Linhas Impostos  -----------------------------------------
+$PTH_INDICE_COLUNAS2 = []; // esta variavel global irá armazenar o nome das colunas como um indice do array e o indice da coluna dentro do array
+//var $aux = 0; //tentativa de melhoria na velocidade do código
+
+function pthAcharIndiceImpostos($nameHeader, $linha){
+	var $cache = $PTH_INDICE_COLUNAS2[$nameHeader]; // caso exista o indice, este será repassado a variavel cache e assim será maior que 0
+	if ($cache > 0)
+		return $cache; 
+
+	//---
+	var $i = 0;
+	var $tableHeader = "";
+
+	/*try{ // tentativa de melhoria na velocidade do código
+		do {
+			$aux++;
+			$tableHeader = _getText(_tableHeader($aux,_rightOf(_tableHeader("s-grid-title-cell[17]"))));
+		} while($tableHeader != $nameHeader || $aux < 100);	
+		$PTH_INDICE_COLUNAS2[$nameHeader] = $aux + 1;
+		return $aux + 1;
+	}catch ($e){
+		*/
+		do {
+			$i++;
+			$tableHeader = _getText(_tableHeader($i,_rightOf(_tableHeader("s-grid-title-cell[111]"))));
+		} while($tableHeader != $nameHeader);
+		//$aux = i;// tentativa de melhoria na velocidade do código
+		
+		$PTH_INDICE_COLUNAS2[$nameHeader] = $i + 1;
+		return $i + 1;
+	//}		
+	
+}
+
+function pthSetLinhaImpostos ($nameHeader, $linha, $valor){
+	var $i = pthAcharIndiceImpostos($nameHeader, $linha); // aqui a variavel $i irá receber o indice da coluna encontrado na primeira função
+
+	_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[4]"), $linha, $i ))),$valor)
+
+}
+
+function pthClickLinhaImpostos ($nameHeader, $linha){
+	var $i = pthAcharIndiceImpostos($nameHeader, $linha);
+		
+	_click(_textbox(0, _in( _cell( _table("s-grid-table-body[4]"), $linha, $i))));
+	
+}
+
+function pthClickLinkImpostos ($nameHeader, $linha){
+	var $i = pthAcharIndiceImpostos($nameHeader, $linha);
+		
+	_click(_link(0, _in( _cell( _table("s-grid-table-body[4]"), $linha, $i))));	
+}
+
+function pthTabLinhaImpostos ($nameHeader, $linha){
+	var $i = pthAcharIndiceImpostos($nameHeader, $linha);
+	 _keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[4]"), $linha, $i ))), 9)
+}
+
+function pthEnterLinhaImpostos ($nameHeader, $linha){
+	var $i = pthAcharIndiceImpostos($nameHeader, $linha);	
+
+	_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[4]"), $linha, $i ))), 13)
+	
+}
+
+//----------------------------------------------------
+
+function pthAcharCFOP ($artigo){
+	switch ($artigo){
+	case "BMS051" :
+	case "BMS052" :
+	case "BMS055" :
+	case "BMS056" :
+	case "BMS067" :
+	case "BMS068" :
+	case "BMS073" :
+	case "BMS074" :
+	case "BMS075" :
+	case "BMS076" :
+	case "BMS077" :
+		return "2401";
+	case "BMS063" :
+	case "BMS064" :
+	case "BMS065" :
+	case "BMS066" :
+	case "BMS069" :	
+		return "2102";
+	default :
+		return "2101";
+	}
+}
+
+function pthAcharCFOPImportacao ($artigo){
+	switch ($artigo){
+	case "BMS051" :
+	case "BMS052" :
+	case "BMS055" :
+	case "BMS056" :
+	case "BMS067" :
+	case "BMS068" :
+	case "BMS073" :
+	case "BMS074" :
+	case "BMS075" :
+	case "BMS076" :
+	case "BMS077" :
+		return "3102";
+	case "BMS063" :
+	case "BMS064" :
+	case "BMS065" :
+	case "BMS066" :
+	case "BMS069" :	
+		return "3102";
+	default :
+		return "3101";
+	}
+}
+
+function pthAcharCSTICMS ($artigo){
+	switch ($artigo){
+	case "BMS050":
+		return "00";
+	case "BMS051":
+	case "BMS052":
+		return "10";
+	case "BMS053":
+	case "BMS054":
+		return "20";	
+	case "BMS055":
+	case "BMS056":
+		return "30";	
+	case "BMS057":
+	case "BMS058":
+		return "40";	
+	case "BMS059":
+	case "BMS060":
+		return "41";	
+	case "BMS061":
+	case "BMS062":
+		return "50";	
+	case "BMS063":
+	case "BMS064":
+	case "BMS065":
+		return "51";		
+	case "BMS066":
+		return "60";		
+	case "BMS067":
+	case "BMS068":
+		return "70";		
+	default :
+		return "90";
+	}
+}
+
+function pthAcharRedBcICMS ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS067":
+		case "BMS068":
+		case "BMS071":
+		case "BMS072":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "33,33";
+		case "BMS064":
+			return "10";	
+		default :
+			return "";
+	}
+}
+
+function pthAcharBcICMS ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS067":
+		case "BMS068":
+		case "BMS071":
+		case "BMS072":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "666,70";
+		case "BMS064":
+			return "900";	
+		case "BMS050":
+		case "BMS051":
+		case "BMS052":
+		case "BMS063":
+		case "BMS065":
+		case "BMS070":
+		case "BMS073":
+			return "1000";				
+		default :
+			return "";
+	}
+}
+
+	
+function pthAcharAliqICMS ($artigo){
+	switch ($artigo){
+		case "BMS055":
+		case "BMS056":
+		case "BMS057":
+		case "BMS058":
+		case "BMS059":
+		case "BMS060":
+		case "BMS061":
+		case "BMS062":
+		case "BMS066":
+		case "BMS069":			
+			return "";
+		default :
+			return "12";
+	}
+}
+
+function pthAcharDifIcms ($artigo){
+	switch ($artigo){
+		case "BMS063":
+			return "40";
+		case "BMS064":
+			return "36";
+		case "BMS065":
+			return "120";
+		default :
+			return "";
+	}
+}
+
+function pthAcharDesonICMS ($artigo){
+	switch ($artigo){
+		case "BMS056":
+		case "BMS058":
+		case "BMS060":
+		case "BMS062":
+			return "120";
+		case "BMS054":
+		case "BMS068":
+		case "BMS072":
+		case "BMS075":
+		case "BMS077":
+			return "40";
+		default :
+			return "";
+	}
+}
+
+function pthAcharRedValICMS ($artigo){
+	switch ($artigo){
+		case "BMS063":
+		case "BMS064":
+			return "33,33";		
+		case "BMS065":
+			return "100";		
+		default :
+			return "";
+	}
+}
+
+	
+function pthAcharValIcmsDevido ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS063":
+		case "BMS067":
+		case "BMS068":
+		case "BMS071":
+		case "BMS072":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "80";		
+		case "BMS064":
+			return "72";		
+		case "BMS050":
+		case "BMS051":
+		case "BMS052":
+		case "BMS070":
+		case "BMS073":
+			return "120";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharMvaIcmsSt ($artigo){
+	switch ($artigo){
+		case "BMS051":
+		case "BMS052":
+		case "BMS055":
+		case "BMS056":
+		case "BMS067":
+		case "BMS068":		
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "40";
+		default :
+			return "";
+	}
+}	
+
+function pthAcharRedBaseIcmsSt ($artigo){
+	switch ($artigo){
+		case "BMS052":
+		case "BMS056":
+		case "BMS068":
+		case "BMS076":
+		case "BMS077":
+			return "33,33";				
+		default :
+			return "";
+	}
+}
+
+		
+function pthAcharBaseIcmsSt ($artigo){
+	switch ($artigo){
+		case "BMS052":
+		case "BMS056":
+			return "933,38";
+		case "BMS068":
+		case "BMS076":
+		case "BMS077":
+			return "980,05";
+		case "BMS051":
+		case "BMS067":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+			return "1470,00";		
+		case "BMS055":		
+			return "1400,00";
+		default :
+			return "";
+	}
+}
+
+function pthAcharAliqICMSSt ($artigo){
+	switch ($artigo){
+		case "BMS051":
+		case "BMS052":
+		case "BMS055":
+		case "BMS056":
+		case "BMS067":
+		case "BMS068":		
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "18";
+		default :
+			return "";
+	}
+}
+
+function pthAcharValFinalIcmsSt ($artigo){
+	switch ($artigo){
+		case "BMS051":
+		case "BMS073":
+			return "144,60";
+		case "BMS052":
+			return "48,01";
+		case "BMS055":
+			return "252,00";
+		case "BMS056":
+			return "168,01";
+		case "BMS068":
+		case "BMS076":
+		case "BMS077":
+			return "96,40";
+		case "BMS067":
+		case "BMS074":
+		case "BMS075":
+			return "184,60";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharCstIPI ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS061":
+		case "BMS067":
+		case "BMS068":
+		case "BMS070":
+		case "BMS071":
+		case "BMS072":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "00";		
+		case "BMS052":
+			return "01";
+		case "BMS062":
+			return "49";
+		default :
+			return "02";
+	}
+}
+
+function pthAcharBaseIPI ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS061":
+		case "BMS067":
+		case "BMS068":
+		case "BMS070":
+		case "BMS071":
+		case "BMS072":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+		case "BMS052":
+			return "1000";				
+		default :
+			return "";
+	}
+}
+
+function pthAcharAliqIPI ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS061":
+		case "BMS067":
+		case "BMS068":
+		case "BMS070":
+		case "BMS071":
+		case "BMS072":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "5";		
+		case "BMS052":
+			return "0";		
+		case "BMS062":
+			return "2";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharBaseIpiEsp ($artigo){
+	switch ($artigo){			
+		case "BMS062":
+			return "20";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharAliqIpiEsp ($artigo){
+	switch ($artigo){
+		case "BMS062":
+			return "2";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharValIPI ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS061":
+		case "BMS067":
+		case "BMS068":
+		case "BMS070":
+		case "BMS071":
+		case "BMS072":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS077":
+			return "50";		
+		case "BMS052":
+			return "0";		
+		case "BMS062":
+			return "40";
+		default :
+			return "";
+	}
+}
+
+function pthAcharCstPis ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS052":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+			return "50";		
+		case "BMS053":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+		case "BMS054":
+			return "98";
+		case "BMS055":
+		case "BMS056":
+		case "BMS057":
+		case "BMS058":
+		case "BMS059":
+		case "BMS060":
+			return "73";
+		default :
+			return "71";
+	}
+}
+
+function pthAcharBasePisR ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS052":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS055":
+		case "BMS056":
+		case "BMS057":
+		case "BMS058":
+		case "BMS059":
+		case "BMS060":
+			return "1000";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharAliqPisP ($artigo){
+	switch ($artigo){
+		case "BMS051":
+		case "BMS052":
+			return "1";
+		case "BMS050":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+			return "0,65";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharBasePisQ ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+			return "40";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharAliqPisR ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+			return "2";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharValPIS ($artigo){
+	switch ($artigo){
+		case "BMS051":
+		case "BMS052":
+			return "10";
+		case "BMS050":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+			return "6,50";		
+		case "BMS054":
+		case "BMS053":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+			return "80";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharCstCofins ($artigo){
+		switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS052":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+			return "50";		
+		case "BMS053":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+		case "BMS054":
+			return "98";
+		case "BMS055":
+		case "BMS056":
+		case "BMS057":
+		case "BMS058":
+		case "BMS059":
+		case "BMS060":
+			return "73";
+		default :
+			return "71";
+	}
+}
+
+function pthAcharBaseCofinsR ($artigo){
+	switch ($artigo){
+		case "BMS050":
+		case "BMS051":
+		case "BMS052":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+		case "BMS055":
+		case "BMS056":
+		case "BMS057":
+		case "BMS058":
+		case "BMS059":
+		case "BMS060":
+			return "1000";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharAliqCofinsP ($artigo){
+	switch ($artigo){
+		case "BMS051":
+		case "BMS052":
+			return "6";
+		case "BMS050":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+			return "3";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharBaseCofinsQ ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+			return "160";		
+		default :
+			return "";
+	}
+}	
+
+function pthAcharAliqCofinsR ($artigo){
+	switch ($artigo){
+		case "BMS053":
+		case "BMS054":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+			return "4";		
+		default :
+			return "";
+	}
+}
+
+function pthAcharValCofins ($artigo){
+		switch ($artigo){
+		case "BMS051":
+		case "BMS052":
+			return "60";
+		case "BMS050":
+		case "BMS068":
+		case "BMS070":
+		case "BMS073":
+		case "BMS074":
+		case "BMS075":
+		case "BMS076":
+			return "30";		
+		case "BMS054":
+		case "BMS053":
+		case "BMS071":
+		case "BMS072":
+		case "BMS077":
+			return "640";		
+		default :
+			return "";
+	}
+}

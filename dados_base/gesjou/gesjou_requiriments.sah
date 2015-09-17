@@ -1,0 +1,55 @@
+// Este script contempla os requisitos necessários para a execução de alguns cenários.
+_log("-------------------- Start of GESJOU -------------------");
+
+_include("variaveis.sah");
+
+// Cadastro de um diário para utilização nos cenários da gesban
+_click(_link("/site-navigation/"));
+_click(_div("Dados de base"));
+_click(_link("Diários contabilísticos"));
+_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click($txtGesJouDiario);
+_setValue($txtGesJouDiario, "BKBRA");
+_keyPress($txtGesJouDiario, 9);
+
+_click($txtGesJouLeg);
+_setValue($txtGesJouLeg, "YBR");
+_keyPress($txtGesJouLeg, 9);
+
+_click($txtGesJouDesc);
+_setValue($txtGesJouDesc, "Banco Brasil");
+_keyPress($txtGesJouDesc, 9);
+
+_click($txtGesJouDescCurta);
+_setValue($txtGesJouDescCurta, "BKBrasil");
+_keyPress($txtGesJouDescCurta, 9);
+
+//---Geral
+_click($linkGesJouTipo);
+_click(_link("Tesouraria"));
+
+_check($chkGesJouActivo);
+
+clickLinha(0, "Plano de contas");
+setLinha(0,"Plano de contas", "BRA");
+tabLinha(0,"Plano de contas");
+
+clickLinha(0, "Conta tesouraria");
+setLinha(0,"Conta tesouraria", "1204003");
+enterLinha(0,"Conta tesouraria");
+
+//if (_assert(_link("Criar").syraIsDisabled)){
+	_click(_link("Gravar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+//}else{
+	_click(_link("Criar"));
+	_wait(3000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}	
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+//}
+_click(_link("Sair"));
+
+_log("-------------------- End of GESJOU -------------------");

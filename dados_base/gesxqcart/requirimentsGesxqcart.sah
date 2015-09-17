@@ -1,0 +1,143 @@
+_log("-------------- Start of requiriment to GESXQCART -----------------");
+
+if (!$dadosBase) // -- Se não existe o objeto, então cria
+	var $dadosBase = {};
+
+$dadosBase.gesxqcart = {};
+var $_ = $dadosBase.gesxqcart; // -- criando um apelido
+
+_include("../../login.sah")
+_include("frases.sah");
+
+_click(_link("/site-navigation/"));	
+_click(_div("Dados comuns"));
+_click(_link("Contas em banco"));
+_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_link("/func-link/"));
+_setValue(_textbox(0,_near(_div("Chamada Directa"))),"GESXQCART");
+_click(_link("OK"));
+_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+
+$dadosBase.gesxqcart.cadAutoBR = function (){
+	_click(_link("Nova"));
+	_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_setValue($txtCartCodCart, "AutoBR");
+	_keyPress($txtCartCodCart,9);
+
+	_click($txtCartDescCart);
+	_setValue($txtCartDescCart, "Automação - Descrição da carteira " + _getText($txtCartCodCart));
+	//_keyPress($txtCartDescCart,9);
+	_click(_div("Dados gerais"));
+
+	$_.quandoSelecionarCarteira_Banco_('11','BB');		
+	$_.quandoBancoContralaNossoNumero();
+	$_.preencherSeqRem();
+	$_.preencherEspecie();
+	$_.preencherRemessa();
+	$_.preencherRetorno();
+	$_.preencherBoleto();
+	$_.preencherSeparadorInfBan();
+	//------------------------------ Criar ou Alterar -----------------------
+	_click(_link("Criar"));	
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+}
+//------------------------------------------------------------------------
+// Cadastro de carteira aonde o banco emite o boleto e o X3 nosso numero
+//gesbpc = BR107
+$dadosBase.gesxqcart.CadBaEmBo = function (){ 
+	_click(_link("Nova"));	
+	_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_setValue($txtCartCodCart, "BaEmBo");
+	_keyPress($txtCartCodCart,9);
+
+	_click($txtCartDescCart);
+	_setValue($txtCartDescCart, "Automação - Banco Emite Boleto - X3 Nosso numero");
+	//_keyPress($txtCartDescCart,9);
+	_click(_div("Dados gerais"));
+	
+	$_.quandoSelecionarCarteira_Banco_('11','BB');	
+	$_.quandoBancoNaoContralaNossoNumero();
+	$_.preencherNossoNum();
+	$_.preencherSeqRem();	
+	$_.preencherEspecie();	
+	$_.preencherRemessa();
+	$_.preencherRetorno();
+	$_.preencherBoleto();
+	$_.preencherSeparadorInfBan();
+	
+	_click(_link("Criar"));	
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+}
+
+// Cadastro de carteira aonde o banco controla nosso num 
+//gesbpc = BR115
+$dadosBase.gesxqcart.CadBaCoNo = function (){ 
+	_click(_link("Nova"));	
+	_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_setValue($txtCartCodCart, "BaCoNo");
+	_keyPress($txtCartCodCart,9);
+
+	_click($txtCartDescCart);
+	_setValue($txtCartDescCart, "Automação - Banco Emite Boleto e Nosso numero");
+	//_keyPress($txtCartDescCart,9);
+	_click(_div("Dados gerais"));
+	
+	$_.quandoSelecionarCarteira_Banco_('11','BB');	
+	$_.quandoBancoContralaNossoNumero();
+	$_.preencherSeqRem();	
+	$_.preencherEspecie();
+	$_.preencherRemessa();
+	$_.preencherRetorno();
+	$_.preencherBoleto();
+	$_.preencherSeparadorInfBan();
+	
+	_click(_link("Criar"));	
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+}
+
+
+$dadosBase.gesxqcart.CadGener = function (){ // 
+	_click(_link("Nova"));	
+	_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_setValue($txtCartCodCart, "Gener");
+	_keyPress($txtCartCodCart,9);
+
+	_click($txtCartDescCart);
+	_setValue($txtCartDescCart, "Automação - Carteira genérica sem banco");
+	//_keyPress($txtCartDescCart,9);
+	_click(_div("Dados gerais"));
+	
+	$_.quandoSelecionarCarteira_Banco_('11','BB');	
+	$_.quandoBancoContralaNossoNumero();
+	$_.preencherSeqRem();	
+	$_.preencherEspecie();
+	$_.preencherRemessa();
+	$_.preencherRetorno();
+	$_.preencherBoleto();
+	$_.preencherSeparadorInfBan();
+	
+	_click(_link("Criar"));	
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+}
+
+$_.cadAutoBR();
+$_.CadBaEmBo();
+$_.CadBaCoNo();
+$_.CadGener();
+$_.sairTela();
+$_.sairTela();
+
+_log("-------------- End of requiriment to GESXQCART -----------------");

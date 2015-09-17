@@ -1,0 +1,10 @@
+// Este é o script principal aonde é feita a chamada dos funcionalidades que se deseja testar
+
+// faz o login no X3
+_include("login.sah"); 
+
+// --------- requiriments for scenarios ----------------
+//_include("requiriments");
+
+//testa as funcionalidades do modulo Dados de Base
+_include("dados_Base/features.sah");

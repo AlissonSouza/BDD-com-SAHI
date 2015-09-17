@@ -1,0 +1,64 @@
+Introdução Boleto
+
+O Boleto Bancário representa um título de cobrança pagável em qualquer agência bancária do território nacional, homebanking, casas lotéricas, supermercados e agências dos correios durante o período de vencimento.
+
+The Boleto Bancário represents a 
+
+Os personagens principais do relacionamento da cobrança através de Boleto Bancário são: Banco, Sacado e Cedente.
+
+Banco: Instituição financeira responsável pela cobrança, ou seja, desde que seja previamente contratado pelo Cedente, o Banco receberá o pagamento do referido documento de cobrança pago pelo Sacado, e creditará a importância paga na conta corrente do Cedente.
+
+Sacado: Quem paga o boleto;
+
+Cedente: Quem emite a cobrança ou seja, aquele que irá receber a quantia cobrada.
+
+O Cedente emite o Boleto e encaminha para o Sacado que durante o período de vencimento efetuará o pagamento nos meios descritos acima.
+
+Ao receber a importância paga pelo Sacado, a instituição financeira receptora encaminhará a referida importância para o Banco emissor da cobrança para que ele credite na conta do Cedente no período de compensação acordado entre as partes.
+
+Sendo assim, neste momento o Banco emissor irá debitar a taxa de cobrança que ele acordou com o Cedente previamente.
+
+Fonte: Cobrebem
+
+//---------------------------------------------------------------------
+
+Estabelecimento:
+	Informar o estabelecimento para filtrar a pesquisa dos vencimentos. O Sistema irá buscar os vencimentos gerados para este estabelecimento.
+	Inform the site to filter the search of open items. The system will search the open items generated for this site.
+	
+Conta Corrente:
+	Informar a conta corrente para filtrar a pesquisa dos vencimentos. O Sistema irá buscar os clientes que possuam esta conta corrente vinculada em seu cadastro.
+	Inform the checking account to filter the search of open items. The system will search the customers who have this checking account linked to your registration.
+	
+Carteira:
+	Informar a carteira para filtrar a pesquisa dos vencimentos. O Sistema irá buscar os clientes que possuam esta carteira vinculada em seu cadastro.
+	Inform the carteira to filter the search of open items. The system will search the customers who have this checking account linked to your registration.
+	
+Data Emissão: 
+	Informar a data emissão incial do vencimento para filtrar a pesquisa.
+	Inform the initial issuance date of the open items to filter the search.
+
+Data Emissão: 
+	Informar a data emissão final do vencimento para filtrar a pesquisa.
+	Inform the final issuance date of the open items to filter the search.
+
+Cliente: 
+	Informar o cliente para filtrar a pesquisa.
+	Inform the customer to filter the search.
+
+Número Documento: 
+	Informar o número da fatura para filtrar a pesquisa.
+	Inform the invoice number to filter the search.
+
+Nosso Número: 
+	Informar o nosso número para filtrar a pesquisa.	
+	Inform the nosso número to filter the search
+
+Data Vencimento Inicial: 
+	Informar a data vencimento incial do vencimento para filtrar a pesquisa.
+	Inform the initial due date of the open items to filter the search.
+
+Data Vencimento Final: 
+	Informar a data vencimento final do vencimento para filtrar a pesquisa.
+	Inform the final due date of the open items to filter the search.
+

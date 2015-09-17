@@ -1,0 +1,217 @@
+/*
+used by consxqr to create invoice
+
+*/
+_include("../../login.sah")
+_include("Fatura_Vendas_Variaveis.sah");
+
+
+
+if (!$vendas)
+	var $vendas = {};
+
+$vendas.gessih = {};
+//var $_ = $vendas.gessih; // -- create an alias
+
+$vendas.gessih.dados = {}; // variable to save dados for use in another scripts
+
+$vendas.gessih.createInvoice_ = function ($site, $customer, $paymethod){
+_click(_link("/site-navigation/"));	
+_click(_div("Vendas"));
+_click(_link("Faturas"));
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+_click(_div("ALL Registo completo factura"));
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_link("Nova"));
+
+_setValue($txtEstabVenda, $site);
+_keyPress($txtEstabVenda, 9);
+
+_click($txtTipo);
+_setValue($txtTipo, "BRFCL");
+_keyPress($txtTipo, 9);
+
+_click($txtCliente);
+_setValue($txtCliente, $customer);
+//_keyPress($txtCliente, 9);
+
+//--------------- Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "500");
+_keyPress($txtOpFiscal, 9);
+
+//------- Separador Faturação ------------
+_click(_div("Faturação"));
+
+_click($txtColetivo);
+_setValue($txtColetivo, "CAR");
+_keyPress($txtColetivo, 9);
+
+_click($txtCondPagto);
+_setValue($txtCondPagto, $paymethod);
+_keyPress($txtCondPagto, 9);
+
+//-------------------------  LINHAS ----------------------------
+_click(_div("Linhas"));
+
+var $prod = 50;
+
+for (var $i=0; $i<1; $i++){ // A QUANTIDADE DE ITENS INSERIDOS SERÁ CONTROLADA PELA VARIAVEL i							
+		
+		//PRODUTO
+		clickLinha("Artigo", $i);
+		//setLinha("Artigo", $i, "BMS001");
+		setLinha("Artigo", $i, "BMS0"+$prod);
+		tabLinha("Artigo", $i);
+
+		// QUANTIDADE ORÇ.
+		clickLinha ("Qtd. faturada", $i);
+		setLinha("Qtd. faturada", $i, "10");
+		tabLinha ("Qtd. faturada",$i);
+
+		// PREÇO BRUTO
+		clickLinha("Prç. bruto",$i);
+		setLinha("Prç. bruto",$i, "100");
+		tabLinha("Prç. bruto",$i);
+		
+		//criando função para achar a CFOP na classe variaveis
+		
+		// CFOP
+		var $cfop = acharCFOP("BMS0"+$prod);
+		
+		clickLinha("CFOP",$i);
+		setLinha("CFOP",$i, $cfop);
+		tabLinha("CFOP",$i);
+
+		// ORIGEM
+		clickLinha("Origem",$i);
+		setLinha("Origem",$i, "0");
+		tabLinha("Origem",$i);
+		
+		// CST ICMS
+		var $csticms = acharCSTICMS("BMS0"+$prod);
+		clickLinha("CST ICMS",$i);
+		setLinha("CST ICMS",$i, $csticms);
+		tabLinha("CST ICMS",$i);
+		
+		switch ($csticms){
+				case "10":
+				try{
+					_click(_div("10"));
+					} catch ($e){
+						_click(_cell("10[3]"));				
+					}
+				break ;
+			case "20":
+				try{
+					_click(_div("20"));			
+					} catch ($e){
+						_click(_cell("20[3]"));
+					}
+				break ;
+			case "30":
+				try{
+					_click(_div("30"));			
+					} catch ($e){
+						_click(_cell("30[1]"));
+					}
+				break ;
+			case "40":
+				try{
+					_click(_div("40"));
+					} catch ($e){
+						_click(_cell("40[1]"));
+					}
+				break ;
+			case "50":
+				try{
+					_click(_div("50"));
+					} catch ($e){
+						_click(_cell("50[1]"));
+					}
+				break ;
+			case "90":
+				try{
+					_click(_div("90"));
+					} catch ($e){
+						_click(_cell("90[1]"));
+					}
+				break ;
+			default :
+					clickLinha("Nível taxa 1",$i);
+					break ;
+		}	
+
+		// NIVEL TAXA 1 -- ENTER
+		clickLinha("Nível taxa 1",$i);
+		//setLinha("Nível taxa 1", $i , "BRL");
+		enterLinha("Nível taxa 1",$i);
+		
+		$prod++;
+	}
+	_click(_link("Criar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));	
+	
+	$vendas.gessih.dados.numInvoice = _getValue($txtNumInvoice);
+	$vendas.gessih.dados.estab = _getValue($txtEstabVenda);
+	$vendas.gessih.dados.cliente = _getValue($txtCliente);
+	$vendas.gessih.dados.dataEmi = _getValue($txtDataEmi);	
+	
+	_click(_link("Vencimentos"));
+	$vendas.gessih.dados.dataVenc = _getValue(_textbox(0, _under(_div("Vencimento"))))
+	_click(_link("Sair[1]"));
+	
+}
+
+$vendas.gessih.post = function (){
+	
+	_click(_div("Dados gerais"));
+	
+	_click(_textbox(0, _near(_label("Hora de emissão"))));
+	_setValue(_textbox(0, _near(_label("Hora de emissão"))), $vendas.gessih.timeNow());
+	_keyPress(_textbox(0, _near(_label("Hora de emissão"))), 9);
+	
+	_click(_link("Gravar"));
+	_wait(60000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	_click(_link("Validação"));
+	_wait(60000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Abandonar a função"));	
+}
+
+$vendas.gessih.screenExit = function (){
+	_click(_link("Sair"));
+	_wait(2000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}
+}
+
+$vendas.gessih.acessInvoice = function (){
+	_click(_link("/site-navigation/"));	
+	_click(_div("Vendas"));
+	_click(_link("Faturas"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_div("ALL Registo completo factura"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+}
+
+$vendas.gessih.informInvoice_ = function ($invoiceNumber){
+	_click($txtNumInvoice);
+	_setValue($txtNumInvoice, $invoiceNumber);
+	_keyPress($txtNumInvoice, 9);
+}
+
+$vendas.gessih.timeNow = function (){
+//function timeNow() {
+  var d = new Date();
+  var h = (d.getHours()<10?'0':'') + d.getHours();
+  var m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+  return  h + ':' + m;
+}
+
+//$_.createInvoice();
+//$_.screenExit();

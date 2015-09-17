@@ -1,0 +1,25 @@
+// Variables of the function consxqb - Boleto Generation
+
+//-------- Header
+$dadosBase.consxqb.txtBolEstab = _textbox(0, _near(_label("Estab.")));
+$dadosBase.consxqb.txtBolCliente = _textbox(0, _near(_label("Cliente")));
+$dadosBase.consxqb.txtBolCC = _textbox(0, _near(_label("Conta corrente")));
+$dadosBase.consxqb.txtBolCart = _textbox(0, _near(_label("Cód. carteira")));
+
+$dadosBase.consxqb.txtBolDoc = _textbox(0, _near(_label("Nr. documento")));
+$dadosBase.consxqb.txtBolNossoNum = _textbox(0, _near(_label("Nosso número")));
+
+
+$dadosBase.consxqb.txtBolEmiIni = _textbox(0, _near(_label("Data emissão")));
+$dadosBase.consxqb.txtBolEmiFinal = _textbox(1, _near(_label("Data emissão")));
+
+$dadosBase.consxqb.txtBolVencIni = _textbox(0, _near(_label("Data vencimento")));
+$dadosBase.consxqb.txtBolVencFinal = _textbox(1, _near(_label("Data vencimento")));
+
+$dadosBase.consxqb.linkPesquisa = _link(0, _near(_label("Pesquisa")));
+
+
+// get value from one table cell
+$_.getValueLinha = function ($linha, $nomeColuna){
+		return _textbox($linha, _under(_div($nomeColuna)));
+}

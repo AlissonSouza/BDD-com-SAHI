@@ -1,0 +1,25 @@
+// Feature of the function consxqr - Bank Remittance
+// that scripts call the script scenario 
+
+if (!$dadosBase) // -- If not exist the object, then create
+	var $dadosBase = {};
+
+$dadosBase.consxqr = {};
+var $_ = $dadosBase.consxqr; // -- criando um apelido
+
+_include("../../login.sah")
+_include("scenarios.sah");
+
+//$_.scenario01();
+//$_.scenario02();
+$_.scenario03();
+$_.scenario04();
+$_.scenario05();
+$_.scenario06();
+$_.scenario07();
+$_.scenario08();
+$_.scenario09();
+$_.scenario10();
+$_.scenario11();
+$_.scenario12();
+$_.scenario13();

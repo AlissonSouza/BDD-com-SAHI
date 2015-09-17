@@ -1,0 +1,18 @@
+// Scenarios of the function consxqnfmt - NF Monit
+
+_include("steps.sah");
+
+//SCENARIO: 01 - If the book is set up that the bank emit boleto, then should not allow to generate or print the boleto
+$dadosBase.consxqnfmt.scenario01 = function (){
+	try{
+		_log("------------------- Start of the Scenario 01 CONSXQNFMT--------------------");
+		this.givenNfMonit();
+		
+		
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 01 ---- CONSXQNFMT------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+	}
+}

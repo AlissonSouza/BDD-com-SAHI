@@ -1,0 +1,211 @@
+//	Adicona as variaveis
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/Orcamento_Variaveis.sah");
+
+//----------------------------------
+
+_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+try{
+	_click(_link("Orçamentos"));
+}catch($e){
+	_log("Não achou o link, clicou em outro");
+	_click(_div(208));
+}
+
+
+_click(_div("ALL Registo completo orçamentos"));
+
+_wait(2000);
+
+_click(_div("Nova"));
+
+_setValue($txtEstabVenda, "BR007");
+_keyPress($txtEstabVenda, 9);
+
+_click($txtCliente);
+_setValue($txtCliente, "BR107");
+_keyPress($txtCliente, 9);
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "23");
+_keyPress($txtOpFiscal, 9);
+
+//-------------------
+_click($txtEstabExped);
+_setValue($txtEstabExped, "BR107");
+_keyPress($txtEstabExped, 9);
+
+//-------------------
+_click(_div("Linhas"))
+
+// PRODUTO
+/*
+_click(_textbox(0, $linha[0]));
+_setValue(_textbox(0, $linha[0]),"BMS001");
+_keyPress(_textbox(0, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("Artigo"))));
+_setValue(_textbox(0,_under(_div("Artigo"))),"BMS001");
+_keyPress(_textbox(0,_under(_div("Artigo"))),9);
+*/
+
+_click(_textbox(0,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(0,_rightOf(_cell("1[3]"))), "BMS001");
+_keyPress(_textbox(0,_rightOf(_cell("1[3]"))),9);
+
+// QUANTIDADE ORÇ.
+/*
+_click(_textbox(3, $linha[0]));
+_setValue(_textbox(3, $linha[0]),"10");
+_keyPress(_textbox(3, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("Qtd. orçam."))));
+_setValue(_textbox(0,_under(_div("Qtd. orçam."))),"10");
+_keyPress(_textbox(0,_under(_div("Qtd. orçam."))),9);
+*/
+_click(_textbox(3,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(3,_rightOf(_cell("1[3]"))), "10");
+_keyPress(_textbox(3,_rightOf(_cell("1[3]"))),9);
+
+// PREÇO
+/*
+_click(_textbox(6, $linha[0]));
+_setValue(_textbox(6, $linha[0]),"10,50");
+_keyPress(_textbox(6, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("Prç. bruto"))));
+_setValue(_textbox(0,_under(_div("Prç. bruto"))),"10,50");
+_keyPress(_textbox(0,_under(_div("Prç. bruto"))),9);
+*/
+_click(_textbox(6,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(6,_rightOf(_cell("1[3]"))), "10,50");
+_keyPress(_textbox(6,_rightOf(_cell("1[3]"))),9);
+
+// DESCONTO 1 PERCENTUAL
+/*
+_click(_textbox(7, $linha[0]));
+_setValue(_textbox(7, $linha[0]),"0,50");
+_keyPress(_textbox(7, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("Desp.1\$"))));
+_setValue(_textbox(0,_under(_div("Desp.1\$"))), "10");
+_keyPress(_textbox(0,_under(_div("Desp.1\$"))),9);
+*/
+_click(_textbox(7,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(7,_rightOf(_cell("1[3]"))), "10");
+_keyPress(_textbox(7,_rightOf(_cell("1[3]"))),9);
+
+// CFOP
+/*
+_click(_textbox(16, $linha[0]));
+_setValue(_textbox(16, $linha[0]),"6101");
+_keyPress(_textbox(16, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("CFOP"))));
+_highlight(_textbox(0,_under(_div("CFOP"))));
+_setValue(_textbox(0,_under(_div("CFOP"))), "6101");
+*/
+_click(_textbox(16,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(16,_rightOf(_cell("1[3]"))), "6101");
+_keyPress(_textbox(16,_rightOf(_cell("1[3]"))),9);
+
+
+
+// ORIGEM
+/*
+_click(_textbox(18, $linha[0]));
+_setValue(_textbox(18, $linha[0]),"0");
+_keyPress(_textbox(18, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("Origem"))));
+_setValue(_textbox(0,_under(_div("Origem"))),"0");
+_keyPress(_textbox(0,_under(_div("Origem"))),9);
+*/
+_click(_textbox(18,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(18,_rightOf(_cell("1[3]"))), "0");
+_keyPress(_textbox(18,_rightOf(_cell("1[3]"))),9);
+
+// CST
+/*
+_click(_textbox(19, $linha[0]));
+_setValue(_textbox(19, $linha[0]),"00");
+_keyPress(_textbox(19, $linha[0]),9);
+
+_click(_textbox(0,_under(_div("CST ICMS"))));
+_setValue(_textbox(0,_under(_div("CST ICMS"))),"00");
+_keyPress(_textbox(0,_under(_div("CST ICMS"))),9);
+*/
+_click(_textbox(19,_rightOf(_cell("1[3]"))));
+_setValue(_textbox(19,_rightOf(_cell("1[3]"))), "00");
+_keyPress(_textbox(19,_rightOf(_cell("1[3]"))),9);
+
+// NIVEL TAXA 2 -- ENTER
+/*
+_click(_textbox(22, $linha[0]));
+_keyPress(_textbox(22, $linha[0]),13);
+
+_click(_textbox(0,_under(_div("Nível taxa 2"))));
+_keyPress(_textbox(0,_under(_div("Nível taxa 2"))),13);
+*/
+_click(_textbox(22,_rightOf(_cell("1[3]"))));
+_keyPress(_textbox(19,_rightOf(_cell("1[3]"))),13);
+//-------------------------  PRODUTO LINHA 2 ----------------------------------
+
+_wait(2000);
+// PRODUTO
+_click(_textbox(0,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(0,_rightOf(_cell("2[3]"))), "BMS002");
+_keyPress(_textbox(0,_rightOf(_cell("2[3]"))),9);
+
+// QUANTIDADE ORÇ.
+_click(_textbox(3,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(3,_rightOf(_cell("2[3]"))), "10");
+_keyPress(_textbox(3,_rightOf(_cell("2[3]"))),9);
+
+// PREÇO
+_click(_textbox(6,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(6,_rightOf(_cell("2[3]"))), "21,25");
+_keyPress(_textbox(6,_rightOf(_cell("2[3]"))),9);
+
+// DESCONTO 1 PERCENTUAL
+_click(_textbox(7,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(7,_rightOf(_cell("2[3]"))), "2");
+_keyPress(_textbox(7,_rightOf(_cell("2[3]"))),9);
+
+// CFOP
+_click(_textbox(16,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(16,_rightOf(_cell("2[3]"))), "6101");
+_keyPress(_textbox(16,_rightOf(_cell("2[3]"))),9);
+
+// ORIGEM
+_click(_textbox(18,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(18,_rightOf(_cell("2[3]"))), "0");
+_keyPress(_textbox(18,_rightOf(_cell("2[3]"))),9);
+
+// CST
+_click(_textbox(19,_rightOf(_cell("2[3]"))));
+_setValue(_textbox(19,_rightOf(_cell("2[3]"))), "00");
+_keyPress(_textbox(19,_rightOf(_cell("2[3]"))),9);
+
+// NIVEL TAXA 2 -- ENTER
+_click(_textbox(22,_rightOf(_cell("2[3]"))));
+_keyPress(_textbox(19,_rightOf(_cell("2[3]"))),13);
+//----------------
+
+_click(_div("Criar"));
+
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_div("Abandonar a função"));
+
+/*
+_click(_div("Eliminar"));
+_click(_div("OK"));
+_click(_div("Ok"));
+
+_wait(2000);
+
+_click(_link("Navigation"));
+*/

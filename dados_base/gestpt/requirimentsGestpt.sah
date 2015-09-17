@@ -1,0 +1,175 @@
+// Requiriments of the funciont gestpt - payment codition
+_log("---------------------- Start of GESTPT - Payment Condition---------------------------------");
+
+if (!$dadosBase) // -- if not exist the object, then create
+	var $dadosBase = {};
+
+if(!$dadosBase.gestpt)
+	$dadosBase.gestpt = {};
+	
+
+	_click(_link("/site-navigation/"));
+try{
+	_click(_div("Dados de base"));
+}catch ($e){
+	_click(_div("Dados comuns"));
+}
+_click(_link("Condições pagamento"));;
+_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));	
+
+// Create boleto 30 days condition method
+$dadosBase.gestpt.createGestptBol30 = function (){	
+	_click(_link("Nova"));
+	$dirty = true;
+	
+	_textbox(0, _near(_label("")))
+	
+	_setValue(_textbox(0, _near(_label("Cond. pagam."))), "BOL30");
+	_keyPress(_textbox(0, _near(_label("Cond. pagam."))), 9);
+	
+	_click(_textbox(0, _near(_label("Legislação"))));
+	_setValue(_textbox(0, _near(_label("Legislação"))), "YBR");
+	_keyPress(_textbox(0, _near(_label("Legislação"))), 9);
+	
+	_click(_textbox(0, _near(_label("Descr."))));
+	_setValue(_textbox(0, _near(_label("Descr."))), "Boleto 30 dias");
+	_keyPress(_textbox(0, _near(_label("Descr."))), 9);
+	
+	_click(_textbox(0, _near(_label("Desc. curta"))));
+	_setValue(_textbox(0, _near(_label("Desc. curta"))), "Boleto 30");
+	_keyPress(_textbox(0, _near(_label("Desc. curta"))), 9);
+	
+	_click(_textbox(0, _under(_div("Modo"))));
+	_setValue(_textbox(0, _under(_div("Modo"))), "BOLET");
+	_keyPress(_textbox(0, _under(_div("Modo"))), 9);
+
+	_click(_textbox(0, _under(_div("Dias"))));
+	_setValue(_textbox(0, _under(_div("Dias"))), "30");
+	_keyPress(_textbox(0, _under(_div("Dias"))), 13);
+	
+	
+	
+	_click(_link("Criar"));
+	//_click(_link("Ok"));
+	//_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	_click(_link("Ok"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));	
+}
+
+// Create boleto 30 45 days condition method
+$dadosBase.gestpt.createGestptBol3045 = function (){	
+
+	_click(_link("Nova"));
+	$dirty = true;
+	
+	_textbox(0, _near(_label("")))
+	
+	_setValue(_textbox(0, _near(_label("Cond. pagam."))), "BOL3045");
+	_keyPress(_textbox(0, _near(_label("Cond. pagam."))), 9);
+	
+	_click(_textbox(0, _near(_label("Legislação"))));
+	_setValue(_textbox(0, _near(_label("Legislação"))), "YBR");
+	_keyPress(_textbox(0, _near(_label("Legislação"))), 9);
+	
+	_click(_textbox(0, _near(_label("Descr."))));
+	_setValue(_textbox(0, _near(_label("Descr."))), "Boleto 30 e 45 dias");
+	_keyPress(_textbox(0, _near(_label("Descr."))), 9);
+	
+	_click(_textbox(0, _near(_label("Desc. curta"))));
+	_setValue(_textbox(0, _near(_label("Desc. curta"))), "Boleto 30 45");
+	_keyPress(_textbox(0, _near(_label("Desc. curta"))), 9);
+	
+	// table line 0
+	_click(_textbox(0, _under(_div("Modo"))));
+	_setValue(_textbox(0, _under(_div("Modo"))), "BOLET");
+	_keyPress(_textbox(0, _under(_div("Modo"))), 9);
+
+	_click(_textbox(0, _under(_div("Dias"))));
+	_setValue(_textbox(0, _under(_div("Dias"))), "30");
+	_keyPress(_textbox(0, _under(_div("Dias"))), 13);
+	
+	// table line 1
+	_click(_textbox(1, _under(_div("Modo"))));
+	_setValue(_textbox(1, _under(_div("Modo"))), "BOLET");
+	_keyPress(_textbox(1, _under(_div("Modo"))), 9);
+
+	_click(_textbox(1, _under(_div("Dias"))));
+	_setValue(_textbox(1, _under(_div("Dias"))), "45");
+	_keyPress(_textbox(1, _under(_div("Dias"))), 13);
+	
+	
+	_click(_link("Criar"));
+	//_click(_link("Ok"));
+	//_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	//_click(_link("Ok"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));	
+}
+
+$dadosBase.gestpt.createGestptBol3x = function (){	
+
+	_click(_link("Nova"));
+	$dirty = true;
+	
+	_textbox(0, _near(_label("")))
+	
+	_setValue(_textbox(0, _near(_label("Cond. pagam."))), "BOL3X");
+	_keyPress(_textbox(0, _near(_label("Cond. pagam."))), 9);
+	
+	_click(_textbox(0, _near(_label("Legislação"))));
+	_setValue(_textbox(0, _near(_label("Legislação"))), "YBR");
+	_keyPress(_textbox(0, _near(_label("Legislação"))), 9);
+	
+	_click(_textbox(0, _near(_label("Descr."))));
+	_setValue(_textbox(0, _near(_label("Descr."))), "Boleto 30/60/90 dias");
+	_keyPress(_textbox(0, _near(_label("Descr."))), 9);
+	
+	_click(_textbox(0, _near(_label("Desc. curta"))));
+	_setValue(_textbox(0, _near(_label("Desc. curta"))), "Bol3x");
+	_keyPress(_textbox(0, _near(_label("Desc. curta"))), 9);
+	
+	// table line 0
+	_click(_textbox(0, _under(_div("Modo"))));
+	_setValue(_textbox(0, _under(_div("Modo"))), "BOLET");
+	_keyPress(_textbox(0, _under(_div("Modo"))), 9);
+
+	_click(_textbox(0, _under(_div("Dias"))));
+	_setValue(_textbox(0, _under(_div("Dias"))), "30");
+	_keyPress(_textbox(0, _under(_div("Dias"))), 13);
+	
+	// table line 1
+	_click(_textbox(1, _under(_div("Modo"))));
+	_setValue(_textbox(1, _under(_div("Modo"))), "BOLET");
+	_keyPress(_textbox(1, _under(_div("Modo"))), 9);
+
+	_click(_textbox(1, _under(_div("Dias"))));
+	_setValue(_textbox(1, _under(_div("Dias"))), "60");
+	_keyPress(_textbox(1, _under(_div("Dias"))), 13);
+	
+	// table line 2
+	_click(_textbox(2, _under(_div("Modo"))));
+	_setValue(_textbox(2, _under(_div("Modo"))), "BOLET");
+	_keyPress(_textbox(2, _under(_div("Modo"))), 9);
+
+	_click(_textbox(2, _under(_div("Dias"))));
+	_setValue(_textbox(2, _under(_div("Dias"))), "90");
+	_keyPress(_textbox(2, _under(_div("Dias"))), 13);
+	
+	
+	_click(_link("Criar"));
+	//_click(_link("Ok"));
+	//_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Gravar"));
+	//_click(_link("Ok"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));	
+}
+
+//Call functions
+$dadosBase.gestpt.createGestptBol30();
+$dadosBase.gestpt.createGestptBol3045();
+$dadosBase.gestpt.createGestptBol3x();
+
+_click(_link("Sair"));	
+
+_log("---------------------- End of GESTPT - Payment Condition ---------------------------------");

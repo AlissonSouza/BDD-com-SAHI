@@ -1,0 +1,37 @@
+// Variáveis da Função Carteira
+
+//-------- Header
+var $txtGesJouDiario = _textbox(0, _near( _label("Diário")));
+var $txtGesJouLeg = _textbox(0, _near( _label("Legislação")));
+var $txtGesJouDesc = _textbox(0, _near( _label("Descr.")));
+var $txtGesJouDescCurta = _textbox(0, _near( _label("Desc. curta")));
+
+//Geral
+var $linkGesJouTipo = _link(0, _near( _label("Tipo")));
+var $chkGesJouActivo = _checkbox(0, _near(_label("Activo")));
+
+
+function clickLinha ($linha, $nomeColuna){
+	_click(_textbox($linha, _under(_div($nomeColuna))));
+}
+
+function clickLinkLinha($linha, $nomeColuna, $valor){
+	_click(_link($linha, _under(_div($nomeColuna))));
+	_click(_link($valor));
+}
+
+function setLinha ($linha, $nomeColuna, $valor){
+	_setValue(_textbox($linha, _under(_div($nomeColuna))), $valor);
+}
+
+function tabLinha ($linha, $nomeColuna){
+	_keyPress(_textbox($linha, _under(_div($nomeColuna))), 9);
+}
+
+function enterLinha ($linha, $nomeColuna){
+	_keyPress(_textbox($linha, _under(_div($nomeColuna))), 13);
+}
+
+
+
+

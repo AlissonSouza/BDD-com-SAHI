@@ -1,0 +1,45 @@
+Introdução Remessa bancária: 
+	Essa função possibilita criar um arquivo que contenha informações dos vencimentos, com isto é possivel enviar este arquivo ao banco para que sejam registrados os vencimentos que serão recebidos por este banco.
+	O layout em que o arquivo será gerado varia conforme a carteira utilizada na geração.
+	
+	This function allows to create a file that contains information of open items, thus it is possible to send this file to the bank in order to be registered the open items that will be received by the bank.	
+	The layout that the file will be generated varies depending on the carteira used in generation.	
+	
+Estabelecimento:
+	Informar o estabelecimento para filtrar a pesquisa dos vencimentos. O Sistema irá buscar os vencimentos gerados para este estabelecimento.
+	Inform the site to filter the search of open items. The system will search the open items generated for this site.
+	
+Conta Corrente:
+	Informar a conta corrente para filtrar a pesquisa dos vencimentos. O Sistema irá buscar os clientes que possuam esta conta corrente vinculada em seu cadastro.
+	Inform the checking account to filter the search of open items. The system will search the customers who have this checking account linked to your registration.
+	
+Carteira:
+	Informar a carteira para filtrar a pesquisa dos vencimentos. O Sistema irá buscar os clientes que possuam esta carteira vinculada em seu cadastro.
+	Inform the carteira to filter the search of open items. The system will search the customers who have this checking account linked to your registration.
+	
+Data Emissão: Informar a data emissão incial do vencimento para filtrar a pesquisa.
+				  Inform the initial issuance date of the open items to filter the search.
+
+Data Emissão: Informar a data emissão final do vencimento para filtrar a pesquisa.
+				  Inform the final issuance date of the open items to filter the search.
+
+Cliente: 
+	Informar o cliente para filtrar a pesquisa.
+	Inform the customer to filter the search.
+
+Número Fatura: 
+	Informar o número da fatura para filtrar a pesquisa.
+	Inform the invoice number to filter the search.
+
+Títulos Gerados: 
+	Caso selecionado, também será demonstrado os titulos que já tenham sido gerados.
+	If selected, it will also be shown the open items that have already been generated.	
+	
+Data Vencimento Inicial: 
+	Informar a data vencimento incial do vencimento para filtrar a pesquisa.
+	Inform the initial due date of the open items to filter the search.
+
+Data Vencimento Final: 
+	Informar a data vencimento final do vencimento para filtrar a pesquisa.
+	Inform the final due date of the open items to filter the search.
+

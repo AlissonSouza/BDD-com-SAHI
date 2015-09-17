@@ -1,0 +1,216 @@
+//-------------- Variáveis do cabeçalho
+
+var $txtEstabVenda = _textbox(0, _near(_label("Estabelecimento Venda")));
+var $txtTipo =  _textbox(0, _near(_label("Tipo")));
+//var $txtData = _textbox(0, _near(_label("Data")));
+//var $txtHora = _textbox(0, _near(_label("Hora")));
+var $txtCliente = _textbox(0, _near( _label("Cli. fatura")));
+
+//-------------- Separador Dados Gerais
+var $txtOpFiscal = _textbox(0, _near(_label("Operação fiscal")));
+
+//-------------- Separador Faturação
+var $txtColetivo = _textbox(0, _near(_label("Colectivo")));
+
+//-------------- Totalizadores para o teste do SAHI de valores
+var $txtTotMerc = _textbox(0, _near(_label("Valor mercadorias")));
+var $txtTotServ = _textbox(0, _near(_label("Valor serviços")));
+var $txtTotDesc = _textbox(0, _near(_label("Valor descontos")));
+var $txtTotSuf = _textbox(0, _near(_label("Valor desconto SUFRAMA")));
+var $txtTotDeson = _textbox(0, _near(_label("Valor desconto desoneração")));
+var $txtTotIPIeST = _textbox(0, _near(_label("Valor IPI + ICMS ST")));
+var $txtTotFrete = _textbox(0, _near(_label("Frete")));
+var $txtTotSeguro = _textbox(0, _near(_label("Seguro")));
+var $txtTotDespAc = _textbox(0, _near(_label("Despesas acessórias")));
+var $txtTotNFe = _textbox(0, _near(_label("Valor total NF-e")));
+
+
+var $txtTotBaseICMS = _textbox(0, _near(_label("Base cálculo ICMS")));
+var $txtTotICMSop = _textbox(0, _near(_label("Valor ICMS da operação")));
+var $txtTotICMSdif = _textbox(0, _near(_label("Valor ICMS diferido")));
+var $txtTotICMSdeson = _textbox(0, _near(_label("Valor ICMS desonerado")));
+var $txtTotICMSdevid = _textbox(0, _near(_label("Valor ICMS devido")));
+
+var $txtTotBaseICMSST = _textbox(0, _near(_label("Base cálculo ICMS ST")));
+var $txtTotValorICMSST= _textbox(0, _near(_label("Valor ICMS ST")));
+
+var $txtTotBaseIPI = _textbox(0, _near(_label("Base cálculo IPI")));
+var $txtTotValorIPI = _textbox(0, _near(_label("Valor IPI")));
+
+var $txtTotBasePIS = _textbox(0, _near(_label("Base cálculo PIS (R\$)")));
+var $txtTotBasePISQtde = _textbox(0, _near(_label("Base cálculo PIS (Qtde)")));
+var $txtTotValorPIS = _textbox(0, _near(_label("Valor PIS")));
+
+var $txtTotBaseCOFINS = _textbox(0, _near(_label("Base cálculo COFINS (R\$)")));
+var $txtTotBaseCOFINSQtde = _textbox(0, _near(_label("Base cálculo COFINS (Qtde)")));
+var $txtTotValorCOFINS = _textbox(0, _near(_label("Valor COFINS")));
+
+//------------- SERVIÇO
+var $txtTotBaseISS = _textbox(0, _near( _label("Base cálculo ISS")));
+var $txtTotISS = _textbox(0, _near(_label("Valor ISS")));
+var $txtTotISSRF = _textbox(0, _near(_label("Valor ISS RF")));
+
+var $txtTotBaseINSS = _textbox(0, _near( _label("Base cálculo INSS")));
+var $txtTotINSS = _textbox(0, _near(_label("Valor do INSS")));
+
+var $txtTotBasePisCofinsCSLL = _textbox(0, _near( _label("Base PIS/COFINS/CSLL")));
+var $txtTotPisRF= _textbox(0, _near(_label("Valor PIS RF")));
+var $txtTotCofinsRF= _textbox(0, _near(_label("Valor COFINS RF")));
+var $txtTotCSLLRF = _textbox(0, _near(_label("Valor CSLL RF")));
+
+var $txtTotBaseIRRF = _textbox(0, _near( _label("Base cálculo IRRF")));
+var $txtTotIRRF = _textbox(0, _near(_label("Valor do IRRF")));
+
+var $txtTotBaseIRPJ = _textbox(0, _near( _label("Base cálculo IRPJ")));
+var $txtTotIRPJ = _textbox(0, _near(_label("Valor do IRPJ")));
+
+
+//-------------Linha----------------
+
+$INDICE_COLUNAS = []; // esta variavel global irá armazenar o nome das colunas como um indice do array e o indice da coluna dentro do array
+
+function acharIndice($nameHeader, $linha){
+	var $cache = $INDICE_COLUNAS[$nameHeader]; // caso exista o indice, este será repassado a variavel cache e assim será maior que 0
+	if ($cache > 0)
+		return $cache; 
+
+	//---
+	var $i = 0;
+	var $tableHeader = "";
+
+	do {
+		$i++;
+		$tableHeader = _getText(_tableHeader($i,_rightOf(_tableHeader("s-grid-title-cell[10]"))));
+	} while($tableHeader != $nameHeader);
+
+	$INDICE_COLUNAS[$nameHeader] = $i + 1;
+	return $i + 1;
+}
+
+function setLinha ($nameHeader, $linha, $valor){
+	var $i = acharIndice($nameHeader, $linha); // aqui a variavel $i irá receber o indice da coluna encontrado na primeira função
+	var $aux = 0;
+	
+	/*
+	if($nameHeader != "Nível taxa 1"){
+		_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))),$valor)
+		$aux++;
+	}else{
+		_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i+1 ))),$valor)
+	}
+	*/
+	
+	if($nameHeader == "Nível taxa 1"){
+		_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i+1 ))),$valor)
+		$aux++;
+	}
+	if ($nameHeader == "ST do ISS"){
+		_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, 22 ))),"1");
+		$aux++;
+	}
+	if ($aux == 0){
+		_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))),$valor)
+	}
+}
+
+function clickLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);
+	var $aux2 = 0;
+	
+	if($nameHeader == "Nível taxa 1"){
+		_click(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i+1 ))));
+		$aux2++;
+	}
+			
+	if ($nameHeader == "ST do ISS"){
+		_click(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, 22 ))));
+		$aux2++;
+	}
+	if ($aux2 == 0){
+		_click(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))));
+	}
+}
+
+function tabLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);
+	 _keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))), 9)
+}
+
+function enterLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);	
+	var $aux3 = 0;
+	
+	if($nameHeader == "Nível taxa 1"){
+		_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i+1 ))), 13)
+		$aux3++;
+	}
+	if ($nameHeader == "ST do ISS"){
+		_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, 22 ))),13);
+		$aux3++;
+	}
+	if ($aux3 == 0)	{
+		_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))), 13)
+	}
+}
+
+
+function acharCFOP ($artigo){
+	switch ($artigo){
+	case "BMS051" :
+	case "BMS052" :
+	case "BMS055" :
+	case "BMS056" :
+	case "BMS067" :
+	case "BMS068" :
+	case "BMS073" :
+	case "BMS074" :
+	case "BMS075" :
+	case "BMS076" :
+	case "BMS077" :
+		return "6401";
+	case "BMS063" :
+	case "BMS064" :
+	case "BMS065" :
+	case "BMS066" :
+	case "BMS069" :	
+		return "6102";
+	default :
+		return "6101";
+	}
+}
+
+function acharCSTICMS ($artigo){
+	switch ($artigo){
+	case "BMS050":
+		return "00";
+	case "BMS051":
+	case "BMS052":
+		return "10";
+	case "BMS053":
+	case "BMS054":
+		return "20";	
+	case "BMS055":
+	case "BMS056":
+		return "30";	
+	case "BMS057":
+	case "BMS058":
+		return "40";	
+	case "BMS059":
+	case "BMS060":
+		return "41";	
+	case "BMS061":
+	case "BMS062":
+		return "50";	
+	case "BMS063":
+	case "BMS064":
+	case "BMS065":
+		return "51";		
+	case "BMS066":
+		return "60";		
+	case "BMS067":
+	case "BMS068":
+		return "70";		
+	default :
+		return "90";
+	}
+}

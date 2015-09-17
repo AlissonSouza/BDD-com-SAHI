@@ -1,0 +1,176 @@
+//Acesso o link da função RTAX
+
+_click(_link("Navigation"));
+
+_click(_div("Dados de base"));
+
+_click(_div("Variáveis cálculo de imposto"));
+
+_wait(1000);
+
+// ------------------ Editar abaixo ----------------------
+
+//	Adiciona as variaveis - eu havia efetuado o chamado aqui porque existia um for dentro deste script que exigia estar com a função aberta
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/VTAX_Variaveis.sah");
+
+_click(_div("Nova"));
+
+_setValue($txtEstab, "BR050");
+_keyPress($txtEstab, 9);
+
+try{
+	_click(_div("Eliminar"));
+	_click(_div("OK"));
+	_click(_div("Ok"));
+	_click(_div("Nova"));
+	_setValue($txtEstab, "BR050");
+	_keyPress($txtEstab, 9);
+}catch($e){
+	_click($txtEstab);
+}
+
+//-------------------------  LINHAS ----------------------------
+//VENDAS
+var $aux = 50;
+var $auxlk = 2;
+
+
+for (var $i=0; $i <= 27; $i++){ 							
+							
+	//PRIORIDADE
+	clickLinha("Prioridade", $i);
+	setLinha("Prioridade", $i, $i+1);
+	tabLinha("Prioridade", $i);
+
+	// REGRA DE CALCULO
+	clickLinha ("Regra de cálculo", $i);
+	setLinha("Regra de cálculo", $i, $aux);
+	tabLinha ("Regra de cálculo",$i);
+
+	
+	// ARTIGO
+	clickLinha("Artigo",$i);
+	setLinha("Artigo",$i, "BMS0"+$aux);
+	tabLinha("Artigo",$i);
+
+	// TIPO OPERAÇÃO (COMPRA/VENDA)
+	clickLinha("Tipo de operação",$i);
+	_click(_link("s-inplace-choice-picker["+$auxlk+"]"));
+	_click(_link("Venda"));
+	tabLinha("Tipo de operação",$i);
+
+	// ENTER
+	enterLinha("Tipo de operação",$i);
+	
+	$aux++;	
+	$auxlk = $auxlk + 3;
+}
+
+// 	COMPRAS ----------------------------------------------
+$aux = 50;
+
+for ($i; $i <= 55; $i++){ 							
+							
+	//PRIORIDADE
+	clickLinha("Prioridade", $i);
+	setLinha("Prioridade", $i, $i+1);
+	tabLinha("Prioridade", $i);
+
+	// REGRA DE CALCULO
+	clickLinha ("Regra de cálculo", $i);
+	setLinha("Regra de cálculo", $i, $aux);
+	tabLinha ("Regra de cálculo",$i);
+
+	
+	// ARTIGO
+	clickLinha("Artigo",$i);
+	setLinha("Artigo",$i, "BMS0"+$aux);
+	tabLinha("Artigo",$i);
+
+	// TIPO OPERAÇÃO (COMPRA/VENDA)
+	/*clickLinha("Tipo de operação",$i);
+	_click(_link("s-inplace-choice-picker["+$auxlk+"]"));
+	_click(_link("Compra"));
+	tabLinha("Tipo de operação",$i);
+	*/
+	// ENTER
+	enterLinha("Artigo",$i);
+	
+	$aux++;	
+	$auxlk = $auxlk + 3;
+}
+
+
+_click(_div("Criar"));
+
+//-----------------------  SERVIÇO ------------------
+
+_click(_div("Nova"));
+
+_setValue($txtEstab, "BR060");
+_keyPress($txtEstab, 9);
+
+try{
+	_click(_div("Eliminar"));
+	_click(_div("OK"));
+	_click(_div("Ok"));
+	_click(_div("Nova"));
+	_setValue($txtEstab, "BR060");
+	_keyPress($txtEstab, 9);
+}catch($e){
+	_click($txtEstab);
+}
+
+//-------------------------  LINHAS ----------------------------
+//VENDAS
+var $aux = 40;
+var $auxlk = 2;
+
+for (var $i=0; $i < 1; $i++){ 							
+							
+	//PRIORIDADE
+	clickLinha("Prioridade", $i);
+	setLinha("Prioridade", $i, $i+1);
+	tabLinha("Prioridade", $i);
+
+	// REGRA DE CALCULO
+	clickLinha ("Regra de cálculo", $i);
+	setLinha("Regra de cálculo", $i, $aux);
+	tabLinha ("Regra de cálculo",$i);
+
+	
+	// ARTIGO
+	clickLinha("Artigo",$i);
+	setLinha("Artigo",$i, "SER007");
+	tabLinha("Artigo",$i);
+
+	// TIPO OPERAÇÃO (COMPRA/VENDA)
+	clickLinha("Tipo de operação",$i);
+	_click(_link("s-inplace-choice-picker["+$auxlk+"]"));
+	_click(_link("Venda"));
+	tabLinha("Tipo de operação",$i);
+
+	// ENTER
+	enterLinha("Tipo de operação",$i);
+	
+	$aux++;	
+	$auxlk = $auxlk + 3;
+}
+
+_click(_div("Criar"));
+
+
+/*
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_div("Abandonar a função"));
+
+
+_click(_div("Eliminar"));
+_click(_div("OK"));
+_click(_div("Ok"));
+
+_wait(2000);
+
+_click(_link("Navigation"));
+*/

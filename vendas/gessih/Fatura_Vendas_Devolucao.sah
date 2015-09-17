@@ -1,0 +1,38 @@
+//Acesso o link da função Orçamento
+
+//	--------------------  FATURA SOMENTE COM ITENS, SEM ELMENTO DE FATURAÇÃO OU DESCONTO EM LINHA
+
+/*_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_div("Orçamentos[1]"))
+
+// Escolhe a transação
+_click(_div("ALL Registo completo orçamentos"));
+
+_wait(2000);
+*/
+//	Adiciona as variaveis - eu havia efetuado o chamado aqui porque existia um for dentro deste script que exigia estar com a função aberta
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Fatura\Fatura_Vendas_Variaveis.sah");
+
+_click(_div("Nova"));
+
+_setValue($txtEstabVenda, "BR050");
+_keyPress($txtEstabVenda, 9);
+
+_click($txtTipo);
+_setValue($txtTipo, "BRFCL");
+_keyPress($txtTipo, 9);
+
+_click($txtCliente);
+_setValue($txtCliente, "BR107");
+//_keyPress($txtCliente, 9);
+
+//--------------- Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "500");
+_keyPress($txtOpFiscal, 9);
+

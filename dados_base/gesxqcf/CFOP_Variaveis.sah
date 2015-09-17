@@ -1,0 +1,23 @@
+// Variáveis 
+
+// Cabeçalho
+var $txtCodigoCFOP = _textbox(0, _near(_label("Cód. CFOP")));
+var $txtVariacao =  _textbox(0, _near(_label("Variação")));
+var $txtDescricao = _textbox(0, _near(_label("Descrição")));
+var $txtDataInicio = _textbox(0, _near(_label("Data de início")));
+var $txtEstabelecimento = _textbox(0, _near( _label("Estab.")));
+
+
+// Separador Geral
+var $txtDescCompleta = _textbox(0, _near(_label("Descrição Completa")));
+var $linkCatCFOP = _link(0, _near(_label("Categoria CFOP")));
+
+// Separador Parâmetros
+var $cboxPIS = _checkbox(0, _near(_label("Incide PIS")))
+var $cboxCOFINS = _checkbox(0, _near(_label("Incide COFINS")))
+var $cboxIPI =  _checkbox(0, _near(_label("Incide IPI")))
+var $cboxICMS = _checkbox(0, _near(_label("Incide ICMS")))
+var $cboxICMS_ST = _checkbox(0, _near(_label("Incide ICMS ST")))
+var $cboxSUFRAMA = _checkbox(0, _near(_label("SUFRAMA")))
+
+

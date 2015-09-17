@@ -1,0 +1,25 @@
+// Variables of the function consxqr - Bank Remittance
+var $_ = $dadosBase.consxqr;
+
+//-------- Header
+$_.txtRemEstab = _textbox(0, _near(_label("Estabelecimento")));
+$_.txtRemCliente = _textbox(0, _near(_label("Cliente")));
+$_.txtRemInvoiceNum = _textbox(0, _near(_label("Número fatura")));
+$_.txtRemCC = _textbox(0, _near(_label("Conta corrente")));
+$_.txtRemCart = _textbox(0, _near(_label("Carteira")));
+$_.txtRemEmiIni = _textbox(0, _near(_label("Data emissão")));
+$_.txtRemEmiFinal = _textbox(4, _near(_label("Data emissão")));
+$_.txtRemVencIni = _textbox(0, _near(_label("Data vencimento")));
+$_.txtRemVencFinal = _textbox(2, _near(_label("Data vencimento")));
+$_.chkRemTitGer =  _checkbox(0, _near(_label("Títulos já gerados")));
+
+$_.linkRemPesq =  _link("Pesquisa");
+$_.linkRemProc =  _link("Processar");
+$_.linkRemProcAll =  _link("Processar todos");
+
+
+
+// get value from one table cell
+$_.getValueLinha = function ($linha, $nomeColuna){
+		return _textbox($linha, _under(_div($nomeColuna)));
+}

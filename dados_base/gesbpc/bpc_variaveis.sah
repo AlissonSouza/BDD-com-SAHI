@@ -1,0 +1,66 @@
+//################################################################
+//#### Isto nao deve ser criado neste script
+//#						CREATING A BPC							##
+//#																##
+//#	FEATURE: Addition											##
+//#			That is a BPC with different configurations			##
+//#																##
+//# SCENARIO: BPC ICMS contributor								##
+//#		GIVEN:  I have checked ICMS contributor					##
+//#		WHEN:	I click Save									##
+//#		THEN:	Will create a BPC ICMS contributor				##
+//#																##	
+//################################################################
+
+
+var $bpcTxtCategoria = _textbox(0, _near(_label("Categoria")));
+var $bpcTxtCliente = _textbox(0, _near(_label("Cliente")));
+
+//------------------------------- Identidade ----------------------------------
+
+var $bpcTxtRazSoc1 = _textbox(0, _near(_label("Razão social 1")));
+var $bpcTxtPais = _textbox(0, _near(_label("País")));
+var $bpcTxtLingua = _textbox(0, _near(_label("Língua")));
+var $bpcTxtDivisa = _textbox(0, _near(_label("Divisa")));
+
+var $bpcChkEstrangeiro = _checkbox(0, _near(_label("Estrangeiro")));
+var $bpcChkConsFinal = _checkbox(0, _near(_label("Consumidor final")));
+
+//---- Tipo Tributação
+var $bpcChkProdRual = _checkbox(0, _near(_label("Produtor Rural")));
+var $bpcChkOrgPublico = _checkbox(0, _near(_label("Órgão público")));
+var $bpcChkContICMS = _checkbox(0, _near(_label("Contribuinte de ICMS")));
+var $bpcChkSimples = _checkbox(0, _near(_label("Simples nacional")));
+var $bpcChkConsFinal2 = _checkbox(0, _near(_label("Consumidor final[1]")));
+//---
+var $bpcTxtRazSocBrasil = _textbox(0, _near(_label("Razão social Brasil")));
+
+
+//--------------------------- Endereço ---------------------------
+
+var $bpcTxtDescEnd = _textbox(0, _near(_label("Descr.")));
+var $bpcTxtPais = _textbox(0, _near(_label("País")));
+var $bpcTxtDescPais = _textbox(0, _near(_label("Descr.[1]")));
+var $bpcTxtLograd = _textbox(0, _near(_label("Logradouro")));
+var $bpcTxtComplem = _textbox(0, _near(_label("Complemento")));
+var $bpcTxtBairro = _textbox(0, _near(_label("Bairro")));
+var $bpcTxtNum = _textbox(0, _near(_label("Número")));
+var $bpcTxtCP = _textbox(0, _near(_label("CP")));
+var $bpcTxtCidade = _textbox(0, _near(_label("Cidade")));
+var $bpcTxtEstado = _textbox(0, _near(_label("Estado")));
+var $bpcTxtCnpj = _textbox(0, _near(_label("CNPJ/CPF/Id estrangeiro")));
+var $bpcTxtSiteW = _textbox(0, _near(_label("Site Web")));
+var $bpcTxtInsEst = _textbox(0, _near(_label("Inscrição Estadual")));
+var $bpcTxtInsMun = _textbox(0, _near(_label("Inscrição Municipal")));
+var $bpcTxtSuframa = _textbox(0, _near(_label("SUFRAMA")));
+
+
+//-------------------------- Dados Adicionais ----------------------------
+var $bpcTxtCNAE = _textbox(0, _near(_label("CNAE Principal")));
+
+//Retenções PIS/COFINS/CSLL
+var $bpcRdCadaNF = _radio(0, _near(_label("A cada Nota Fiscal emitida")));
+var $bpcRdLimite = _radio(0, _near(_label("De acordo com o limite estabelecido")));
+var $bpcRdNaoCalcRet = _radio(0, _near(_label("Não calcula retenção")));
+
+

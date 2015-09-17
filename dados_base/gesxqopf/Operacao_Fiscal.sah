@@ -1,0 +1,165 @@
+//	Adicona as variaveis
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/Operacao_Fiscal_Variaveis.sah");
+
+//----------------------------------
+
+_click(_link("Navigation"));
+
+_click(_div("Parametrização"));
+_click(_div("Operação fiscal"));
+
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_click(_link("Nova"));
+
+_setValue($txtCodigo, "985");
+_keyPress($txtCodigo, 9);
+
+_setValue($txtDescricao, "Teste Automático");
+_keyPress($txtDescricao, 9);
+//-------------------
+
+_click($txtDoc_Fiscal);
+_setValue($txtDoc_Fiscal, "1");
+_keyPress($txtDoc_Fiscal, 9);
+
+_click($linkAtivo);
+_click(_link("Sim"));
+
+_click($txtEstab);
+_setValue($txtEstab, "BR007");
+_keyPress($txtEstab, 9);
+
+_click($linkCategCFOP);
+_click(_link("Remessa (Outros)"));
+
+_assertTrue($cboxSomarICMSTotNF.disabled);
+_assertTrue($cboxSomarIIotNF.disabled);
+_assertTrue($cboxSomarPisCofinsTotNF.disabled);
+_assertTrue($cboxSomarDespImpTotNF.disabled);
+_assertTrue($cboxIncluirPisConfinsDespImp.disabled);
+
+_click($linkIndicadorPresenca);
+_click(_link("Não presencial, internet"));
+
+//1 --- teste 1 para checkbox somar ipi
+_click($linkDestinacao);
+_click(_link("Ativo imobilizado"));
+
+_assertTrue($cboxSomarIPI1.disabled);
+//1 ----
+
+_click($linkFinalidade);
+_click(_link("NF-e normal"));
+
+//2 --- teste 2 para checkbox somar IPI
+_click($linkDestinacao);
+_click(_link("Uso e consumo"));
+
+_assertNotTrue($cboxSomarIPI1.disabled);
+
+if ($cboxSomarIPI1.checked == false) {
+	_click($cboxSomarIPI1); 
+ }
+//2 ----
+_click($txtCFOP);
+_setValue($txtCFOP, "5101");
+_keyPress($txtCFOP, 9);
+
+_click($txtVariacao);
+_setValue($txtVariacao, "1");
+_keyPress($txtVariacao, 9);
+//------------------------------------------------------------------------------
+
+_click(_div("Config. Impostos"));
+
+_click($cboxZerarCreditoICMS);
+
+
+if ($cboxZerarCreditoICMS.checked) { 
+	
+	_assertTrue($cboxZerarCreditoICMS.checked);
+	
+	_assertExists($cboxCreditoICMS);
+	_assert(_isVisible($cboxCreditoICMS));
+	_assertTrue($cboxCreditoICMS.disabled);
+}else{
+	_click($cboxZerarCreditoICMS);
+	
+	_assertTrue($cboxZerarCreditoICMS.checked);
+	
+	_assertExists($cboxCreditoICMS);
+	_assert(_isVisible($cboxCreditoICMS));
+	_assertTrue($cboxCreditoICMS.disabled);
+}
+
+if ($cboxZerarCreditoICMS.checked == true) {
+		_click($cboxZerarCreditoICMS);
+		_click($cboxCreditoICMS);
+}
+
+_click($cboxCreditoIPI);
+
+_click($cboxRetirarFrete);
+
+//------------------SEQUENCIA PARA TESTAR HABILITAR E DESABILITAR CAMPOS COM PIS/COFINS-----------------
+
+if($cboxCreditoPIS.checked == false && $cboxCreditoCOFINS.checked == false){
+	_assertTrue($cboxSomarICMS_ST.disabled);
+	_assertTrue($cboxSomarIPI2.disabled);
+}
+
+_click($cboxCreditoPIS); //MARCOU
+if($cboxCreditoPIS.checked == true & $cboxCreditoCOFINS.checked == false){
+	_assertNotTrue($cboxSomarICMS_ST.disabled);
+	_assertNotTrue($cboxSomarIPI2.disabled);
+}
+
+_click($cboxCreditoPIS); //DESMARCOU
+_click($cboxCreditoCOFINS); //MARCOU
+if($cboxCreditoPIS.checked == false & $cboxCreditoCOFINS.checked == true){
+	_assertNotTrue($cboxSomarICMS_ST.disabled);
+	_assertNotTrue($cboxSomarIPI2.disabled);
+}
+
+_click($cboxCreditoPIS); //MARCOU
+if($cboxCreditoPIS.checked == true & $cboxCreditoCOFINS.checked == true){
+	_assertNotTrue($cboxSomarICMS_ST.disabled);
+	_assertNotTrue($cboxSomarIPI2.disabled);
+}
+//------------------------------------------------------------------------------------------
+
+_click($cboxSomarICMS_ST) //MARCOU
+_click($cboxSomarIPI2) //MARCOU		
+
+_click(_div("Geral"));
+
+_click($linkCategCFOP);
+_click(_link("Compra (Importação)"));
+
+// Verificar se as checkbox estão habilitadas após escolher Importação na Categoria da CFOP
+_assertNotTrue($cboxSomarICMSTotNF.disabled);
+_assertNotTrue($cboxSomarIIotNF.disabled);
+_assertNotTrue($cboxSomarPisCofinsTotNF.disabled);
+_assertNotTrue($cboxSomarDespImpTotNF.disabled);
+_assertNotTrue($cboxIncluirPisConfinsDespImp.disabled);
+
+_click(_div("Config. Impostos"));
+
+_click($cboxSomarICMSTotNF);
+_click($cboxSomarIIotNF);
+_click($cboxSomarPisCofinsTotNF);
+_click($cboxSomarDespImpTotNF);
+_click($cboxIncluirPisConfinsDespImp);
+
+//--------------- CRIA A OPERAÇÃO FISCAL E TESTE SEUS VALORES-----------
+_click(_div("Criar"));
+
+_wait(2000);
+
+_click(_div("Eliminar"));
+_click(_div("OK"));
+_click(_div("Ok"));
+_wait(2000);
+_click(_div("Abandonar a função"));
+

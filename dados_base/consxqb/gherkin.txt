@@ -1,0 +1,193 @@
+// Gherkin of the function - CONSXQB - Boleto
+
+// se a carteira está configurado para que o banco emita boleto, então nao deve permitir gerar ou imprimir o boleto
+// If the book is set up that the bank emit boleto, then should not allow to generate or print the boleto
+SCENARIO: 01 - If the book is set up that the bank emit boleto, then should not allow to generate or print the boleto
+			GIVEN book set up for the bank emit boleto 
+			GIVEN boleto generation
+			WHEN inform that book 
+			THEN must show the message "Não é possivel emitir o boleto porque para esta carteira o banco esta configurado como emissor do boleto."
+												// "this book not allowed to emit boleto because the bank who emit the boleto"
+
+//nao permitir data final menor que inicial
+SCENARIO: 02 - not allow end data less than start date 
+			GIVEN boleto generation
+			GIVEN default search filters
+			WHEN inform end date less than start date
+			THEN must show the message "Data incorreta"
+
+
+// não pode emitir boleto quando a carteira está configurada para que o banco controle o nosso numero
+
+SCENARIO: 03 - can't emit boleto when the book is set for the bank control the "nosso numero"
+			GIVEN book set up for the bank control the generate number
+			GIVEN boleto generation
+			WHEN inform that book 
+			THEN must show the message "Não é possivel emitir o boleto porque para esta carteira o banco esta configurado para controlar o nosso número."
+												// "this book not allowed to emit boleto because the bank who control the generate number"
+
+// ao emitir o boleto se o nosso numero existir, então nao deve alterar o nosso numero
+SCENARIO: 04 -  when emit the boleto, if the generate number already exist, then shouldn't change the generate number
+			GIVEN a open item with generate number
+			GIVEN boleto generation
+			WHEN generate the boleto
+			THEN shouldn't change the generate number
+
+// nao trazer vencimentos sem nota fiscal gerada, transmitida (validada)
+SCENARIO: 05 - not search open items if the invoice is not posted 
+			GIVEN an invoice (SIH) not posted
+			GIVEN boleto generation 
+			GIVEN search filters to find that invoice (SIH)
+			WHEN search
+			THEN that invoice can't be showed
+
+//quando abrir a tela, a mesma deve estar vazia
+SCENARIO: 06 - when open the function the fields must be empty
+			GIVEN boleto generation
+			THEN all fields must be empty
+
+//quando informar gesban agencia e conta corrente em branco
+SCENARIO: 07 - when try inform a gesban without agency and account
+			GIVEN boleto generation
+			WHEN inform a gesban without agency and account
+			THEN must show the message "Banco não possui agencia e conta corrente"
+
+//não permitir informar gesban sem carteira vinculada
+SCENARIO: 08 - can't inform a gesban without "carteira" linked
+			GIVEN boleto generation
+			WHEN inform a gesban without carteira linked
+			THEN must show the message "Banco nao possui carteira vinculada"
+			
+//não permitir informar uma carteira que o banco controle o nosso numero (porque o banco emite o boleto nesse caso)
+SCENARIO: 09 - can't inform a carteira that the bank control nosso número
+			GIVEN boleto generation
+			WHEN inform a carteira that control nosso numero.
+			THEN must show the message "Esta carteira está configurada para o banco controlar o nosso número"
+			
+//não permitir informar uma carteira que esteja configurada para o banco emitir o boleto
+SCENARIO: 10 - can't inform a carteira that the bank emit the boleto
+			GIVEN boleto generation
+			WHEN inform a carteira that the bank emit the boleto
+			THEN must show the message "Esta carteira está configurada para o banco emitir o boleto."			
+
+//testar filtros de pesquisa
+SCENARIO: 11 - test search filters
+			GIVEN a invoice posted
+			GIVEN boleto generation
+			WHEN search that open item just with mandatory filters
+			THEN the open item must be showed in the grid
+			WHEN search that open item by emission date
+			THEN the open item must be showed in the grid
+			WHEN search that open item by due date	
+			THEN the open item must be showed in the grid
+			WHEN search that open item by invoice
+			THEN the open item must be showed in the grid
+			WHEN generate the boleto
+			WHEN search that open item by invoice
+			THEN the open item must be showed in the grid
+			THEN the open item must have a nosso numero
+			WHEN generate the boleto
+			WHEN search that open item by nosso numero
+			THEN the open item must be showed in the grid
+			THEN nosso numero must be the same //se achar algo atraves do nosso numero logo significa que nao alterou (2 steps atras)
+
+//valida se esta gerando nosso numero
+SCENARIO: 12 - Validate if is generating the nosso numero
+			GIVEN a invoice posted
+			GIVEN boleto generation
+			WHEN search that open item by invoice
+			WHEN generate the boleto
+			THEN the open item must have a nosso numero
+
+//--------------------------------------------------------------------------------------- ABAIXO NAO FOI AUTOMATIZADO ---------------------------------------------------------------------------------------------------						
+//deve criar diferentes nosso numero para cada vencimento
+SCENARIO: 13 - must create different nosso numero for each open item
+			GIVEN a invoice posted with 3 open items
+			GIVEN boleto generation
+			WHEN search that open item by invoice
+			THEN must show open item "A" with "nosso numero" equal "empty"
+			THEN must show open item "B" with "nosso numero" equal "empty"
+			THEN must show open item "C" with "nosso numero" equal "empty"			
+			WHEN generate the boleto
+			THEN nosso numero need be unique for each (A, B, C)
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCENARIO: 14 -- VERIFICAR POIS ESSA VALIDAÇÃO TALVEZ SEJA DA REMESSA #TODO
+DADO vencimento com 3 parcelas
+QUANDO gerar boleto so para uma parcela
+ENTÃO as outras 2 parcelas nao possuem nosso numero
+ENTÃO o status das 2 parcelas ficam como nao enviado
+ENTÃO o status da parcela 1 fica como enviado ao banco
+
+SCENARIO: 15 -- VERIFICAR POIS ESSA VALIDAÇÃO TALVEZ SEJA DA REMESSA #TODO
+DADO vencimento com 3 parcelas
+QUANDO alterar este vencimento para 2 parcelas
+DADO tela de boleto
+QUANDO pesquisar este vencimento
+ENTÃO deve demonstrar somente 2 parcelas na grid com status de nao enviado
+
+SCENARIO: 16 -- VERIFICAR POIS ESSA VALIDAÇÃO TALVEZ SEJA DA REMESSA #TODO
+DADO vencimento com 3 parcelas
+QUANDO gerar boleto so para uma parcela
+QUANDO alterar as 2 parcelas restantes para 3
+DADO tela de boleto
+QUANDO pesquisa a NF
+ENTÃO deve mostrar 4 parcelas
+ENTÃO a parcela 1 deve ter status de já enviada ao banco
+ENTÃO as parcelas restantes devem possuir status de nao enviado
+
+SCENARIO: 17
+DADO vencimento 1 parcela
+QUANDO gerar boleto
+QUANDO deletar vencimento
+ENTÃO ?????
+
+SCENARIO: 18
+DADO vencimento 1 parcela
+QUANDO gerar boleto
+QUANDO alterar vencimento
+ENTÃO o que acontece com o boleto e o nosso numero ????
+ENTÃO ?????? status de nao enviado 
+
+SCENARIO: 19
+DADO vencimento 1 parcela
+QUANDO gerar boleto
+QUANDO alterar esse vencimento para 2 parcelas
+ENTÃO o que acontece com o boleto e o nosso numero ????
+
+SCENARIO: 20
+DADO vencimento 2 parcela
+QUANDO gerar boleto
+QUANDO alterar esse vencimento para 3 parcelas
+ENTÃO  o que acontece com o boleto e o nosso numero ????
+
+SCENARIO: 21
+DADO vencimento 2 parcela
+QUANDO gerar boleto
+ENTÃO deve possuir anexos na SIH
+
+SCENARIO: 22
+DADO vencimento 2 parcela
+QUANDO gerar boleto
+ENTÃO deve possuir anexos na SIH
+QUANDO alterar vencimento da parcela 2
+QUANDO gerar boleto
+ENTÃO deve alterar anexos na SIH
+
+SCENARIO: 23
+DADO vencimento X
+DADO tela boleto
+QUANDO pesquisar vencimento X
+QUANDO gerar boleto
+ENTÃO coluna confirmação "não enviado"
+DADO tela remessa
+QUANDO gerar remessa
+DADO tela boleto
+QUANDO pesquisar vencimento X
+ENTÃO coluna confirmação "enviado ao banco"
+
+SCENARIO: 24
+nao trazer vencimentos que tenham sido pagos

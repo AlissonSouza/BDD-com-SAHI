@@ -1,0 +1,180 @@
+//	Adicona as variaveis
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Dados_Base\Operacao_Fiscal_Variaveis.sah");
+
+//----------------------------------
+/*
+_click(_link("Navigation"));
+
+_click(_div("Parametrização"));
+_click(_div("Operação fiscal"));
+
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+*/
+_click(_link("Nova"));
+
+_setValue($txtOpfCodigo, "9854");
+_keyPress($txtOpfCodigo, 9);
+
+_setValue($txtOpfDescricao, "TESTE TELA AUTOMAÇÃO");
+_keyPress($txtOpfDescricao, 9);
+//-------------------
+
+_click($txtOpfDoc_Fiscal);
+_setValue($txtOpfDoc_Fiscal, "50");
+_keyPress($txtOpfDoc_Fiscal, 9);
+
+_click($linkOpfAtivo);
+_click(_link("Sim"));
+
+_click($txtOpfEstab);
+_setValue($txtOpfEstab, "BR050");
+_keyPress($txtOpfEstab, 9);
+
+_click($linkOpfCategCFOP);
+_click(_link("Venda (Nacional)"));
+
+_assertEqual(true, _getAttribute($cboxOpfSomarICMSTotNF,"disabled"));
+// _assertTrue($cboxOpfSomarICMSTotNF.disabled); -- outra maneira de efetuar este assert
+_assertEqual(true, _getAttribute($cboxOpfSomarPisCofinsTotNF,"disabled"));
+_assertEqual(true, _getAttribute($cboxOpfSomarIIotNF,"disabled"));
+_assertEqual(true, _getAttribute($cboxOpfSomarDespImpTotNF,"disabled"));
+_assertEqual(true, _getAttribute($cboxOpfIncluirPisConfinsDespImp,"disabled"));
+_assertEqual(true, _getAttribute($cboxOpfIncluirDespImpBasePisConfins,"disabled"));
+_assertEqual(true, _getAttribute($cboxOpfIncluirEncarCambBasePisConfins,"disabled"));
+_assertEqual(true, _getAttribute($opboxOpfRateioValor,"disabled"));
+_assertEqual(true, _getAttribute($opboxOpfRateioPeso,"disabled"));
+
+_click($linkOpfCategCFOP);
+_click(_link("Compra (Importação)"));
+
+_assertEqual(false, _getAttribute($cboxOpfSomarICMSTotNF,"disabled"));
+// _assertFalse($cboxOpfSomarICMSTotNF.disabled); -- outra maneira de efetuar este assert
+_assertEqual(false, _getAttribute($cboxOpfSomarPisCofinsTotNF,"disabled"));
+_assertEqual(false, _getAttribute($cboxOpfSomarIIotNF,"disabled"));
+_assertEqual(false, _getAttribute($cboxOpfSomarDespImpTotNF,"disabled"));
+_assertEqual(false, _getAttribute($cboxOpfIncluirPisConfinsDespImp,"disabled"));
+_assertEqual(false, _getAttribute($cboxOpfIncluirDespImpBasePisConfins,"disabled"));
+_assertEqual(false, _getAttribute($cboxOpfIncluirEncarCambBasePisConfins,"disabled"));
+_assertEqual(false, _getAttribute($opboxOpfRateioValor,"disabled"));
+_assertEqual(false, _getAttribute($opboxOpfRateioPeso,"disabled"));
+
+
+_click($linkOpfIndicadorPresenca);
+_click(_link("Não presencial, internet"));
+
+_click($linkOpfFinalidade);
+_click(_link("NF-e normal"));
+
+//1 --- teste 1 para checkbox somar ipi e LT
+_click($linkOpfDestinacao);
+_click(_link("Ativo imobilizado"));
+_assertFalse($cboxOpfSomarIPI1.disabled); // posso usar tambem _assertNotTrue
+_assertFalse($cboxOpfCalcLT.disabled);
+//1 ----
+
+//2 --- teste 2 para checkbox somar IPI e LT
+_click($linkOpfDestinacao);
+_click(_link("Uso e consumo"));
+_assertNotTrue($cboxOpfSomarIPI1.disabled);
+_assertFalse($cboxOpfCalcLT.disabled);
+_check($cboxOpfSomarIPI1); 
+_check($cboxOpfCalcLT); 
+//2 ----
+
+// 3 ----- testar se ao desabilitar o campo também ira uncheck de checkbox e LT
+_click($linkOpfDestinacao);
+_click(_link("Comercialização/saídas subsequentes"));
+_assertTrue($cboxOpfSomarIPI1.disabled);
+_assertFalse($cboxOpfSomarIPI1.checked);
+_assertTrue($cboxOpfCalcLT.disabled);
+_assertFalse($cboxOpfCalcLT.checked);
+// 3-----
+
+_click($txtOpfCFOP);
+_setValue($txtOpfCFOP, "3101");
+_keyPress($txtOpfCFOP, 9);
+
+_click($txtOpfVariacao);
+_setValue($txtOpfVariacao, "1");
+_keyPress($txtOpfVariacao, 9);
+
+//------------------------------------------------------------------------------------------
+
+_click(_div("Config. Impostos"));
+
+// Ao selecionar  Zerar Credido ICMS, deve desabilitar e uncheck credito de ICMS
+_check($cboxOpfCreditoICMS);
+_check($cboxOpfZerarCreditoICMS);
+_assertTrue($cboxOpfCreditoICMS.disabled);
+_assertFalse($cboxOpfCreditoICMS.checked);
+
+// Ao Deselecionar  Zerar Credido ICMS, deve habilitar credito de ICMS
+_uncheck($cboxOpfZerarCreditoICMS);
+_assertFalse($cboxOpfCreditoICMS.disabled);
+
+_check($cboxOpfCreditoIPI);
+
+_check($cboxOpfRetirarFrete);
+
+//------------------SEQUENCIA PARA TESTAR HABILITAR E DESABILITAR CAMPOS COM PIS/COFINS-----------------
+
+_check($cboxOpfCreditoPIS); //MARCOU
+_assertFalse($cboxOpfSomarICMS_ST.disabled);
+_assertFalse($cboxOpfSomarIPI2.disabled);
+
+_uncheck($cboxOpfCreditoPIS); //DESMARCOU
+_check($cboxOpfCreditoCOFINS); //MARCOU
+_assertFalse($cboxOpfSomarICMS_ST.disabled);
+_assertFalse($cboxOpfSomarIPI2.disabled);
+
+_check($cboxOpfCreditoPIS); //MARCOU
+_assertNotTrue($cboxOpfSomarICMS_ST.disabled);
+_assertNotTrue($cboxOpfSomarIPI2.disabled);
+
+_uncheck($cboxOpfCreditoPIS)//DESMARCOU
+_uncheck($cboxOpfCreditoCOFINS)//DESMARCOU
+_assertTrue($cboxOpfSomarICMS_ST.disabled);
+_assertFalse($cboxOpfSomarICMS_ST.checked);
+_assertTrue($cboxOpfSomarIPI2.disabled);
+_assertFalse($cboxOpfSomarIPI2.checked);
+
+//------------------------------------------------------------------------------------------
+_check($cboxOpfSomarICMSTotNF); 
+_check($cboxOpfSomarIIotNF); 
+_check($cboxOpfIncluirDespImpBasePisConfins);
+_check($cboxOpfIncluirEncarCambBasePisConfins);
+
+//validação para valores no total da nota
+_check($cboxOpfSomarPisCofinsTotNF);
+_assertTrue($cboxOpfIncluirPisConfinsDespImp.disabled);
+
+_uncheck($cboxOpfSomarPisCofinsTotNF);
+_check($cboxOpfSomarDespImpTotNF)
+_assertTrue($cboxOpfIncluirPisConfinsDespImp.disabled);
+
+_check($cboxOpfSomarPisCofinsTotNF);
+_check($cboxOpfSomarDespImpTotNF)
+_assertTrue($cboxOpfIncluirPisConfinsDespImp.disabled);
+
+_uncheck($cboxOpfSomarPisCofinsTotNF);
+_uncheck($cboxOpfSomarDespImpTotNF)
+_check($cboxOpfIncluirPisConfinsDespImp);
+_assertTrue($cboxOpfSomarPisCofinsTotNF.disabled);
+_assertTrue($cboxOpfSomarDespImpTotNF.disabled);
+
+_check($opboxOpfRateioValor);
+_check($opboxOpfRateioPeso);
+
+//--------------- CRIA A OPERAÇÃO FISCAL E TESTE SEUS VALORES-----------
+_click(_link("Criar"));
+
+_wait(2000);
+
+
+_click(_link("Eliminar"));
+_click(_link("OK"));
+_click(_link("Ok"));
+_wait(2000);
+
+//_click(_link("Abandonar a função"));
+

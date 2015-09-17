@@ -1,0 +1,121 @@
+//-----------------------------------------------------------------------------
+// Steps of the function NF Monit - consxqnfmt
+
+_include("variables.sah");
+
+//-----------------------------------------------------------------------------
+//------------------------------  GIVEN ---------------------------------------
+$dadosBase.consxqnfmt.givenNfMonit = function (){
+	_click(_link("/site-navigation/"));
+	try {
+		_click(_div("Dados comuns"));
+	}catch ($e){	
+		_click(_div("Dados de base"));
+	}
+	_click(_link("Monitoramento da NF-e"));
+	_wait(20000, !_isVisible(_div("s-uiLocker-overlay")));	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqnfmt.givenSearchFilters_12Parameters = function ($estab, $cliFor, $ufOrig, $ufDest, $datEmiIni, $datEmiFim, $status, $evento, $serieIni, $serieFim, $nfIni, $nfFim){
+
+	_click($dadosBase.consxqnfmt.txtEstab);
+	_setValue($dadosBase.consxqnfmt.txtEstab, $estab);
+	_keyPress($dadosBase.consxqnfmt.txtEstab, 9);
+	
+	_click($dadosBase.consxqnfmt.txtCliFor);
+	_setValue($dadosBase.consxqnfmt.txtCliFor, $cliFor);
+	_keyPress($dadosBase.consxqnfmt.txtCliFor, 9);
+	
+	_click($dadosBase.consxqnfmt.txtUfOrigem);
+	_setValue($dadosBase.consxqnfmt.txtUfOrigem, $ufOrig);
+	_keyPress($dadosBase.consxqnfmt.txtUfOrigem, 9);
+	
+	_click($dadosBase.consxqnfmt.txtUfDestino);
+	_setValue($dadosBase.consxqnfmt.txtUfDestino, $ufDest);
+	_keyPress($dadosBase.consxqnfmt.txtUfDestino, 9);
+	
+	_click($dadosBase.consxqnfmt.txtEmiIni);
+	_setValue($dadosBase.consxqnfmt.txtEmiIni, $datEmiIni);
+	_keyPress($dadosBase.consxqnfmt.txtEmiIni, 9);
+	
+	_click($dadosBase.consxqnfmt.txtEmiFinal);
+	_setValue($dadosBase.consxqnfmt.txtEmiFinal, $datEmiFim);
+	_keyPress($dadosBase.consxqnfmt.txtEmiFinal, 9);
+	
+	_click($dadosBase.consxqnfmt.txtSerieIni);
+	_setValue($dadosBase.consxqnfmt.txtSerieIni, $serieIni);
+	_keyPress($dadosBase.consxqnfmt.txtSerieIni, 9);
+	
+	_click($dadosBase.consxqnfmt.txtSerieFinal);
+	_setValue($dadosBase.consxqnfmt.txtSerieFinal, $serieFim);
+	_keyPress($dadosBase.consxqnfmt.txtSerieFinal, 9);	
+	
+	_click($dadosBase.consxqnfmt.txtNfIni);
+	_setValue($dadosBase.consxqnfmt.txtNfIni, $nfIni);
+	_keyPress($dadosBase.consxqnfmt.txtNfIni, 9);
+
+	_click($dadosBase.consxqnfmt.txtNfFinal);
+	_setValue($dadosBase.consxqnfmt.txtNfFinal, $nfFim);
+	_keyPress($dadosBase.consxqnfmt.txtNfFinal, 9);
+	
+	_click($dadosBase.consxqnfmt.linkStatus);
+	_click(_link($status));
+	_keyPress($dadosBase.consxqnfmt.linkStatus, 9);
+
+	_click($dadosBase.consxqnfmt.linkEvento);
+	_click(_link($evento));
+	_keyPress($dadosBase.consxqnfmt.linkEvento, 9);
+}
+
+//-----------------------------------------------------------------------------
+//--------------------------------    WHEN   ----------------------------------
+$dadosBase.consxqnfmt.whenInformEndDateLessStartDate = function (){
+
+	//#TODO - converter (copia do boleto)
+	_click($dadosBase.consxqnfmt.txtBolEmiIni);
+	_setValue($dadosBase.consxqnfmt.txtBolEmiIni, $dadosBase.consxqnfmt.getTodaysDate());
+	_keyPress($dadosBase.consxqnfmt.txtBolEmiIni,9);
+	
+	_click($dadosBase.consxqnfmt.txtBolEmiFinal);
+	_setValue($dadosBase.consxqnfmt.txtBolEmiFinal, $dadosBase.consxqnfmt.getYesterdaysDate());
+	_keyPress($dadosBase.consxqnfmt.txtBolEmiFinal,9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqnfmt.whenSearch = function (){
+	_click(_link("Pesquisa"));
+}
+//-----------------------------------------------------------------------------
+//--------------------------------    ENTAO   ---------------------------------
+$dadosBase.consxqnfmt.thenMustShowMessage_ = function ($message){ 
+	_assertExists(_heading1($message));	
+	_click(_link("Ok"));	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqnfmt.thenEmptyTable = function (){
+	_assertEqual("", _getValue($dadosBase.consxqnfmt.getValueLinha(0,"Vencimento")), "Encontrou algum texto");	
+}
+
+
+//-----------------------------------------------------------------------------
+//------------------------ FUNCOES COMPLEMENTARES -----------------------------
+
+$dadosBase.consxqnfmt.screenExit = function (){
+	_click(_link("Sair"));
+	_wait(3000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}
+}
+
+//-----------------------------------------------------------------------------
+$dadosBase.consxqnfmt.getTodaysDate = function () {
+    var date = new Date();
+    date.setDate(date.getDate());
+    return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();    
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqnfmt.getYesterdaysDate = function () {
+    var date = new Date();
+    date.setDate(date.getDate()-1);
+    return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();    
+}

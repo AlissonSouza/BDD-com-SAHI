@@ -1,0 +1,36 @@
+// Variáveis da Função Carteira
+
+//-------- Header
+var $txtGesGacConta = _textbox(0, _near( _label("Conta")));
+var $txtGesGacContaDesc = _textbox(1, _near( _label("Conta")));
+var $chkGesGacContaDesc = _checkbox(0, _near( _label("Colectivo")));
+
+
+
+//Geral
+
+
+function clickLinha ($linha, $nomeColuna){
+	_click(_textbox($linha, _under(_div($nomeColuna))));
+}
+
+function clickLinkLinha($linha, $nomeColuna, $valor){
+	_click(_link($linha, _under(_div($nomeColuna))));
+	_click(_link($valor));
+}
+
+function setLinha ($linha, $nomeColuna, $valor){
+	_setValue(_textbox($linha, _under(_div($nomeColuna))), $valor);
+}
+
+function tabLinha ($linha, $nomeColuna){
+	_keyPress(_textbox($linha, _under(_div($nomeColuna))), 9);
+}
+
+function enterLinha ($linha, $nomeColuna){
+	_keyPress(_textbox($linha, _under(_div($nomeColuna))), 13);
+}
+
+
+
+

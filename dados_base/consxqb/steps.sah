@@ -1,0 +1,241 @@
+//-----------------------------------------------------------------------------
+// Phrases of the function Bank Remittance 
+
+// Variáveis globais do módulo FINANCEIRO
+/*	$dirty: significa que os dados não foram gravados
+if ($dirty) {
+	_click(_link("Criar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	$dirty = false;
+}
+*/
+//var $dirty = true;
+
+_include("variables.sah");
+_include("../../vendas/gessih/invoiceNotPosted.sah"); // to create a invoice not posted
+
+//-----------------------------------------------------------------------------
+//------------------------------  GIVEN ---------------------------------------
+
+$dadosBase.consxqb.givenBoletoGeneration = function (){
+//-----------------------------------------------------------------------------
+// Acesso a função Carteira 
+	_click(_link("/site-navigation/"));
+	try {
+		_click(_div("Dados comuns"));
+	}catch ($e){	
+		_click(_div("Dados de base"));
+	}
+	_click(_link("Contas em banco"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	
+	//acessar a tela de carteira dentro da função contas em banco
+	//_click(_div("Leg. Brasileira"))
+	// #TODO???
+	_click(_link("/func-link/"));
+	_setValue(_textbox(0,_near(_div("Chamada Directa"))),"CONSXQB");
+	_click(_link("OK"));
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.givenSearchFilters_9Parameters = function ($estab, $contaC, $cart, $doc, $nossoNum, $datEmiIni, $datEmiFim, $datVenIni, $datVenFim){
+
+	_click($dadosBase.consxqb.txtBolEstab);
+	_setValue($dadosBase.consxqb.txtBolEstab, $estab);
+	_keyPress($dadosBase.consxqb.txtBolEstab, 9);
+	
+	_click($dadosBase.consxqb.txtBolCC);
+	_setValue($dadosBase.consxqb.txtBolCC, $contaC);
+	_keyPress($dadosBase.consxqb.txtBolCC, 9);
+	
+	_click($dadosBase.consxqb.txtBolCart);
+	_setValue($dadosBase.consxqb.txtBolCart, $cart);
+	_keyPress($dadosBase.consxqb.txtBolCart, 9);
+	
+	_click($dadosBase.consxqb.txtBolDoc);
+	_setValue($dadosBase.consxqb.txtBolDoc, $doc);
+	_keyPress($dadosBase.consxqb.txtBolDoc, 9);
+	
+	_click($dadosBase.consxqb.txtBolNossoNum);
+	_setValue($dadosBase.consxqb.txtBolNossoNum, $nossoNum);
+	_keyPress($dadosBase.consxqb.txtBolNossoNum, 9);
+	
+	_click($dadosBase.consxqb.txtBolEmiIni);
+	_setValue($dadosBase.consxqb.txtBolEmiIni, $datEmiIni);
+	_keyPress($dadosBase.consxqb.txtBolEmiIni, 9);
+	
+	_click($dadosBase.consxqb.txtBolEmiFinal);
+	_setValue($dadosBase.consxqb.txtBolEmiFinal, $datEmiFim);
+	_keyPress($dadosBase.consxqb.txtBolEmiFinal, 9);
+	
+	_click($dadosBase.consxqb.txtBolVencIni);
+	_setValue($dadosBase.consxqb.txtBolVencIni, $datVenIni);
+	_keyPress($dadosBase.consxqb.txtBolVencIni, 9);
+	
+	_click($dadosBase.consxqb.txtBolVencFinal);
+	_setValue($dadosBase.consxqb.txtBolVencFinal, $datVenFim);
+	_keyPress($dadosBase.consxqb.txtBolVencFinal, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.givenOpenItemWithNossoNumero = function (){
+	
+	//#TODO - Conferir esta função, ela foi copiada e precisa ser ajustada, preciso gerar e armazenar o nosso numero e depois verificar se mudou
+	
+	//create the invoice and save some information
+	$vendas.gessih.createInvoice_("BR050", "BR107", "BOL3045");
+	$vendas.gessih.post();
+	$vendas.gessih.screenExit();
+		
+	// acess the Remessa Bancaria and insert filters of invoice created in the previous step
+	//$dadosBase.consxqr.givenBankRemittance();
+	//$dadosBase.consxqr.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', true);
+	//$dadosBase.consxqr.whenSearch();
+	//$dadosBase.consxqr.whenProcessAll();
+	//
+	////after process de file, save the Nosso Numero
+	//$dadosBase.consxqr.givenSearchFilters_10Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.cliente, $vendas.gessih.dados.numInvoice, $vendas.gessih.dados.dataEmi, $vendas.gessih.dados.dataEmi, '', '', true);
+	//$dadosBase.consxqr.dados.nossoNumero = _getValue($dadosBase.consxqr.getValueLinha(0,"Nosso Num")); //#TODO verificar nome da coluna			
+	//
+	////after save Nosso Numero, exit screen
+	//$dadosBase.consxqr.screenExit();
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.givenInvoiceNotPosted = function (){
+	$vendas.gessih.createInvoice_("BR050", "BR107", "BOL3045");
+	$vendas.gessih.screenExit();
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.givenInvoicePosted = function (){
+	$vendas.gessih.createInvoice_("BR050", "BR107", "BOL3045");
+	$vendas.gessih.post();
+	$vendas.gessih.screenExit();
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.givenOpenItem_3 = function ($estab, $cliente, $payMethod){
+	//create the invoice and save some information
+	$vendas.gessih.createInvoice_($estab, $cliente, $payMethod);
+	$vendas.gessih.post();
+	$vendas.gessih.screenExit();
+}
+//-----------------------------------------------------------------------------
+//--------------------------------    WHEN   ----------------------------------
+$dadosBase.consxqb.whenInformEstab_Gesban_Carteira_ = function ($estab, $contaC, $cart){
+	
+	_click($dadosBase.consxqb.txtBolEstab);
+	_setValue($dadosBase.consxqb.txtBolEstab, $estab);
+	_keyPress($dadosBase.consxqb.txtBolEstab, 9);
+
+	_click($dadosBase.consxqb.txtBolCC);
+	_setValue($dadosBase.consxqb.txtBolCC, $contaC);
+	_keyPress($dadosBase.consxqb.txtBolCC, 9);
+	
+	_click($dadosBase.consxqb.txtBolCart);
+	_setValue($dadosBase.consxqb.txtBolCart, $cart);
+	_keyPress($dadosBase.consxqb.txtBolCart, 9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.whenInformEndDateLessStartDate = function (){
+	
+	_click($dadosBase.consxqb.txtBolEmiIni);
+	_setValue($dadosBase.consxqb.txtBolEmiIni, $dadosBase.consxqb.getTodaysDate());
+	_keyPress($dadosBase.consxqb.txtBolEmiIni,9);
+	
+	_click($dadosBase.consxqb.txtBolEmiFinal);
+	_setValue($dadosBase.consxqb.txtBolEmiFinal, $dadosBase.consxqb.getYesterdaysDate());
+	_keyPress($dadosBase.consxqb.txtBolEmiFinal,9);
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.whenSearch = function (){
+	_click($dadosBase.consxqb.linkPesquis));
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.whenGenerateBoleto = function (){
+	_click(_link("Preparar dados"));
+}
+//-----------------------------------------------------------------------------
+//--------------------------------    THEN   ---------------------------------
+$dadosBase.consxqb.thenMustShowMessage_ = function ($message){ 
+	_assertExists(_heading1($message));	
+	_click(_link("Ok"));	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.thenEmptyTable = function (){
+	_assertEqual("", _getValue($dadosBase.consxqb.getValueLinha(0,"Vencimento")), "Encontrou algum texto");	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.thenEmptyFields = function() {
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolEstab), "Encontrou algum texto");
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolCliente), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolCC), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolCart), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolDoc), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolNossoNum), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolEmiIni), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolEmiFinal), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolVencIni), "Encontrou algum texto");	
+	_assertEqual("", _getValue($dadosBase.consxqb.txtBolVencFinal), "Encontrou algum texto");	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.thenMustFindInTheGrid_2 =  function ($divName, $compareValue){
+	var $aux = 0;
+	var $linha = 0;
+	try{
+		do{
+			$aux = _getValue(_textbox($linha, _under(_div($divName))));
+			if ($aux == $compareValue) {
+				break;
+			}	
+			$linha++;
+		}while ($aux != $compareValue);
+		_assertEqual($compareValue, $aux, "Não achou a informação");
+	}catch ($e){
+		_log("Não encontrou a próxima linha e a informação");
+		_logExceptionAsFailure($e);
+	}							
+}	
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.thenOpenItemMustHaveNossoNumero_ =  function ($invoice){
+	var $aux = 0;
+	var $linha = 0;	
+
+	try{
+		do{
+			$aux = _getValue(_textbox($linha, _under(_div("Nr. documento")))); // var $linha possui o numero da linha que está o documento
+			
+			if ($aux == $invoice) {	
+				$aux = _getValue(_textbox($linha, _under(_div("Nosso número[1]")))); // com o valor da linha busca o nosso numero'
+				
+				$dadosBase.consxqb.nossoNum = aux; // armazena nosso numero para uso futuro
+				
+				_assertNotEqual("", $aux, "Não existe nosso numero");
+				break;
+			}	
+			$linha++;
+		}while ($aux != $compareValue);
+	}catch ($e){
+		_log("Não encontrou o documento na grid");
+		_logExceptionAsFailure($e);
+	}		
+}
+//-----------------------------------------------------------------------------
+//------------------------ FUNCOES COMPLEMENTARES -----------------------------
+
+$dadosBase.consxqb.screenExit = function (){
+	_click(_link("Sair"));
+	_wait(3000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}
+}
+
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.getTodaysDate = function () {
+    var date = new Date();
+    date.setDate(date.getDate());
+    return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();    
+}
+//-----------------------------------------------------------------------------
+$dadosBase.consxqb.getYesterdaysDate = function () {
+    var date = new Date();
+    date.setDate(date.getDate()-1);
+    return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();    
+}

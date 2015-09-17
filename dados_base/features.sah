@@ -1,0 +1,18 @@
+//este script chama as funções que se deseja testar dentro de um modulo
+var $dadosBase = {};
+
+//_include("gesxqcf/funcionalidade.sah");
+
+// testando a funcionalidade da função gesban
+_include("gesban/funcionalidade.sah");
+
+// testando a funcionalidade da função carteira
+_include("gesxqcart/funcionalidade.sah");
+
+// function CONSXQR - Bank Remittance
+_include("consxqr/feature.sah");
+
+// function CONSXQB - Bank Boleto
+_include("consxqb/feature.sah");
+
+

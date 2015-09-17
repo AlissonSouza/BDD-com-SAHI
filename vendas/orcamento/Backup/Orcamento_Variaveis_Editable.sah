@@ -1,0 +1,230 @@
+// Variáveis da Função Sociedade
+
+var $txtEstabVenda = _textbox(0, _near(_label("Estabelecimento Venda")));
+var $txtCliente = _textbox(0, _near(_label("Cliente")));
+var $txtOpFiscal = _textbox(0, _near(_label("Op. fiscal")));
+
+//-------------------
+var $txtEstabExped = _textbox(0, _near(_label("Estabelecimento expedição")));
+
+
+//-------------Linha----------------
+$INDICE_COLUNAS = [];
+
+function acharIndice($nameHeader, $linha){
+	var $cache = $INDICE_COLUNAS[$nameHeader];
+	if ($cache > 0)
+		return $cache; 
+
+	var $i = 0;
+	var $tableHeader = "";
+
+	do {
+		$i++;
+		$tableHeader = _getText(_tableHeader($i,_rightOf(_tableHeader("s-grid-title-cell[12]"))));
+	} while($tableHeader != $nameHeader);
+
+	$INDICE_COLUNAS[$nameHeader] = $i + 1;
+	return $i + 1;
+}
+
+function setLinha ($nameHeader, $linha, $valor){
+	var $i = acharIndice($nameHeader, $linha);
+	_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))),$valor)
+}
+
+function clickLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);
+	_click(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))))
+}
+
+function tabLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);
+	 _keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))), 9)
+}
+
+function enterLinha ($nameHeader, $linha){
+	var $i = acharIndice($nameHeader, $linha);	
+	_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i ))), 13)
+}
+
+
+
+/*
+function indiceHeader ($nameHeader, $linha){
+
+var $i = 0;
+var $tableHeader = ""
+
+do {
+	$i++;
+	$tableHeader = _getText(_tableHeader($i,_rightOf(_tableHeader("s-grid-title-cell[12]"))));
+} while($tableHeader != $nameHeader);
+	
+	return _textbox(0, _in( _cell( _table("s-grid-table-body[3]"), $linha, $i+1 )))
+}
+
+
+/*
+
+var $indiceTableReader = new Array(50);
+//var $contador = 0;
+
+// O "for" abaixo está armazendo o nome do header de cada coluna para buscar o indice em outro "for"
+for (var $i=0; $i<50; $i++){
+	
+	$indiceTableReader[$i] = _getText(_tableHeader($i+2,_rightOf(_tableHeader("s-grid-title-cell[12]"))));
+	
+	//if ($indiceTableReader[$i] == "Det. Impostos"){
+//		$contador = $i+1;
+	//	break
+	//}
+	
+	}
+// O "for" abaixo, está buscando o indice dos campos através do nome da table header
+for (var $i=0; $i<50; $i++){
+
+	if ($indiceTableReader[$i] == "Artigo"){
+		var $indiceArtigo = $i+2;
+	//	_setValue(_textbox("5-97-input"),"Agora");
+	//	_setValue(_textbox("5-97-input"),$indiceArtigo);
+	}
+
+	if ($indiceTableReader[$i] == "Qtd. orçam."){
+		var $indiceQtd = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Prç. bruto"){
+		var $indicePrecoBruto = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Acres.1\$"){
+		var $indiceAcresValor = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Desc.1\$"){
+		var $indiceDescValor = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Acres.2%"){
+		var $indiceAcresPerc = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Desc.2%"){
+		var $indiceDescPerc = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Acres.3%"){
+		var $indiceAcresCascata = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "Desc.3%"){
+		var $indiceDescCascata = $i+2;
+	}
+	
+	if ($indiceTableReader[$i] == "CFOP"){
+		var $indiceCFOP = $i+2;
+	}	
+	
+	if ($indiceTableReader[$i] == "Origem"){
+		var $indiceOrigem = $i+2;
+	}	
+	
+	var $controleICMS = 0;
+	if ($indiceTableReader[$i] == "CST ICMS"){
+		var $indiceCstICMS = $i+2;
+		$controleISS = "CstICMS";
+	}			
+	
+	var $controleISS = 0;
+	if ($indiceTableReader[$i] == "Exig. ISS"){
+		var $indiceExigISS = $i+2;
+		$controleISS = "ExigISS";
+	}
+	
+	if ($indiceTableReader[$i] == "ST do ISS"){
+		var $indiceCstISS = $i+2;
+		$controleISS = "CstISS";
+	}
+	
+	if ($indiceTableReader[$i] == "Nível taxa 1"){
+		var $indiceNivelTaxa1 = $i+2;
+	//	_setValue(_textbox("5-97-input"),"Agora");
+	//	_setValue(_textbox("5-97-input"),$indiceArtigo);
+	}	
+}
+// O "for" abaixo cria a possibilidade de se inserir 50 linhas na tabela
+
+var $artigo = []; 
+var $qtdOrcada = []; 
+var $precoBruto = []; 
+var $acresValor = [];
+var $descValor = [];
+var $acresPerc = [];
+var $descPerc = [];
+var $acresCascata = []; 
+var $descCascata = [];
+var $cfop = [];
+var $origem = [];
+var $cstICMS = [];
+var $exigISS = [];
+var $cstISS = [];
+var $nivelTaxa1 = []; 
+
+
+for (var $i=0; $i<50; $i++){
+
+	//_setValue(_textbox("5-97-input"),"Agora");
+	//_setValue(_textbox("5-97-input"),$indiceArtigo);
+	
+	$artigo[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceArtigo)));
+		
+	$qtdOrcada[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceQtd)));
+	
+	$precoBruto[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indicePrecoBruto)));
+	
+	$acresValor[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceAcresValor)));
+	
+	$descValor[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceDescValor)));
+	
+	$acresPerc[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceAcresPerc)));
+	
+	$descPerc[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceDescPerc)));
+	
+	$acresCascata[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceAcresCascata)));
+	
+	$descCascata[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceDescCascata)));
+	
+	$cfop[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceCFOP)));
+	
+	$origem[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceOrigem)));
+	
+//	if ($controleICMS == "CstIcms"){
+		$cstICMS[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceCstICMS)));	
+//	}
+	
+//	if ($controleISS ="ExigISS"){
+		$exigISS[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceExigISS)));
+//	}
+	
+//	if ($controleISS == "CstISS"){
+		$cstISS[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceCstISS)));
+//	}
+	
+	$nivelTaxa1[$i] = _textbox(0, _in( _cell( _table("s-grid-table-body[3]"),$i,$indiceNivelTaxa1)));
+}
+
+
+//-------------------
+
+
+var $txtModContabil = _textbox(0, _near(_label("Mod. contabilístico")));
+
+//-------------------
+var $divEndereco = _div("Endereços");
+
+var $txtEndereco = _textbox(0, _near(_div("Endereço")));
+
+var $txtCEP = _textbox(0, _near(_label("CP")));
+
+*/

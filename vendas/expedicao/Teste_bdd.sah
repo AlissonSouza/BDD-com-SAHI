@@ -1,0 +1,6 @@
+_include("..\..\login.sah");
+_include("BddVendas.sah");
+DadaUmaExpedicaoDe_('venda de produtos ao consumidor');
+QuandoDigitarUmProduto();
+Entao_DeveSerIgualA_('ICMS devido', '70,00')
+Entao_DeveSerIgualA_('PIS', '6,50')

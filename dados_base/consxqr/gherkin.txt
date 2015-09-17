@@ -1,0 +1,239 @@
+FEATURE: -----
+
+// nao permitir data final menor que inicial 
+SCENARIO: 01 - not allow end data less than start date 
+			GIVEN bank remittance 
+			GIVEN default search filters
+			WHEN inform end date less than start date
+			THEN must show the message "Data incorreta"
+
+// nao trazer vencimentos sem nota fiscal gerada, transmitida (validada)
+SCENARIO: 02 - not search open items if the invoice is not posted 
+			GIVEN an invoice (SIH) not posted
+			GIVEN bank remittance 
+			GIVEN search filters to find that invoice (SIH)
+			WHEN search
+			THEN that invoice can't be showed
+
+//se o nosso numero existir, nao deve alterar			
+SCENARIO: 03 - if nosso numero exists, when process it should not change
+			GIVEN a open item with generate number // nosso numero
+			GIVEN bank remittance 
+			GIVEN search filters to find that open item
+			WHEN process the remittance file
+			THEN can't change the nosso numero
+			
+//nao pode gerar nosso numero se a carteira estiver configurada para o banco gerar nosso numero
+SCENARIO: 04 - nao pode gerar nosso numero se a carteira estiver configurada para o banco gerar nosso numero
+			GIVEN a open item that bank controls the Nosso Numero
+			//GIVEN a book that not controls the generate number
+			//GIVEN a open item to this book // open a new tab to create an invoice and save the invoice number
+			GIVEN bank remittance 
+			GIVEN this book to create the remittance file
+			WHEN process the remittance file
+			THEN can't generate the nosso numero
+
+SCENARIO: 05 - deve existir uma confirmacao ao se clicar em 'processar todos', 'Todos os título filtrados serão processados, confirma?'
+			GIVEN bank remittance 
+			GIVEN default search filters
+			WHEN search
+			WHEN click on process all
+			THEN must show the message "All filtered open items will be processed, confirm?"
+
+SCENARIO: 06 - se o titulo foi enviado para o banco nao deve aparecer na lista, desde que nao esteja marcada a checkbox 'Titulos enviados'
+			GIVEN a open item sent to the bank
+			GIVEN bank remittance 
+			WHEN the checkbox "open items sent" is unchecked
+			WHEN search
+			THEN the open item can't be showed
+
+SCENARIO: 07 - nao permitir a exclusao de um vencimento boleto remetido ao banco
+			GIVEN a open item sent to the bank
+			WHEN try delete the open item
+			THEN must show the message "Can't delete open item sent to the bank"
+
+SCENARIO: 08 - nao permitir a alteracao do tipo de pagamento se boleto remetido ao banco
+			GIVEN a open item sent to the bank
+			WHEN try alter the payment method of the open item
+			THEN must show the message "Can't alter the payment method, open item sent to the bank"
+
+SCENARIO: 09 - nao pertmitir selecionar uma carteira que não existe para o banco informado
+			GIVEN bank remittance 
+			GIVEN default search filters
+			WHEN select carteira non existent for the bank informed
+			THEN must show the message "A carteira selecionada não pertence ao banco informado"
+				
+SCENARIO: 10 - trazer somente os titulos que foram criados com modo de pagamento boleto
+			GIVEN a invoice that payment method is Cheque
+			GIVEN bank remittance
+			GIVEN search filters to find that open item
+			WHEN search
+			THEN the open item can't be showed
+
+SCENARIO: 11 - GESBAN without agencia e conta corrente
+			GIVEN bank remittance 
+			WHEN inform a GESBAN without agencia e conta corrente
+			THEN must show the message "Esta conta não possui agencia e conta corrente cadastradas."
+			THEN not allow use that account
+
+SCENARIO: 12 - GESBAN without carteira linked
+			GIVEN bank remittance 
+			WHEN inform a GESBAN without carteira linked
+			THEN must show the message "Esta conta não possui uma carteira vinculada."
+			THEN not allow use that account
+
+SCENARIO: 13 - Testing the search filters
+			GIVEN a open item
+			GIVEN bank remittance 
+			WHEN search that open item just with mandatory filters
+			THEN the open item must be showed in the grid
+			WHEN search that open item by emission date
+			THEN the open item must be showed in the grid
+			WHEN search that open item by due date	
+			THEN the open item must be showed in the grid
+			WHEN search that open item by customer	
+			THEN the open item must be showed in the grid
+			WHEN search that open item by invoice	
+			THEN the open item must be showed in the grid
+			WHEN process the remittance file
+			WHEN search that open item by invoice without check "titulos já gerados"
+			THEN the open item can't be showed
+			WHEN search that open item by invoice with check "titulos já gerados"
+			THEN the open item must be showed in the grid
+//------------------------------------------------------------------------------------- ABAIXO NÃO FOI AUTOMATIZADO ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			
+SCENARIO: 14 - vencimento com 3 parcelas e envia somente 1 parcela para o banco
+			GIVEN a open item with 3 parcelas (A,B,C)
+			GIVEN bank remittance 
+			WHEN search that open item by invoice
+			THEN must show the 3 parcel in the grid
+			WHEN select just the parcel A to the remittance file
+			WHEN process the remittance file
+			WHEN search that open item by invoice
+			//THEN must show just the parcels B and C in the grid without nosso numero
+			THEN must show open item "B" with "nosso numero" equal "empty"
+			THEN must show open item "C" with "nosso numero" equal "empty"
+			WHEN search that open item by invoice with checkbox titulo ja gerado
+			//THEN must show the 3 parcel in the grid
+			THEN must show the open item "A" in the grid
+			THEN must show the open item "B" in the grid
+			THEN must show the open item "C" in the grid
+			//THEN parcel A have a nosso numero
+			THEN must show open item "A" with "nosso numero" equal "@someValue"
+			//THEN parcel B and C do not have a nosso numero
+			THEN must show open item "B" with "nosso numero" equal "empty"
+			THEN must show open item "C" with "nosso numero" equal "empty"
+			WHEN process all
+			WHEN search that open item by invoice
+			THEN the open items can't be showed
+			WHEN search that open item with checkbox titulo ja gerado
+			//THEN must show the 3 parcel in the grid
+			THEN must show the open item "A" in the grid
+			THEN must show the open item "B" in the grid
+			THEN must show the open item "C" in the grid
+			THEN nosso numero need be unique for each (A, B, C)
+			
+SCENARIO: 15 - Criar 3 vencimentos para uma SIH, enviar ao banco, alterar somente o ultimo vencimento e manter o nosso numero
+			GIVEN situation SCENARIO: 14
+			GIVEN	due date of SIH 
+			WHEN alter the due date of the open item C
+			GIVEN bank remittance			
+			WHEN search that open item by invoice
+			THEN must be showed just the open item C			
+			WHEN process all
+			WHEN search that open items by invoice
+			THEN the open item can't be showed
+			WHEN search that open item with checkbox titulo ja gerado
+			THEN must not change the nosso numero
+					
+					
+SCENARIO: 16 - Criar 3 vencimentos para uma SIH, enviar ao banco
+			GIVEN situation SCENARIO: 14
+			GIVEN	due date of SIH 
+			WHEN exclude the open item B and C //#TODO - poderia ser um dado ?
+			GIVEN bank remittance
+			WHEN search that open items
+			THEN must show open item "A" with movement of "alteration"
+			THEN must show open item "B" with movement of "exclusion"
+			THEN must show open item "C" with movement of "exclusion"
+			WHEN process all
+			WHEN search that open items
+			THEN must not change the nosso numero of open item "A"
+		
+SCENARIO: 17 - Criar nosso numero 
+			GIVEN a open item
+			GIVEN bank remittance
+			WHEN search that open item
+			THEN nosso numero must be empty
+			WHEN process that open item
+			WHEN search that open item
+			THEN must create the nosso numero
+			
+SCENARIO: 18 - Criar e deletar e criar novamente vencimentos antes de enviar ao banco
+			GIVEN a SIH with 3 open items
+			WHEN exclude that 3 open items and create 2 open items
+			GIVEN bank remittance
+			WHEN search that SIH
+			THEN must show just 2 open items with addition movement
+
+SCENARIO: 19 - Criar 2 parcelas, envia parcela A ao banco, exclui parcela B, cria parcela C e D
+			GIVEN a SIH with 2 open items
+			GIVEN bank remittance
+			WHEN search that SIH
+			WHEN sent open item A to bank
+			GIVEN	due date of SIH 
+			WHEN exclude open item B and create open item C and D
+			GIVEN bank remittance
+			WHEN search that SIH
+			THEN must show the open item "B"
+			THEN nosso numero must be "empty" to open item "B"
+			THEN must show the open item "C"
+			THEN nosso numero must be "empty" to open item "C"
+
+SCENARIO: 20 - Criar 1 vencimento, enviar ao banco e depois deletar
+			GIVEN	a SIH with 1 open item
+			GIVEN sent that open item to bank
+			GIVEN due date of SIH
+			WHEN change de payment method to some different of boleto
+			GIVEN bank remittance
+			WHEN search that SIH
+			THEN must be showed a open item with exclusion movement
+			
+SCENARIO: 21 - Enviado 1 vencimento ao banco, alterado a data de vencimento e enviado novamente
+			GIVEN	a SIH with 1 open item
+			GIVEN sent that open item to bank
+			GIVEN due date of SIH
+			WHEN change de due date
+			GIVEN bank remittance
+			WHEN search that SIH
+			THEN must be showed that open item with alteration movement
+			THEN must not change the nosso numero of open item
+			
+SCENARIO: 22 - Enviado 1 vencimento ao banco, alterado para 2 vencimentos e enviado novamente
+			GIVEN	a SIH with 1 open item
+			GIVEN sent that open item to bank
+			GIVEN due date of SIH
+			WHEN change the value of the open item and add other open item
+			GIVEN bank remittance
+			WHEN search that SIH
+			THEN ???????
+			
+			
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+EXTRA: ao alterar a data de vencimento ou valor do titulo deve enviar remessa de alteracao (coluna extra)
+
+para a funcionalidade de remessa e boleto ficar ok, deve existir uma forma de enviar 
+	_ao banco o 'documento interno', senao nao havera como vincular o titulo que o 
+		_banco gerou o nosso numero com o vencimento do x3
+no arquivo remessa vai um codigo que identifica o titulo, normalmente é o numero da nota, mas como validar isto com o SAHI visto que a informação
+	_estara dentro do arquivo texto?
+GIVEN bank remittance 
+GIVEN default search filters
+WHEN search
+THEN preciso abrir o txt e verifcar se existe um valor aleatorio??? 
+
+ao selecionar uma carteria nao registrada deve gerar erro avisando - VALIDAR COM CARLOS, mensagem de atenção em vez de erro ?
+
+nao permitir a alteracao de valor, data vencimento, parcelas se boleto remetido ao banco - VALIDAR, ver instruções bancárias possiveis
+

@@ -1,0 +1,108 @@
+_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_link("Expedições"));
+
+_click(_div("ALL Registo expedições (completo)"));
+
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Expedicao\Expedicao_Emprestimo_Cad_01-01.sah");
+
+var $NumExpedicao = _getValue(_textbox(0, _near(_label("Sem entrega"))));
+
+_click(_link("Validação"));
+
+try{
+	_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));
+	_click(_link("Abandonar a função"));
+	_click(_link("Ok"));
+	_click(_link("Sair"));
+}catch($e){
+	_click(_link("Ok"));
+}
+
+
+
+//--------------------------------- Cria devolução ------------------------------------
+
+_click(_link("Devol. de empr."));
+
+_click(_div("ALL Registo comp. dev.Empréstimos"));
+
+try{
+	_click(_link("Ok"));
+}catch ($e){
+	_wait(1000); //qlq coisa so para ter um catch
+}
+
+_include("C:\Users\alisson.souza\sahi\userdata\scripts\Vendas\Devolução_Emprestimo\Devolucao_Emprestimo_Variaveis.sah");
+
+_click(_link("Nova"));
+
+_setValue($txtDevEmpEstabDev, "BR333");
+_keyPress($txtDevEmpEstabDev, 9);
+
+_click($txtDevEmpTipo);
+_setValue($txtDevEmpTipo, "BRSRL");
+_keyPress($txtDevEmpTipo, 9);
+
+_click($txtDevEmpCliente);
+_setValue($txtDevEmpCliente, "BR444");
+_keyPress($txtDevEmpCliente, 9);
+
+_click($txtDevEmpEndereco);
+_setValue($txtDevEmpEndereco, "MAIN");
+_keyPress($txtDevEmpEndereco, 9);
+
+_click($txtDevEmpOpFiscal);
+_setValue($txtDevEmpOpFiscal, "101");
+_keyPress($txtDevEmpOpFiscal, 9);
+
+_click($txtDevEmpDataEmi);
+//_setValue($txtDevEmpDataEmi, "101");
+_keyPress($txtDevEmpDataEmi, 9);
+
+_click($txtDevEmpHoraEmi);
+//_setValue($txtDevEmpDataEmi, "101");
+_keyPress($txtDevEmpHoraEmi, 9);
+
+_click($txtDevEmpDataEnt);
+_setValue($txtDevEmpDataEnt, _getValue($txtDevEmpDataEmi));
+_keyPress($txtDevEmpDataEnt, 9);
+
+_click($txtDevEmpHoraEnt);
+_setValue($txtDevEmpHoraEnt, "18:00"); // TODO - melhorar isto para quando eu deixar rodando apos o horario
+_keyPress($txtDevEmpHoraEnt, 9);
+
+
+_click(_link("Seleção exped."));
+
+//_click(_link(41));
+//_check(_checkbox(0, _near(_div("SHPBR0500084 06-07-2015 Cliente expedido BR107 001"))));
+
+_check(_checkbox(0, _near(_div("/"+$NumExpedicao+"/"))));
+
+_click(_link("Criar"));
+_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));
+_click(_link("Validação NFe"));
+_wait(30000, !_isVisible(_div("s-uiLocker-overlay")));
+
+_assertExists(_heading1("Nota fiscal processada"));
+_assert(_isVisible(_heading1("Nota fiscal processada")));
+_assertEqual("Nota fiscal processada", _getText(_heading1("Nota fiscal processada")));
+_assertContainsText("Nota fiscal processada", _heading1("Nota fiscal processada"));
+
+_click(_link("Ok"));
+
+_assertExists(_heading1("Autorizado o uso da NF-e"));
+_assert(_isVisible(_heading1("Autorizado o uso da NF-e")));
+_assertEqual("Autorizado o uso da NF-e", _getText(_heading1("Autorizado o uso da NF-e")));
+_assertContainsText("Autorizado o uso da NF-e", _heading1("Autorizado o uso da NF-e"));
+
+_click(_link("Ok"));
+
+_click(_link("Sair"));
+
+
+
+

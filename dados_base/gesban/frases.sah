@@ -1,0 +1,275 @@
+//-----------------------------------------------------------------------------
+// Variáveis globais do módulo FINANCEIRO
+/*	$dirty: significa que os $dados não foram gravados
+if ($dirty) {
+	_click(_link("Criar"));
+	_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+	$dirty = false;
+}
+*/
+//-----------------------------------------------------------------------------
+_include("variaveis.sah");
+var $dirty = true;
+
+
+$dadosBase.gesban.dadoCadastroContaCorrente = function (){
+//function DadoCadastroContaCorrente() { // Acesso a função Carteira 
+	_click(_link("/site-navigation/"));
+	_click(_div("Dados de base"));
+	_click(_link("Contas em banco"))	
+	_click(_link("Nova"));
+	$dirty = true;
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.dadoCadastroBasicoContaCorrente = function (){
+
+//function DadoCadastroBasicoContaCorrente(){
+	_click(_link("/site-navigation/"));
+	_click(_div("Dados de base"));
+	_click(_link("Contas em banco"))	
+	_click(_link("Nova"));
+	$dirty = true;
+	
+	_setValue($txtGesBanCod,_random(99999));
+	_keyPress($txtGesBanCod, 9);
+	
+	_click($txtGesBanDesc);
+	_setValue($txtGesBanDesc, "Banco criado pela automação");
+	_keyPress($txtGesBanDesc, 9);
+	
+//--- Geral	
+	_click($txtGesBanEnd);
+	_setValue($txtGesBanEnd, "Endereço cadastrado pela automação");
+	_keyPress($txtGesBanEnd, 9);
+	
+	_click($txtGesBanPais);
+	_setValue($txtGesBanPais, "BR");
+	_keyPress($txtGesBanPais, 9);
+	
+	_click($txtGesBanPaisDesc);
+	
+	_click($txtGesBanCep);
+	_setValue($txtGesBanCep, "81250000");
+	_keyPress($txtGesBanCep, 9);
+	
+	_click($txtGesBanCidade);
+	_keyPress($txtGesBanCidade,9);
+	
+	_keyPress($linkGesBanPlano, 9);
+	
+	_click($txtGesBanEstado);
+	_setValue($txtGesBanEstado, "PR");
+	_keyPress($txtGesBanEstado, 9);
+	
+	_click($txtGesBanDescCurta);
+	_setValue($txtGesBanDescCurta, "Automação Desc Curta");
+	_keyPress($txtGesBanDescCurta, 9);
+	
+	_click($txtGesBanNrRegCom);
+	_setValue($txtGesBanNrRegCom, "151894");
+	_keyPress($txtGesBanNrRegCom, 9);
+	
+	_click($txtGesBanNumNib);
+	_setValue($txtGesBanNumNib,"1348");
+	_keyPress($txtGesBanNumNib, 9);
+	
+	_click($txtGesBanCodNib);
+	_setValue($txtGesBanCodNib,"1561");
+	_keyPress($txtGesBanCodNib, 9);
+	
+	_click($txtGesBanCodIban);
+	_setValue($txtGesBanCodIban,"154");
+	_keyPress($txtGesBanCodIban, 9);
+	
+	_click($txtGesBanDom1);
+	_setValue($txtGesBanDom1,"Automação Domiciliação 1");
+	_keyPress($txtGesBanDom1, 9);
+	
+	_click($txtGesBanDom2);
+	_setValue($txtGesBanDom2,"Automação Domiciliação 2");
+	_keyPress($txtGesBanDom2, 9);
+	
+	_click($txtGesBanNumEmisTrans);
+	_setValue($txtGesBanNumEmisTrans,"12312");
+	_keyPress($txtGesBanNumEmisTrans, 9);
+	
+	_click($txtGesBanIntTes);
+	_setValue($txtGesBanIntTes, _random(999999));
+	_keyPress($txtGesBanIntTes, 9);
+	
+	_click($txtGesBanNumEmiDebDir);
+	_setValue($txtGesBanNumEmiDebDir,"1532");
+	_keyPress($txtGesBanNumEmiDebDir, 9);
+	
+//--- Gestão
+	_click(_div("Gestão"));
+	
+	_click($txtGesBanSocied);
+	_setValue($txtGesBanSocied, "BR01");
+	//_keyPress($txtGesBanSocied, 9);
+	
+//----- tabela: parametros: linha, nomeColuna, valor
+	
+	clickLinkLinha(0, "Tipo de diários", "Banco");
+	//tabLinha(0, "Tipo de diários");
+	
+	clickLinha(0, "Diário");
+	setLinha(0, "Diário", "BKBRA");
+	tabLinha(0, "Diário");
+	
+	/*
+	clickLinha(0, "Descr.[2]");
+	setLinha(0, "Descr.[2]", "");
+	tabLinha(0, "Descr.[2]");
+	
+	clickLinha(0, "Tipo de docum.");
+	setLinha(0, "Tipo de docum.", "");
+	tabLinha(0, "Tipo de docum.");
+	
+	clickLinha(0, "Descr.[3]");
+	setLinha(0, "Descr.[3]", "");
+	tabLinha(0, "Descr.[3]");
+	
+	clickLinha(0, "Conta tesour.");
+	setLinha(0, "Conta tesour.", "");
+	enterLinha(0, "Conta tesour.");
+	*/
+//--------------	
+//	_click($txtGesBanCodTerc);
+//	_setValue($txtGesBanCodTerc, "BR007")
+//	_keyPress($txtGesBanCodTerc, 9);;
+	
+	_click($txtGesBanCodContab);
+	_setValue($txtGesBanCodContab, "STD")
+	_keyPress($txtGesBanCodContab, 9);;
+	
+	_click($txtGesBanDivisaCont);
+	_setValue($txtGesBanDivisaCont, "BRL");
+	_keyPress($txtGesBanDivisaCont, 9);
+	
+	_click($txtGesBanDivisaImput);
+	_setValue($txtGesBanDivisaImput, "BRL");
+	_keyPress($txtGesBanDivisaImput, 9);
+	
+	_click($txtGesBanExtFich);
+	_setValue($txtGesBanExtFich, "sah");
+	_keyPress($txtGesBanExtFich, 9);
+	
+}
+
+//-----------------------------------------------------------------------------
+//------------------------------  QUANDO --------------------------------------
+
+$dadosBase.gesban.quandoInformar_Para_E_ParaDigito = function ($vlr, $tipo, $vlrDig){
+//function QuandoInformar_Para_E_ParaDigito($vlr, $tipo, $vlrDig){
+	switch ($tipo){
+	case "agencia":
+		_click(_div("Carteira"));
+	
+		$dados.agencia = $vlr; // variavel global
+		_click($txtGesBanAgencia);
+		_setValue($txtGesBanAgencia, $vlr);
+		_keyPress($txtGesBanAgencia, 9);
+		
+		$dados.agenciaDig = $vlrDig;
+		_click($txtGesBanAgenciaDig);
+		_setValue($txtGesBanAgenciaDig, $vlrDig);
+		_keyPress($txtGesBanAgenciaDig, 9);
+		break;
+
+	case "contaCorrente":
+		_click(_div("Carteira"));
+		
+		$dados.contaCorrente = $vlr;
+		_click($txtGesBanCC);
+		_setValue($txtGesBanCC, $vlr);
+		_keyPress($txtGesBanCC, 9);
+		
+		$dados.contaCorrenteDig = $vlrDig;
+		_click($txtGesBanCCDig);
+		_setValue($txtGesBanCCDig, $vlrDig);
+		//_keyPress($txtGesBanCCDig, 9);
+		_click($txtGesBanCC);
+		break;	
+	}
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.quandoInformarContaCorrenteRepetidaAgencia = function (){
+//function QuandoInformarContaCorrenteRepetidaAgencia(){
+		
+		_click(_div("Carteira"));
+		
+		//Agencia e Digito conforme Cenário 01
+		_click($txtGesBanAgencia);
+		_setValue($txtGesBanAgencia, $dados.agencia);
+		_keyPress($txtGesBanAgencia, 9);
+		_click($txtGesBanAgenciaDig);
+		_setValue($txtGesBanAgenciaDig, $dados.agenciaDig);
+		_keyPress($txtGesBanAgenciaDig, 9);
+
+		//Conta Corrente e Digito conforme Cenário 01
+		_click($txtGesBanCC);
+		_setValue($txtGesBanCC, $dados.contaCorrente);
+		_keyPress($txtGesBanCC, 9);
+		_click($txtGesBanCCDig);
+		_setValue($txtGesBanCCDig, $dados.contaCorrenteDig);
+		_keyPress($txtGesBanCCDig, 9);		
+
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.quandoGravar = function (){
+//function QuandoGravar(){
+	if ($dirty) {
+		_click(_link("Criar"));
+		_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+		if (! _assert(_link("Criar").syraIsDisabled)){
+			_log("não gravou");
+		}else{
+			$dirty = false;
+			_log("GRAVOU - passou false para dirty");		
+		}
+	}else{
+		_fail("não gravou, verificar se já não estava gravado, talvez script se perdeu"); //#TODO imaginar algo melhor
+	}
+}
+
+//-----------------------------------------------------------------------------
+//--------------------------------    ENTAO   ---------------------------------
+
+$dadosBase.gesban.entaoPermitirGravar = function (){
+//function EntaoPermitirGravar(){
+	_assert(_link("Gravar").syraIsDisabled)
+	_assert(_link("Criar").syraIsDisabled)	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.entaoNaoCriou = function (){
+//function EntaoNaoCriou(){
+	_assertNotEqual(true, _getAttribute(_link("Criar"),"syraIsDisabled"))	
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.entaoNaoPermitirVincularCarteira = function (){
+//function EntaoNaoPermitirVincularCarteira(){
+	clickLinha (0, "Carteira[3]");
+	setLinha(0, "Carteira[3]", "AutoBR");
+	tabLinha (0, "Carteira[3]");
+	_assertExists(_div("Não é possivel vincular carteira se não for informado agencia e conta corrente"));
+}
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.entaoApresentarMensagem_ = function ($mensagem){
+//function EntaoApresentarMensagem_ ($mensagem){	
+	_assertExists(_heading1($mensagem));	
+	_click(_link("Ok"));	
+}
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+$dadosBase.gesban.sairTela = function (){
+//function SairTela(){
+	if (_isVisible(_link("Ok"))) {
+		_click(_link("Ok"));
+	}	
+	_click(_link("Sair"));
+	_wait(3000, _isVisible(_link("Continuar")));
+	if (_isVisible(_link("Continuar"))) {
+		_click(_link("Continuar"));
+	}
+}

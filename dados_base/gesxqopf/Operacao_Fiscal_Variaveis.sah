@@ -1,0 +1,39 @@
+	// Variáveis da Função Operação Fiscal
+
+var $txtOpfCodigo = _textbox(0, _near(_label("Código")));
+var $txtOpfDescricao = _textbox(0, _near(_label("Descrição")));
+//-------------------
+
+var $txtOpfDoc_Fiscal = _textbox(0, _near(_label("Documento fiscal")));
+var $linkOpfAtivo = _link(0, _near(_label("Ativo")));
+var $txtOpfEstab = _textbox(0, _near(_label("Estab.")));
+var $linkOpfCategCFOP = _link(0, _near(_label("Categoria CFOP")));
+var $linkOpfIndicadorPresenca = _link(0,_near(_label("Indicador presença")));
+var $linkOpfDestinacao = _link(0, _near(_label("Destinação")));
+var $linkOpfFinalidade = _link(0, _near(_label("Finalidade")));
+var $linkOpfImpressaoDANFE = _link(0, _near(_label("Impressão DANFE")));
+var $txtOpfCFOP = _textbox(0, _near(_label("CFOP")));
+var $txtOpfVariacao = _textbox(0, _near(_label("Variação")));
+var $cboxOpfSomarIPI1 = _checkbox(0, _near(_label("Somar IPI")));
+var $cboxOpfCalcLT = _checkbox(0, _near(_label("Calcular carga tributária")));
+
+//----------------------------------------
+var $cboxOpfZerarCreditoICMS = _checkbox(0,_near(_label("Zerar crédito de ICMS")));
+var $cboxOpfCreditoICMS = _checkbox(0,_near(_label("Crédito de ICMS")));
+var $cboxOpfCreditoIPI = _checkbox(0,_near(_label("Crédito de IPI")));
+var $cboxOpfCreditoPIS = _checkbox(0,_near(_label("Crédito de PIS")));
+var $cboxOpfCreditoCOFINS = _checkbox(0,_near(_label("Crédito de COFINS")));
+var $cboxOpfSomarICMS_ST = _checkbox(0,_near(_label("Somar ICMS ST")));
+var $cboxOpfSomarIPI2 = _checkbox(0,_near(_label("Somar IPI[1]")));
+var $cboxOpfRetirarFrete = _checkbox(0, _in(_div("Retirar frete")));
+
+//---------------------------------------------------------------------------------
+var $cboxOpfSomarICMSTotNF = _checkbox(0,_in(_div("Somar ICMS ao total da nota")));
+var $cboxOpfSomarPisCofinsTotNF = _checkbox(0,_in(_div("Somar PIS/COFINS ao total da nota")));
+var $cboxOpfSomarIIotNF = _checkbox(0,_in(_div("Somar II ao total da nota")));
+var $cboxOpfSomarDespImpTotNF = _checkbox(0,_in(_div("Somar despesas importação no total da nota")));
+var $cboxOpfIncluirPisConfinsDespImp = _checkbox(0,_in(_div("Incluir PIS/COFINS e desp. imp. em desp acessórias")));
+var $cboxOpfIncluirDespImpBasePisConfins = _checkbox(0,_in(_div("Incluir desp importação na base cálculo PIS/COFINS")));
+var $cboxOpfIncluirEncarCambBasePisConfins = _checkbox(0,_in(_div("Incluir encarg cambiais na base cálculo PIS/COFINS")));
+var $opboxOpfRateioValor =  _radio(0,_in(_div("Rateio por valor")));
+var $opboxOpfRateioPeso =  _radio(0,_in(_div("Rateio por peso"))); 

@@ -1,0 +1,53 @@
+FUNCIONALIDADE:	Afim de criar contas correntes
+						Como usuário do X3
+						Eu preciso ser capaz cadastrar novas contas correntes
+
+// digito da conta pode ser letra, ou da agencia
+CENÁRIO: 01 - Deve-se permitir cadastrar agencia e conta corrente com digitos alfanumericos
+			DADO cadastro básico de conta corrente
+			QUANDO informar "valor" para "agencia" e "alfanumerico" para o digito
+			QUANDO informar "valor" para "conta corrente" e "alfanumerico" para o digito
+			QUANDO gravar
+			ENTÃO o sistema deve permitir gravar a carteira 
+
+//nao permitir informar conta corrente sem agencia
+CENÁRIO: 02 - Não permitir informar conta corrente se não houver dados de agencia
+			DADO cadastro básico de conta corrente
+			QUANDO informar "vazio" para "agencia" e "vazio" para o digito 
+			QUANDO informar "valor" para "conta corrente" e "valor" para o digito
+			ENTÃO o sistema deve mostrar a mensagem "É necessário informar uma agência para vincular a conta corrente"
+
+//nao permitir gravar somente com informação de agencia			
+CENÁRIO: 03 - Não permitir gravar uma gesban somente com informação de agencia
+			DADO cadastro básico de conta corrente
+			QUANDO informar "valor" para "agencia" e "valor" para o digito 
+			QUANDO informar "vazio" para "conta corrente" e "vazio" para o digito 
+			QUANDO gravar
+			ENTÃO o sistema deve mostrar a mensagem "Deve-se informar uma conta corrente para agência"
+
+// soh permitir cadastrar no grid se tiver info de agencia e conta corrente 
+CENÁRIO: 04 - Permitir vincular uma carteira a GESBAN, somente quando houver informação de agencia e conta corrente
+			DADO cadastro básico de conta corrente
+			QUANDO informar "vazio" para "agencia" e "vazio" para o digito 
+			QUANDO informar "vazio" para "conta corrente" e "vazio" para o digito 			
+			ENTÃO o sistema não deve permitir vincular uma carteira
+
+// nao permitir cadastrar no grid se nao tiver info de conta corrente 
+CENÁRIO: 05 - Não permitir vincular uma carteira se houver somente informação de agencia sem conta corrente
+			DADO cadastro básico de conta corrente
+			QUANDO informar "valor" para "agencia" e "valor" para o digito 
+			QUANDO informar "vazio" para "conta corrente" e "vazio" para o digito 
+			ENTÃO o sistema não deve permitir vincular uma carteira
+			
+//nao permitir duas gesban com mesma agencia e conta corrente			
+CENÁRIO: 06 - Não deve permitir o cadastro repetido de uma conta corrente para a mesma agencia
+			DADO situação do "CENÁRIO 01"
+			DADO cadastro básico de conta corrente
+			QUANDO informar uma conta corrente ja existente para a mesma agencia
+			QUANDO gravar
+			ENTÃO o sistema deve mostrar a mensagem "Já existe esta conta corrente vinculada a esta agência"			
+
+// estão como sugestão de melhoria - esperar aprovação --- virar backlog 26/08
+// no cadastro de cliente nao permitir informar uma carteira se não for informada uma gesban 
+// no cadastro de cliente, deve permitir vincular somente carteiras que pertençam a gesban selecionada
+// não permitir deletar uma gesban que esteja vinculada a um cliente	#TODO

@@ -1,0 +1,11 @@
+// Este script contempla os requisitos necessários para a execução de alguns cenários.
+
+_include("variaveis.sah");
+
+// Cadastro de um diário para utilização nos cenários da gesban
+_click(_link("/site-navigation/"));
+_click(_link("Contas"));
+
+
+
+

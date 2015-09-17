@@ -1,0 +1,112 @@
+_include("frases.sah");
+
+// esse objeto irá armazenar as informações de agencia e conta corrente para o teste do cenário 03
+// as propriedades são criadas conforme a necessidade
+var $dados = {};
+
+//CENÁRIO: 01 - Deve-se permitir cadastrar agencia e conta corrente com digitos alfanumericos
+$dadosBase.gesban.cenario01 = function (){
+//function Cenario01 (){
+	try{
+		_log("------------------------- Inicio do Cenário 01 da gesban ------------------------------");
+		//DadoCadastroBasicoContaCorrente();
+		this.dadoCadastroBasicoContaCorrente();
+		this.quandoInformar_Para_E_ParaDigito(_random(9999),'agencia','DE');
+		this.quandoInformar_Para_E_ParaDigito(_random(9999),'contaCorrente','FE');
+		this.quandoGravar();
+		this.entaoPermitirGravar();
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 01 do cadastro de conta corrente"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela(); //Corrective action 		
+	}
+}
+
+//CENÁRIO: 02 - Não permitir informar conta corrente se não houver dados de agencia
+$dadosBase.gesban.cenario02 = function (){
+//function Cenario02 (){
+	try{
+		_log("------------------------- Inicio do Cenário 02 da gesban ------------------------------");
+		this.dadoCadastroBasicoContaCorrente();
+		this.quandoInformar_Para_E_ParaDigito('','agencia','');
+		this.quandoInformar_Para_E_ParaDigito(_random(9999),'contaCorrente','FE');
+		this.entaoApresentarMensagem_("É necessário informar uma agência para vincular a conta corrente"); //LM 114
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 02 do cadastro de conta corrente"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela();
+	}
+}
+
+//CENÁRIO: 03 - Não permitir gravar uma gesban somente com informação de agencia
+$dadosBase.gesban.cenario03 = function (){
+//function Cenario03 (){
+	try{
+		_log("------------------------- Inicio do Cenário 03 da gesban ------------------------------");
+		this.dadoCadastroBasicoContaCorrente();
+		this.quandoInformar_Para_E_ParaDigito(_random(9999),'agencia', _random(99));
+		this.quandoInformar_Para_E_ParaDigito('','contaCorrente','');
+		this.quandoGravar()
+		this.entaoApresentarMensagem_("Deve-se informar uma conta corrente para agência"); //LM 115
+		this.entaoNaoCriou();
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 03 do cadastro de conta corrente"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela();
+	}
+}
+
+//CENÁRIO: 04 - Permitir vincular uma carteira a GESBAN, somente quando houver informação de agencia e conta corrente
+$dadosBase.gesban.cenario04 = function (){
+//function Cenario04 (){
+	try{	
+		_log("------------------------- Inicio do Cenário 04 da gesban ------------------------------");
+		this.dadoCadastroBasicoContaCorrente();
+		this.quandoInformar_Para_E_ParaDigito('','agencia','');
+		this.quandoInformar_Para_E_ParaDigito('','contaCorrente','');
+		this.entaoNaoPermitirVincularCarteira();
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 04 do cadastro de conta corrente"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela();	
+	}
+}
+
+//CENÁRIO: 05 - Não permitir vincular uma carteira se houver somente informação de agencia sem conta corrente
+$dadosBase.gesban.cenario05 = function (){
+//function Cenario05 (){
+	try{
+		_log("------------------------- Inicio do Cenário 05 da gesban ------------------------------");
+		this.dadoCadastroBasicoContaCorrente();
+		this.quandoInformar_Para_E_ParaDigito(_random(9999),'agencia', _random(99));
+		this.quandoInformar_Para_E_ParaDigito('','contaCorrente','');
+		this.entaoNaoPermitirVincularCarteira()
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 04 do cadastro de conta corrente"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail		
+		this.sairTela();
+	}
+}
+			
+//CENÁRIO: 06 - Não deve permetir o cadastro repetido de uma conta corrente para a mesma agencia
+$dadosBase.gesban.cenario06 = function (){
+//function Cenario06 (){
+	try{
+		_log("------------------------- Inicio do Cenário 06 da gesban ------------------------------");
+		this.cenario01();		
+		this.dadoCadastroBasicoContaCorrente();
+		this.quandoInformarContaCorrenteRepetidaAgencia();
+		this.quandoGravar();
+		this.entaoApresentarMensagem_("Já existe o cadastro desta conta corrente vinculada à esta agência"); //LM 117
+		this.sairTela();
+	}catch ($e){
+		_log("Ocorreu um erro no Cenário 03 do cadastro de conta corrente"); // simple logging. no failure
+		_logException($e); // Logs the exception, but does not fail
+		this.sairTela();
+	}
+}			

@@ -1,0 +1,351 @@
+//Acesso o link da função Orçamento
+
+//	--------------------  FATURA COM ELEMENTOS DE FATURAÇÃO E DESCONTOS (NA FATURAÇÃO E NA LINHA)
+
+/*_click(_link("Navigation"));
+
+_click(_div("Vendas"));
+
+_click(_div("Orçamentos[1]"))
+
+// Escolhe a transação
+_click(_div("ALL Registo completo orçamentos"));
+
+_wait(2000);
+*/
+//	Adiciona as variaveis - eu havia efetuado o chamado aqui porque existia um for dentro deste script que exigia estar com a função aberta
+_include("C:/Users/alisson.souza/sahi/userdata/scripts/Vendas/Fatura/Fatura_Vendas_Variaveis.sah");
+
+_click(_div("Nova"));
+
+_setValue($txtEstabVenda, "BR050");
+_keyPress($txtEstabVenda, 9);
+
+_click($txtTipo);
+_setValue($txtTipo, "BRFCL");
+_keyPress($txtTipo, 9);
+
+_click($txtCliente);
+_setValue($txtCliente, "BR107");
+//_keyPress($txtCliente, 9);
+
+//--------------- Separador Dados Gerais -------------------------
+_click(_div("Dados gerais"));
+
+_click($txtOpFiscal);
+_setValue($txtOpFiscal, "500");
+_keyPress($txtOpFiscal, 9);
+
+//------- Separador Faturação ------------
+_click(_div("Faturação"));
+
+_click($txtColetivo);
+_setValue($txtColetivo, "CAR");
+_keyPress($txtColetivo, 9);
+
+//Frete 
+_click(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 3, 3 ))))
+_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 3, 3 ))),100)
+_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 3, 3 ))),9)
+
+//Seguro
+_click(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 4, 3 ))))
+_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 4, 3 ))),50)
+_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 4, 3 ))),9)
+
+//Desp Acessoria
+_click(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 5, 3 ))))
+_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 5, 3 ))),60)
+_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 5, 3 ))),9)
+
+//Desconto
+_click(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 6, 3 ))))
+_setValue(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 6, 3 ))),20)
+_keyPress(_textbox(0, _in( _cell( _table("s-grid-table-body[2]"), 6, 3 ))),9)
+
+//-------------------------  LINHAS ----------------------------
+_click(_div("Linhas"));
+
+var $prod = 52;
+
+for (var $i=0; $i<18; $i++){ // A QUANTIDADE DE ITENS INSERIDOS SERÁ CONTROLADA PELA VARIAVEL i							
+	
+	//PRODUTO
+	clickLinha("Artigo", $i);
+	//setLinha("Artigo", $i, "BMS001");
+	setLinha("Artigo", $i, "BMS0"+$prod);
+	tabLinha("Artigo", $i);
+
+	// QUANTIDADE ORÇ.
+	clickLinha ("Qtd. faturada", $i);
+	setLinha("Qtd. faturada", $i, "10");
+	tabLinha ("Qtd. faturada",$i);
+
+	// PREÇO BRUTO
+	clickLinha("Prç. bruto",$i);
+	setLinha("Prç. bruto",$i, "100");
+	tabLinha("Prç. bruto",$i);
+	
+	// DESCONTO 1 - Valor
+	clickLinha("Desc.1\$",$i);
+	setLinha("Desc.1\$",$i, "0,50");
+	tabLinha("Desc.1\$",$i);	
+	
+	//criando função para achar a CFOP na classe variaveis
+	
+	// CFOP
+	var $cfop = acharCFOP("BMS0"+$prod);
+	
+	clickLinha("CFOP",$i);
+	setLinha("CFOP",$i, $cfop);
+	tabLinha("CFOP",$i);
+
+	// ORIGEM
+	clickLinha("Origem",$i);
+	setLinha("Origem",$i, "0");
+	tabLinha("Origem",$i);
+	
+	// CST ICMS
+	var $csticms = acharCSTICMS("BMS0"+$prod);
+	clickLinha("CST ICMS",$i);
+	setLinha("CST ICMS",$i, $csticms);
+	tabLinha("CST ICMS",$i);
+	
+	switch ($csticms){
+		case "10":
+			_click(_cell("10[1]"));
+			break ;
+		case "20":
+			_click(_cell("20[1]"));
+			break ;
+		case "30":
+			_click(_cell("30[1]"));
+			break ;
+		case "40":
+			_click(_cell("40[1]"));
+			break ;
+		case "50":
+			_click(_cell("50[1]"));
+			break ;
+		case "90":
+			_click(_cell("90[1]"));
+			break ;
+		default :
+			clickLinha("Nível taxa 1",$i);
+			break ;
+	}
+	
+	
+
+	// NIVEL TAXA 1 -- ENTER
+	clickLinha("Nível taxa 1",$i);
+	//setLinha("Nível taxa 1", $i , "BRL");
+	enterLinha("Nível taxa 1",$i);
+
+	/*
+	try{
+		_click(_div("No"));
+	}catch ($e){
+		clickLinha("Artigo", $i);
+	}
+	*/
+	
+	switch ($i+1){
+		case 1:
+		$prod = 53;
+		break;
+		
+		case 2:
+		$prod = 55;
+		break;
+		
+		case 3:
+		$prod = 56;
+		break;
+		
+		case 4:
+		$prod = 58;
+		break;
+		
+		case 5:
+		$prod = 59;
+		break;
+		
+		case 6:
+		$prod = 61;
+		break;
+		
+		case 7:
+		$prod = 63;
+		break;
+		case 8:
+		$prod = 64;
+		break;
+		
+		case 9:
+		$prod = 66;
+		break;
+		
+		case 10:
+		$prod = 67;
+		break;		
+		
+		case 11:
+		$prod = 68;
+		break;
+		
+		case 12:
+		$prod = 69;
+		break;
+		
+		case 13:
+		$prod = 71;
+		break;
+		
+		case 14:
+		$prod = 72;
+		break;
+		
+		case 15:
+		$prod = 74;
+		break;
+		
+		case 16:
+		$prod = 75;
+		break;
+		
+		case 17:
+		$prod = 77;
+		break;
+	
+		default :
+		$prod = 52;
+		break;	
+	}
+}
+
+_click(_div("Criar"));
+
+_wait(10000, !_isVisible(_div("s-uiLocker-overlay")));
+
+// -------------- Validações com Assert
+_click(_div("Resumo NF-e"));
+
+_assertExists($txtTotMerc);
+_assert(_isVisible($txtTotMerc));
+_assertEqual("18 000,00", _getValue($txtTotMerc));
+
+_assertExists($txtTotServ);
+_assert(_isVisible($txtTotServ));
+_assertEqual("", _getValue($txtTotServ));
+
+_assertExists($txtTotDesc);
+_assert(_isVisible($txtTotDesc));
+_assertEqual("110,00", _getValue($txtTotDesc));
+
+_assertExists($txtTotSuf);
+_assert(_isVisible($txtTotSuf));
+_assertEqual("", _getValue($txtTotSuf));
+
+_assertExists($txtTotDeson);
+_assert(_isVisible($txtTotDeson));
+_assertEqual("234,62", _getValue($txtTotDeson));
+
+_assertExists($txtTotIPIeST);
+_assert(_isVisible($txtTotIPIeST));
+_assertEqual("1 757,00", _getValue($txtTotIPIeST));
+
+_assertExists($txtTotFrete);
+_assert(_isVisible($txtTotFrete));
+_assertEqual("100,00", _getValue($txtTotFrete));
+
+_assertExists($txtTotSeguro);
+_assert(_isVisible($txtTotSeguro));
+_assertEqual("50,00", _getValue($txtTotSeguro));
+
+_assertExists($txtTotDespAc);
+_assert(_isVisible($txtTotDespAc));
+_assertEqual("60,00", _getValue($txtTotDespAc));
+
+_assertExists($txtTotNFe);
+_assert(_isVisible($txtTotNFe));
+_assertEqual("19 622,38", _getValue($txtTotNFe));
+
+
+//---------------------- ICMS -----------------------------------
+_assertExists($txtTotBaseICMS);
+_assert(_isVisible($txtTotBaseICMS));
+_assertEqual("8 279,32", _getValue($txtTotBaseICMS));
+
+_assertExists($txtTotICMSop);
+_assert(_isVisible($txtTotICMSop));
+_assertEqual("1 259,98", _getValue($txtTotICMSop));
+
+_assertExists($txtTotICMSdif);
+_assert(_isVisible($txtTotICMSdif));
+_assertEqual("44,57", _getValue($txtTotICMSdif));
+
+_assertExists($txtTotICMSdeson);
+_assert(_isVisible($txtTotICMSdeson));
+_assertEqual("234,62", _getValue($txtTotICMSdeson));
+
+_assertExists($txtTotICMSdevid);
+_assert(_isVisible($txtTotICMSdevid));
+_assertEqual("535,00", _getValue($txtTotICMSdevid));
+
+// ------------------  ICMS ST------------------------------
+_assertExists($txtTotBaseICMSST);
+_assert(_isVisible($txtTotBaseICMSST));
+_assertEqual("9 749,28", _getValue($txtTotBaseICMSST));
+
+_assertExists($txtTotValorICMSST);
+_assert(_isVisible($txtTotValorICMSST));
+_assertEqual("1 352,36", _getValue($txtTotValorICMSST));
+
+// ------------------  IPI --------------------------------------
+_assertExists($txtTotBaseIPI);
+_assert(_isVisible($txtTotBaseIPI));
+_assertEqual("9 105,03", _getValue($txtTotBaseIPI));
+
+_assertExists($txtTotValorIPI);
+_assert(_isVisible($txtTotValorIPI));
+_assertEqual("404,64", _getValue($txtTotValorIPI));
+
+// ------------------  PIS --------------------------------------
+_assertExists($txtTotBasePIS);
+_assert(_isVisible($txtTotBasePIS));
+_assertEqual("8 044,48", _getValue($txtTotBasePIS));
+
+_assertExists($txtTotBasePISQtde);
+_assert(_isVisible($txtTotBasePISQtde));
+_assertEqual("160", _getValue($txtTotBasePISQtde));
+
+_assertExists($txtTotValorPIS);
+_assert(_isVisible($txtTotValorPIS));
+_assertEqual("349,68", _getValue($txtTotValorPIS));
+
+// ------------------  COFINS --------------------------------------
+_assertExists($txtTotBaseCOFINS);
+_assert(_isVisible($txtTotBaseCOFINS));
+_assertEqual("8 044,48", _getValue($txtTotBaseCOFINS));
+
+_assertExists($txtTotBaseCOFINSQtde);
+_assert(_isVisible($txtTotBaseCOFINSQtde));
+_assertEqual("640", _getValue($txtTotBaseCOFINSQtde));
+
+_assertExists($txtTotValorCOFINS);
+_assert(_isVisible($txtTotValorCOFINS));
+_assertEqual("2 710,84", _getValue($txtTotValorCOFINS));
+
+/*
+_click(_div("Abandonar a função"));
+
+
+_click(_div("Eliminar"));
+_click(_div("OK"));
+_click(_div("Ok"));
+
+_wait(2000);
+
+_click(_link("Navigation"));
+*/

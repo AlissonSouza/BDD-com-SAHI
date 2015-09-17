@@ -1,0 +1,251 @@
+// Scenarios of the function consxqb - Boleto Generation
+
+_include("steps.sah");
+
+var $url;
+_set($url, window.location.href);
+
+//SCENARIO: 01 - If the book is set up that the bank emit boleto, then should not allow to generate or print the boleto
+$dadosBase.consxqb.scenario01 = function (){
+	try{
+		_log("------------------- Start of the Scenario 01 CONSXQB--------------------");		
+		this.givenBoletoGeneration();
+		this.whenInformEstab_Gesban_Carteira_("BR050","BkAut","BaEmBo");
+		this.thenMustShowMessage_("Não é possivel emitir o boleto porque para esta carteira o banco esta configurado como emissor do boleto."); 
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 01 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail		
+		_navigateTo($url);
+		
+		//this.screenExit();
+	}
+}
+
+//SCENARIO: 02 - not allow end data less than start date 
+$dadosBase.consxqb.scenario02 = function (){
+	try{
+		_log("------------------- Start of the Scenario 02 CONSXQB--------------------");
+		$url = window.location.href;
+		this.givenBoletoGeneration();
+		this.whenInformEstab_Gesban_Carteira_("BR050","BkAut","BaEmBo");
+		this.whenInformEndDateLessStartDate();
+		this.thenMustShowMessage_("Data incorreta"); 
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 02 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		_navigateTo($url);
+		//this.screenExit();
+	}
+}
+
+//SCENARIO: 03 - can't emit boleto when the book is set for the bank control the generate number
+$dadosBase.consxqb.scenario03 = function (){
+	try{
+		_log("------------------- Start of the Scenario 03 CONSXQB--------------------");
+		$url = window.location.href;
+		this.givenBoletoGeneration();
+		this.whenInformEstab_Gesban_Carteira_("BR050","BkAut","BaCoNo");
+		this.thenMustShowMessage_("Não é possivel emitir o boleto porque para esta carteira o banco esta configurado para controlar o nosso número.");
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 03 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		_navigateTo($url);
+		//this.screenExit();
+	}
+}
+
+//SCENARIO: 04 - when emit the boleto, if the generate number already exist, then shouldn't change the generate number
+$dadosBase.consxqb.scenario04 = function (){
+	try{
+		_log("------------------- Start of the Scenario 04 CONSXQB--------------------");
+		this.givenOpenItemWithNossoNumero(); //#TODO -- ajustar função
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters(); //#TODO -- passar os parametros
+		this.whenGenerate(); //#TODO -- a tela esta sem botão de gerar
+		this.then //#TODO - THEN shouldn't change the generate number -- encontrar nosso numero na tabela
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 04 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+	}
+}
+
+//SCENARIO: 05 - not search open items if the invoice is not posted 
+$dadosBase.consxqb.scenario05 = function (){
+	try{
+		_log("------------------- Start of the Scenario 05 CONSXQB--------------------");
+		this.givenInvoiceNotPosted();
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parametros($vendas.gessih.dados.estab, "BkAut", "BaEmBo", $vendas.gessih.dados.numInvoice, "", "", "", "", "");  		
+		this.whenSearch();
+		this.thenEmptyTable();
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 05 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+	}
+}
+
+//SCENARIO: 06 - when open the function the fields must be empty
+$dadosBase.consxqb.scenario06 = function (){
+	try{
+		_log("------------------- Start of the Scenario 06 CONSXQB--------------------");
+		this.givenBoletoGeneration();
+		this.thenEmptyFields();
+		this.thenEmptyTable();
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 06 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+	}
+}
+
+//SCENARIO: 07 - - when try inform a gesban without agency and account
+$dadosBase.consxqb.scenario07 = function (){
+	try{
+		_log("------------------- Start of the Scenario 07 CONSXQB--------------------");
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","NoAgCc","","","","","","");
+		this.thenMustShowMessage_("Banco não possui agencia e conta corrente.");		
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 07 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+	}
+}
+
+//SCENARIO: 08 - can't inform a gesban without "carteira" linked
+$dadosBase.consxqb.scenario08 = function (){
+	try{
+		_log("------------------- Start of the Scenario 08 CONSXQB--------------------");
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters("BR050","NoCart","","","","","","","");
+		this.thenMustShowMessage_("Banco nao possui carteira vinculada.");
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 08 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+		//#TODO - passar uma pagina web para acessar quando de erro, assim independente do erro consigo passar por ele, posso armazenar em alguma variavel
+	}
+}
+
+//SCENARIO: 09 - can't inform a carteira that the bank control nosso número
+$dadosBase.consxqb.scenario09 = function (){
+	try{
+		_log("------------------- Start of the Scenario 09 CONSXQB--------------------");
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo","","","","","","");
+		this.thenMustShowMessage_("Esta carteira está configurada para o banco controlar o nosso número.");
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 09 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+		//#TODO - passar uma pagina web para acessar quando de erro, assim independente do erro consigo passar por ele, posso armazenar em alguma variavel
+	}
+}
+
+//SCENARIO: 10 - can't inform a carteira that the bank emit the boleto
+$dadosBase.consxqb.scenario10 = function (){
+	try{
+		_log("------------------- Start of the Scenario 10 CONSXQB--------------------");
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaCoNo","","","","","","");
+		this.thenMustShowMessage_("Esta carteira está configurada para o banco emitir o boleto.");
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 10 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+		//#TODO - passar uma pagina web para acessar quando de erro, assim independente do erro consigo passar por ele, posso armazenar em alguma variavel
+	}
+}
+
+//SCENARIO: 11 - test search filters
+$dadosBase.consxqb.scenario11 = function (){
+	try{
+		_log("------------------- Start of the Scenario 11 CONSXQB--------------------");
+		this.givenInvoicePosted();
+		this.givenBoletoGeneration();
+		
+		//Mandatory filters
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo","","","","","","");
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Nr. documento",$vendas.gessih.dados.numInvoice);
+		
+		//Emission date filters
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo","","",$vendas.gessih.dados.dataEmi,$vendas.gessih.dados.dataEmi,"","");
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Nr. documento",$vendas.gessih.dados.numInvoice);
+		
+		//due date filters
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo","","","","",$vendas.gessih.dados.dataVenc, $vendas.gessih.dados.dataVenc);
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Nr. documento",$vendas.gessih.dados.numInvoice);
+		
+		// SIH filter
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo",$vendas.gessih.dados.numInvoice,"","","","","");
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Nr. documento",$vendas.gessih.dados.numInvoice);
+		
+		this.whenGenerateBoleto();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo",$vendas.gessih.dados.numInvoice,"","","","","");
+		this.whenSearch();
+		this.thenMustFindInTheGrid_2("Nr. documento",$vendas.gessih.dados.numInvoice);
+		this.thenOpenItemMustHaveNossoNumero_($vendas.gessih.dados.numInvoice);
+		
+		this.whenGenerateBoleto();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo","",$dadosBase.consxqb.nossoNum,"","","","");
+		this.thenMustFindInTheGrid_2("Nr. documento",$vendas.gessih.dados.numInvoice);
+			
+		this.screenExit();
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 11 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+		//#TODO - passar uma pagina web para acessar quando de erro, assim independente do erro consigo passar por ele, posso armazenar em alguma variavel
+	}
+}
+
+//SCENARIO: 12 - Validate if is generating the nosso numero
+$dadosBase.consxqb.scenario12 = function (){
+	try{
+		_log("------------------- Start of the Scenario 12 CONSXQB--------------------");
+		this.givenInvoicePosted();
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo",$vendas.gessih.dados.numInvoice,"","","","","");
+		this.whenGenerateBoleto();
+		this.thenOpenItemMustHaveNossoNumero_($vendas.gessih.dados.numInvoice);
+	}catch ($e){
+		_log("----------- Error occurred in Scenario 11 ---- CONSXQB------------------"); // simple logging. no failure
+		_logExceptionAsFailure($e); // Logs the exception, but does not fail
+		this.screenExit();
+		//#TODO - passar uma pagina web para acessar quando de erro, assim independente do erro consigo passar por ele, posso armazenar em alguma variavel
+	}
+}
+
+/*
+//SCENARIO: 13 - must create different nosso numero for each open item
+$dadosBase.consxqb.scenario13 = function (){
+		this.givenOpenItem_3("BR050","BR107","BOL3X");
+		this.givenBoletoGeneration();
+		this.givenSearchFilters_9Parameters("BR050","BkAut","BaEmBo",$vendas.gessih.dados.numInvoice,"","","","","");
+
+				GIVEN a invoice posted with 3 open items
+				GIVEN boleto generation
+				WHEN search that open item by invoice
+			THEN must show open item "A" with "nosso numero" equal "empty"
+			THEN must show open item "B" with "nosso numero" equal "empty"
+			THEN must show open item "C" with "nosso numero" equal "empty"			
+			WHEN generate the boleto
+			THEN nosso numero need be unique for each (A, B, C)
+}
+*/

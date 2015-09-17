@@ -1,0 +1,10 @@
+// Gherkin of the function - CONSXQNFMT - Monitoramento NF
+FEATURE:
+
+SCENARIO: 01
+
+
+Caso o nf possua boleto, o mesmo não pode ser enviado
+Imprimir Danfe de uma nota
+Visualizar o log de uma NF
+Efetuar multipla seleção e verificar preparação de dados para envio de e-mail

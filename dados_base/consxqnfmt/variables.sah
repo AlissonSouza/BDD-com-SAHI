@@ -1,0 +1,26 @@
+// Variables of the function consxqnfmt - 
+
+//-------- Header
+$dadosBase.consxqnfmt.txtEstab = _textbox(0, _near(_label("Estab.")));
+$dadosBase.consxqnfmt.txtCliFor = _textbox(0, _near(_label("Cli./Forn.")));
+
+$dadosBase.consxqnfmt.txtUfOrigem = _textbox(0, _near(_label("UF origem")));
+$dadosBase.consxqnfmt.txtUfDestino = _textbox(0, _near(_label("UF destino")));
+
+$dadosBase.consxqnfmt.txtEmiIni = _textbox(0, _near(_label("Data Emissão")));
+$dadosBase.consxqnfmt.txtEmiFinal = _textbox(1, _near(_label("Data Emissão")));
+
+$dadosBase.consxqnfmt.txtSerieIni = _textbox(0, _near(_label("Série")));
+$dadosBase.consxqnfmt.txtSerieFinal = _textbox(1, _near(_label("Série")));
+
+$dadosBase.consxqnfmt.txtNfIni = _textbox(0, _near(_label("Número da NF-e")));
+$dadosBase.consxqnfmt.txtNfFinal = _textbox(1, _near(_label("Número da NF-e")));
+
+$dadosBase.consxqnfmt.linkStatus = _link(0, _near(_label("Status")));
+$dadosBase.consxqnfmt.linkEvento = _link(0, _near(_label("Evento")));
+
+
+// get value from one table cell
+//$_.getValueLinha = function ($linha, $nomeColuna){
+//		return _textbox($linha, _under(_div($nomeColuna)));
+//}
